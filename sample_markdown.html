@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Markdown Integration Sample | Noi Tatsuzaki Portfolio</title>
+  <meta name="description" content="Markdown files integration sample page for Noi Tatsuzaki Portfolio" />
+  <meta property="og:title" content="Markdown Integration Sample | Noi Tatsuzaki Portfolio" />
+  <meta property="og:description" content="Markdown files integration sample page" />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#6C5CE7" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Top Nav -->
+  <header class="site">
+    <div class="wrap nav">
+      <div class="brand"><span class="dot"></span> Noi Tatsuzaki</div>
+      <nav>
+        <a href="index.html">← Back to Portfolio</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div>
+        <h1>Markdown Integration Sample</h1>
+        <p class="hero-subtitle">Dynamic content from Markdown files</p>
+        <p class="lead">
+          This page demonstrates the Markdown files → Frontend rendering pipeline.
+          Content is dynamically loaded from <code>_works/*.md</code> files.
+        </p>
+      </div>
+    </section>
+
+    <!-- Works from Markdown -->
+    <section id="works">
+      <h2 class="section-title">Works (Markdown Sample)</h2>
+      <div class="two-col" id="works-container">
+        <!-- Cards will be dynamically inserted here by JavaScript -->
+      </div>
+    </section>
+
+    <!-- Template for Markdown cards -->
+    <template id="tpl-md-card">
+      <div class="card clickable">
+        <div style="display: flex; align-items: flex-start; gap: 16px;">
+          <div style="flex: 1;">
+            <h3 data-text="title"></h3>
+            <p class="meta" data-text="date"></p>
+            <p data-text="summary"></p>
+            <p class="meta" data-tags="tags"></p>
+            <p data-href="url" style="display: none;"><a href="" target="_blank" rel="noopener">Visit Website</a></p>
+          </div>
+          <img data-src="cover" alt="" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        </div>
+      </div>
+    </template>
+  </main>
+
+  <!-- Markdown rendering script -->
+  <script defer src="assets/js/render-markdown.js"></script>
+</body>
+</html>
