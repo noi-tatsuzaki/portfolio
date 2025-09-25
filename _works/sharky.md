@@ -1,10 +1,13 @@
 ---
 title: "Sharky — AI Social Scheduler"
+title_ja: "Sharky — AIソーシャルスケジューラ"
 date: 2025-02-01
 tags: [ai, web-development, hackathon]
+tags_ja: [ai, web開発, ハッカソン]
 url: ""
 cover: "/assets/works/sharky.jpg"
 summary: "Developed \"Sharky,\" an AI-powered SNS posting scheduling and content strategy support tool that automatically performs target audience identification, optimal posting time suggestions, content generation, and video script creation from user business ideas and location data. The system uses multiple AI nodes with React.js frontend and Django backend, successfully achieving above-average engagement on TikTok posts."
+summary_ja: "ユーザーのビジネスアイデアと位置情報から、ターゲット層の特定→最適投稿時間の提案→コンテンツ案生成→動画スクリプト生成までを自動で行うAI搭載SNS投稿スケジューリング・コンテンツ戦略支援ツール「Sharky」を開発。複数のAIノードを連携させ、React.jsフロントエンドとDjangoバックエンドで構築し、TikTok投稿で平均以上のエンゲージメントを達成。"
 ---
 
 Developed "Sharky," an AI-powered SNS posting scheduling and content strategy support tool. By linking multiple AI nodes, the system automatically performs target audience identification → optimal posting time suggestions → content generation → video script creation from user business ideas and location data.

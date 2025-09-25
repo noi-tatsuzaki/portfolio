@@ -2,6 +2,11 @@ title: Portfolio
 timezone: America/New_York
 markdown: kramdown
 
+# Multilingual support
+languages: ["en", "ja"]
+default_lang: "en"
+exclude_from_localizations: ["assets", "images", "css", "js"]
+
 collections:
   experience:
     output: true
@@ -24,3 +29,9 @@ defaults:
     values: { layout: experience_item }
   - scope: { path: "", type: "works" }
     values: { layout: work_item }
+  - scope: { path: "", type: "awards" }
+    values: { layout: award_item }
+  - scope: { path: "", type: "media" }
+    values: { layout: media_item }
+  - scope: { path: "", type: "patents" }
+    values: { layout: patent_item }

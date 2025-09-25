@@ -1,13 +1,18 @@
 ---
 title: "LINOA Co., Ltd. — Founder & CEO"
+title_ja: "株式会社LINOA — 代表取締役社長CEO"
 org: "LINOA Co., Ltd."
+org_ja: "株式会社LINOA"
 location: "Tokyo"
+location_ja: "東京"
 start: 2024-06-01
 end: present
 tags: [leadership, entrepreneurship, ceo]
+tags_ja: [リーダーシップ, 起業, CEO]
 url: "https://www.linoa-lab.co.jp/"
 cover: "https://media.licdn.com/dms/image/v2/D4D0BAQHsHCaTaHBVHw/company-logo_100_100/B4DZhPTXlzHYAQ-/0/1753677134995/advance_lab_co_ltd_logo?e=1761782400&v=beta&t=D9cvJDWpKIwZXtdx-G7nmmRHgX3WQIl9nvutAmQCpCs"
 summary: "Founded LINOA with the vision \"Creating future concepts driven by curiosity,\" operating ADvance Lab and expanding into knowledge crystallization businesses."
+summary_ja: "「好奇心が未来概念をつくる」をビジョンに株式会社LINOAを設立し、ADvance Labの運営と知の結晶化事業を展開。"
 ---
 
 Established LINOA Co., Ltd. with the vision of "Creating future concepts driven by curiosity" and mission "To trigger the crystallization of timeless knowledge". Operates the next-generation research institute "ADvance Lab" to support young researchers. Aims to create and implement new knowledge in society through initiatives such as collaborative projects between next-generation researchers and companies.
