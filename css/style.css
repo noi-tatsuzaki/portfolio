@@ -92,6 +92,7 @@ footer { border-top: 1px solid rgba(255,255,255,.08); margin-top: 32px; text-ali
 .modal-logo { width: 32px; height: 32px; border-radius: 6px; object-fit: cover; margin-top: 2px; }
 
 /* Works Show More/Less */
+/* Works hidden items */
 .works-hidden {
   display: none;
 }

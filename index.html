@@ -187,18 +187,38 @@
 
     <!-- Awards -->
     <section id="awards">
-      <h2 class="section-title" id="title-awards">Awards & Honors ({{ site.awards.size }})</h2>
+      <h2 class="section-title" id="title-awards">Awards & Honors (4)</h2>
       <div class="grid cols-2">
-        {% assign items = site.awards | sort: "date" | reverse %}
-        {% for item in items %}
-          {% include award-card.html item=item %}
-        {% endfor %}
+        <div class="card clickable" data-modal="awd-forbes">
+          <h3 id="awd-forbes-title">Forbes JAPAN 30 UNDER 30 2022</h3>
+          <p class="meta" id="awd-forbes-meta">Aug 2022</p>
+          <p id="awd-forbes-desc">Youngest awardee; recognized for impact at national scale.</p>
+          <p><a href="https://forbesjapan.com/feat/30under30/2022/" target="_blank" rel="noopener">View Forbes JAPAN 30 UNDER 30 2022</a></p>
+        </div>
+        <div class="card clickable" data-modal="awd-masason">
+          <h3 id="awd-masason-title">Masason Foundation — 5th Cohort</h3>
+          <p class="meta" id="awd-masason-meta">Aug 2021</p>
+          <p id="awd-masason-desc">Selected fellow; frequent presenter and representative at events.</p>
+          <p><a href="https://masason-foundation.org/cpt_testimonial/%E7%AB%8B%E5%B4%8E%E4%B9%83%E8%A1%A3/" target="_blank" rel="noopener">View Masason Foundation</a></p>
+        </div>
+        <div class="card clickable" data-modal="awd-frc">
+          <h3 id="awd-frc-title">FIRST Robotics Competition — Multiple Team Awards</h3>
+          <p class="meta" id="awd-frc-meta">2018 – 2023</p>
+          <p id="awd-frc-desc">Rookie All-Star, Highest Rookie Seed, Rookie Inspiration, Chairman's (2019, 2020), Imagery (2021), Gracious Professionalism (2022), Engineering Inspiration (2023). Individual: Dean's List Finalist (2023).</p>
+          <p><a href="https://www.thebluealliance.com/team/6909" target="_blank" rel="noopener">View Team 6909 Profile</a></p>
+        </div>
+        <div class="card clickable" data-modal="awd-lenovo">
+          <h3 id="awd-lenovo-title">Lenovo "New Realities"</h3>
+          <p class="meta" id="awd-lenovo-meta">Oct 2020</p>
+          <p id="awd-lenovo-desc">Recognizes young women creating change in 10 countries.</p>
+          <p><a href="https://www.youtube.com/watch?v=HWvDamROFqI" target="_blank" rel="noopener">View Lenovo New Realities</a></p>
+        </div>
       </div>
     </section>
 
     <!-- Works -->
     <section id="works">
-      <h2 class="section-title" id="title-works">Works (6)</h2>
+      <h2 class="section-title" id="title-works">Works (16)</h2>
       <div class="two-col" id="works-container">
         <!-- First 6 items - always visible -->
         <div class="card clickable" data-modal="work-sharky">
@@ -256,6 +276,103 @@
             <img src="assets/works/hello.png" alt="HELLO Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
           </div>
         </div>
+        
+        <!-- Additional items - hidden by default -->
+        <div class="card clickable works-hidden" data-modal="work-frc-2022">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-frc-2022-title">FRC 2022 — "NAO"</h3>
+              <p class="meta" id="work-frc-2022-meta">Jan 2022 – Apr 2022 · SAKURA Tempesta</p>
+              <p id="work-frc-2022-desc">Led engineering and Java programming; aimed for reliable control and efficient cycles.</p>
+            </div>
+            <img src="assets/works/nao.png" alt="NAO Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-frc-2020">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-frc-2020-title">FRC 2020 — "UROU"</h3>
+              <p class="meta" id="work-frc-2020-meta">Jan 2020 – Mar 2020 · SAKURA Tempesta</p>
+              <p id="work-frc-2020-desc">Focused on Java control architecture and rapid iteration for the 2020 build.</p>
+            </div>
+            <img src="images/urou.jpg" alt="Urou Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-frc-2019">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-frc-2019-title">FRC 2019 — "KUROU"</h3>
+              <p class="meta" id="work-frc-2019-meta">Jan 2019 – Apr 2019 · SAKURA Tempesta</p>
+              <p id="work-frc-2019-desc">Led development cycles emphasizing repeatable mechanisms and software stability.</p>
+            </div>
+            <img src="images/kurou.jpg" alt="Kurou Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-frc-2018">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-frc-2018-title">FRC 2018 — "Sakura-chan"</h3>
+              <p class="meta" id="work-frc-2018-meta">Dec 2017 – Apr 2018 · SAKURA Tempesta</p>
+              <p id="work-frc-2018-desc">Seasonal competition robot; contributed to design, integration, and driveteam preparation.</p>
+            </div>
+            <img src="images/sakura-chan.jpg" alt="Sakura-chan Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-meter-kun">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-meter-kun-title">Robotracer "Meter-kun"</h3>
+              <p class="meta" id="work-meter-kun-meta">Nov 2017</p>
+              <p id="work-meter-kun-desc">Line-tracing robot to study fast sensor-feedback loops and tuning.</p>
+            </div>
+            <img src="images/meter-kun.jpg" alt="Meter-kun Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-pen-chan">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-pen-chan-title">Serving Robot "Pen-chan"</h3>
+              <p class="meta" id="work-pen-chan-meta">May 2017 – Dec 2017</p>
+              <p id="work-pen-chan-desc">Penguin-like serving robot prototype; mechanics and C-based control for indoor routes.</p>
+            </div>
+            <img src="images/pen-chan.jpg" alt="Pen-chan Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-fukku">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-fukku-title">Owl-like Robot "Fukku"</h3>
+              <p class="meta" id="work-fukku-meta">Apr 2016 – Mar 2017</p>
+              <p id="work-fukku-desc">Character-style robot with expressive motion; focused on actuation and interaction.</p>
+            </div>
+            <img src="images/fukku.jpg" alt="Fukku Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-mekany">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-mekany-title">Crab-like Robot "Mekany"</h3>
+              <p class="meta" id="work-mekany-meta">Apr 2015 – Mar 2016</p>
+              <p id="work-mekany-desc">Walking robot exploring legged gait mechanics and simple behaviors.</p>
+            </div>
+            <img src="images/mekany.jpg" alt="Mekany Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-self-driving-2">
+          <h3 id="work-self-driving-2-title">Self-Driving Car II</h3>
+          <p class="meta" id="work-self-driving-2-meta">Jul 2014</p>
+          <p id="work-self-driving-2-desc">Follow-up build emphasizing stability and higher-speed control over the first prototype.</p>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-self-driving-1">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-self-driving-1-title">Self-Driving Car I</h3>
+              <p class="meta" id="work-self-driving-1-meta">Jul 2013 – Aug 2013</p>
+              <p id="work-self-driving-1-desc">Early autonomous car experiment focusing on basic sensing and control loops.</p>
+            </div>
+            <img src="images/Self-driving car I.jpg" alt="Self-Driving Car I" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
       </div>
       
       <!-- Show More Button -->
@@ -274,23 +391,36 @@
 
     <!-- Media -->
     <section id="media">
-      <h2 class="section-title" id="title-media">Media & Public Recognition ({{ site.media.size }})</h2>
+      <h2 class="section-title" id="title-media">Media & Public Recognition (2)</h2>
       <div class="two-col">
-        {% assign items = site.media | sort: "date" | reverse %}
-        {% for item in items %}
-          {% include media-card.html item=item %}
-        {% endfor %}
+        <div class="card clickable" data-modal="media-disney">
+          <h3 id="media-disney-title">Disney+ Documentary — <em>More Than Robots</em></h3>
+          <p class="meta" id="media-disney-meta">Premiered SXSW · Global release on Disney+</p>
+          <p id="media-disney-desc">Featured as part of FRC Team 6909's story, showcasing youth-led engineering to international audiences.</p>
+          <p><a href="https://ondisneyplus.disney.com/movie/more-than-robots" target="_blank" rel="noopener">Watch More Than Robots</a></p>
+        </div>
+        <div class="card clickable" data-modal="media-coverage">
+          <h3 id="media-coverage-title">Broad Media Coverage</h3>
+          <p class="meta" id="media-coverage-meta">280+ appearances</p>
+          <p id="media-coverage-desc">200+ web articles, 25 TV features, 27 magazines, 21 newspapers, 3 books, 1 movie, 1 radio.</p>
+        </div>
       </div>
     </section>
 
     <!-- Patents -->
     <section id="patents">
-      <h2 class="section-title" id="title-patents">Patents ({{ site.patents.size }})</h2>
+      <h2 class="section-title" id="title-patents">Patents (1)</h2>
       <div class="two-col">
-        {% assign items = site.patents | sort: "date" | reverse %}
-        {% for item in items %}
-          {% include patent-card.html item=item %}
-        {% endfor %}
+        <article class="card clickable" data-modal="patent-media-feed">
+          <h3 id="patent-media-feed-title">Medium feeding mechanism, medium feeding unit, and medium feeding system</h3>
+          <p class="meta" id="patent-media-feed-meta">JP 7537816 B · Granted: Aug 13, 2024</p>
+          <p id="patent-media-feed-desc">Mechanism design for feeding flexible media with improved alignment and stability.</p>
+          <div id="patent-media-feed-tags">
+            <span class="tag">Mechanism</span>
+            <span class="tag">IP</span>
+        </div>
+          <p><a href="https://www.j-platpat.inpit.go.jp/c1801/PU/JP-7537816/15/ja" target="_blank" rel="noopener">View Patent Details</a></p>
+        </article>
       </div>
     </section>
 
@@ -827,7 +957,7 @@
           <p class="meta">FRC 2022 — "NAO" · January 2022 - April 2022</p>
           <p>In the FIRST Robotics Competition (FRC) 2022 season "Rapid React," I was responsible for the mechanical design of a competition robot that performs game ball acquisition, shooting, and climbing. Specifically, I handled the design and integration of multiple subsystems including dual-belt conveyor mechanisms, tower-type lifting units, and rotating launchers. During the initial design phase, I compared multiple options in CAD, considering manufacturability, weight balance, and maintainability while determining structures, materials, and layouts suitable for field environments. I executed a high-speed design process of repeated real-machine testing and improvements within the limited production period.</p>
         </div>
-        <img src="images/nao.png" alt="NAO Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        <img src="assets/works/nao.png" alt="NAO Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
       </div>
       
       <h4 style="margin: 16px 0 8px 0; font-size: 16px; color: var(--text); font-weight: 600;">【Technical Information】</h4>
@@ -889,7 +1019,7 @@
           <p class="meta">FRC 2023 — "HELLO" · January 2023 - April 2023</p>
           <p>In the FIRST Robotics Competition (FRC) 2023 season, I was responsible for the mechanical design of the competition robot "HELLO" (Spring Cherry Blossom). To respond to the game challenge "CHARGED UP!", I designed and optimized 3D structures including multi-joint arms, slide mechanisms, and grippers. Within the limited size, weight, and component regulations, I aimed to create mechanisms capable of high-precision and flexible operation, consistently implementing everything from CAD model reviews, parts procurement, manufacturing instructions, to on-site adjustments from the initial design stage. After implementation, I repeatedly evaluated and improved interference, rigidity, and reproducibility under field conditions.</p>
         </div>
-        <img src="images/hello.png" alt="HELLO Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        <img src="assets/works/hello.png" alt="HELLO Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
       </div>
       
       <h4 style="margin: 16px 0 8px 0; font-size: 16px; color: var(--text);">【Technical Information】</h4>
@@ -995,7 +1125,7 @@
           <p class="meta">Drone Seed Ball Deployment Mechanism Development (LVNS Forest Project) · March 2023 - August 2024</p>
           <p>As part of the seeding technology development for the "LVNS Forest Project" led by Leave a Nest Co., Ltd., which aims to realize "an independent social system where forests and people coexist," I developed a mechanism to scatter tree seeds from the air using drones.</p>
         </div>
-        <img src="images/lvns forest project.jpeg" alt="LVNS Forest Project" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        <img src="assets/works/lvns-forest-project.jpeg" alt="LVNS Forest Project" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
       </div>
       
       <p><strong>LVNS Forest Project Website:</strong> <a href="https://forest.lne.st/" target="_blank" rel="noopener">https://forest.lne.st/</a></p>
@@ -1062,7 +1192,7 @@
           <p class="meta">Boat Race Project (Stevens Institute of Technology ENGR 122) · January 2025 - May 2025</p>
           <p>In a project to design and construct an autonomous small robot boat, I was primarily responsible for wiring. To stabilize circuits on breadboards, I adopted preformed jumper wires, which improved wiring visibility and connection stability compared to traditional flexible wires. This significantly reduced malfunctions and troubles caused by wiring disturbances, greatly improving debugging and repair efficiency. I also implemented safe and stable circuits while addressing various issues during experiments, including shorts from overcurrent and component failures.</p>
         </div>
-        <img src="images/boat race project.png" alt="Boat Race Project" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        <img src="assets/works/boat-race-project.png" alt="Boat Race Project" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
       </div>
       
       <h4 style="margin: 16px 0 8px 0; font-size: 16px; color: var(--text);">【Technical Information】</h4>
@@ -1119,7 +1249,7 @@
             <li>Implemented multi-layered AI integration and WebUI</li>
           </ul>
         </div>
-        <img src="images/sharky.jpg" alt="Sharky AI Social Scheduler" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        <img src="assets/works/sharky.jpg" alt="Sharky AI Social Scheduler" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
       </div>
     </div>
   </template>
@@ -1130,7 +1260,7 @@
           <p class="meta">Smart Watering System (Stevens Institute of Technology ENGR 111) · September 2024 - December 2024</p>
           <p>In a project to design and develop an autonomous smart watering system for urban agriculture and home gardening using environmental sensors and pumps, I was primarily responsible for enclosure design using SolidWorks, creating an efficient structure that can accommodate sensors, LEDs, water tanks, and other components.</p>
         </div>
-        <img src="images/smart watering system.png" alt="Smart Watering System" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        <img src="assets/works/smart-watering-system.png" alt="Smart Watering System" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
       </div>
       
       <h4 style="margin: 16px 0 8px 0; font-size: 16px; color: var(--text);">【Technical Information】</h4>
@@ -1293,7 +1423,7 @@
           <p class="meta">FRC 2022 — 「七桜」· 2022年1月–4月</p>
           <p>FIRST Robotics Competition（FRC）2022シーズン「Rapid React」において、ゲームボールの取得・射出・昇降を行う競技用ロボットの機械設計を担当した。特に、二重ベルト搬送機構、タワー型昇降ユニット、回転式ランチャーなど、複数のサブシステムにわたる設計と統合を行った。設計初期にはCAD上で複数案を比較検討し、部品加工性・重量バランス・メンテナンス性を考慮しながら、フィールド環境に適した構造・材質・配置を決定。限られた制作期間内で実機テストと改良を高速に繰り返す設計プロセスを実行した。</p>
         </div>
-        <img src="images/nao.png" alt="NAO Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        <img src="assets/works/nao.png" alt="NAO Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
       </div>
       
       <h4 style="margin: 16px 0 8px 0; font-size: 16px; color: var(--text); font-weight: 600;">【技術情報】</h4>
@@ -1355,7 +1485,7 @@
           <p class="meta">FRC 2023 — 「春桜」· 2023年1月–4月</p>
           <p>FIRST Robotics Competition（FRC）2023シーズンにおいて、競技用ロボット「春桜」の機械設計を担当。ゲーム課題「CHARGED UP!」に対応するため、多関節アーム、スライド機構、グリッパー等の3次元構造物の設計・最適化を行った。限られたサイズ・重量・部品規定の中で、高精度かつ柔軟な操作が可能な機構を目指し、設計初期段階からCADモデルのレビュー、部品調達、製作指示、現地調整までを一貫して実施。実装後はフィールド条件下での干渉・剛性・再現性の評価と改良も重ねた。</p>
         </div>
-        <img src="images/hello.png" alt="HELLO Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        <img src="assets/works/hello.png" alt="HELLO Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
       </div>
       
       <h4 style="margin: 16px 0 8px 0; font-size: 16px; color: var(--text);">【技術情報】</h4>
@@ -1461,7 +1591,7 @@
           <p class="meta">ドローンからシードボールを投下する機構の開発 (LVNS Forest Project) · 2023年3月–2024年8月</p>
           <p>「森林と人とが共生する自立社会システムの実現」をビジョンに掲げ、株式会社リバネスが主導するプロジェクト「LVNS Forest Project」の播種技術開発の一環として、ドローンを使用して上空から木の種子を撒く機構を開発した。</p>
         </div>
-        <img src="images/lvns forest project.jpeg" alt="LVNS Forest Project" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        <img src="assets/works/lvns-forest-project.jpeg" alt="LVNS Forest Project" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
       </div>
       
       <p><strong>LVNS Forest Project HP：</strong> <a href="https://forest.lne.st/" target="_blank" rel="noopener">https://forest.lne.st/</a></p>
@@ -1528,7 +1658,7 @@
           <p class="meta">Boat Race Project (Stevens Institute of Technology ENGR 122) · 2025年1月–5月</p>
           <p>自律走行型の小型ロボットボートを設計・製作するプロジェクトにおいて、主に配線を担当した。ブレッドボード上の回路を安定させるため、成形済みジャンパワイヤ(preformed jumper wires)を採用し、従来の柔らかいワイヤに比べて配線の視認性と接続の安定性を高めた。これにより、配線の乱れによる誤作動やトラブルを減らし、デバッグや修正の効率が大きく向上した。また、過電流によるショートや部品の不良など、実験中のトラブルにも対応しながら、安全で安定した回路を実装した。</p>
         </div>
-        <img src="images/boat race project.png" alt="Boat Race Project" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        <img src="assets/works/boat-race-project.png" alt="Boat Race Project" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
       </div>
       
       <h4 style="margin: 16px 0 8px 0; font-size: 16px; color: var(--text);">【技術情報】</h4>
@@ -1585,7 +1715,7 @@
             <li>多層構造のAI連携・WebUIを実装</li>
           </ul>
         </div>
-        <img src="images/sharky.jpg" alt="Sharky AIソーシャルスケジューラ" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        <img src="assets/works/sharky.jpg" alt="Sharky AIソーシャルスケジューラ" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
       </div>
     </div>
   </template>
@@ -1596,7 +1726,7 @@
           <p class="meta">Smart Watering System (Stevens Institute of Technology ENGR 111) · 2024年9月–12月</p>
           <p>都市型農業や家庭菜園を想定し、環境センサーとポンプを活用した自律型スマート給水システムを設計・開発するプロジェクトにおいて、主にSolidWorksによる筐体設計を担当し、センサー、LED、水タンクなどのコンポーネントを効率的に配置できる構造を設計した。</p>
         </div>
-        <img src="images/smart watering system.png" alt="Smart Watering System" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        <img src="assets/works/smart-watering-system.png" alt="Smart Watering System" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
       </div>
       
       <h4 style="margin: 16px 0 8px 0; font-size: 16px; color: var(--text);">【技術情報】</h4>
@@ -2029,6 +2159,54 @@
           'btn-view-projects':'View Projects','btn-contact':'Contact',
           'qf-title':'Quick Facts',
           'title-links':'Links','title-patents':'Patents (1)','title-experience':'Experience (6)','title-research':'Education (2)','title-awards':'Awards & Honors (4)','title-works':'Works (16)','title-media':'Media & Public Recognition (2)','title-contact':'Contact',
+          'work-self-driving-1-title':'Self-Driving Car I',
+          'work-self-driving-1-meta':'Jul 2013 – Aug 2013',
+          'work-self-driving-1-desc':'Early autonomous car experiment focusing on basic sensing and control loops.',
+          'work-self-driving-2-title':'Self-Driving Car II',
+          'work-self-driving-2-meta':'Jul 2014',
+          'work-self-driving-2-desc':'Follow-up build emphasizing stability and higher-speed control over the first prototype.',
+          'work-mekany-title':'Crab-like Robot "Mekany"',
+          'work-mekany-meta':'Apr 2015 – Mar 2016',
+          'work-mekany-desc':'Walking robot exploring legged gait mechanics and simple behaviors.',
+          'work-fukku-title':'Owl-like Robot "Fukku"',
+          'work-fukku-meta':'Apr 2016 – Mar 2017',
+          'work-fukku-desc':'Character-style robot with expressive motion; focused on actuation and interaction.',
+          'work-pen-chan-title':'Serving Robot "Pen-chan"',
+          'work-pen-chan-meta':'May 2017 – Dec 2017',
+          'work-pen-chan-desc':'Penguin-like serving robot prototype; mechanics and C-based control for indoor routes.',
+          'work-meter-kun-title':'Robotracer "Meter-kun"',
+          'work-meter-kun-meta':'Nov 2017',
+          'work-meter-kun-desc':'Line-tracing robot to study fast sensor-feedback loops and tuning.',
+          'work-frc-2018-title':'FRC 2018 — "Sakura-chan"',
+          'work-frc-2018-meta':'Dec 2017 – Apr 2018 · SAKURA Tempesta',
+          'work-frc-2018-desc':'Seasonal competition robot; contributed to design, integration, and driveteam preparation.',
+          'work-frc-2019-title':'FRC 2019 — "KUROU"',
+          'work-frc-2019-meta':'Jan 2019 – Apr 2019 · SAKURA Tempesta',
+          'work-frc-2019-desc':'Led development cycles emphasizing repeatable mechanisms and software stability.',
+          'work-frc-2020-title':'FRC 2020 — "UROU"',
+          'work-frc-2020-meta':'Jan 2020 – Mar 2020 · SAKURA Tempesta',
+          'work-frc-2020-desc':'Focused on Java control architecture and rapid iteration for the 2020 build.',
+          'work-frc-2022-title':'FRC 2022 — "NAO"',
+          'work-frc-2022-meta':'Jan 2022 – Apr 2022 · SAKURA Tempesta',
+          'work-frc-2022-desc':'Led engineering and Java programming; aimed for reliable control and efficient cycles.',
+          'work-frc-2023-title':'FRC 2023 — "HELLO"',
+          'work-frc-2023-meta':'Jan 2023 – Apr 2023 · SAKURA Tempesta',
+          'work-frc-2023-desc':'Co-led design and subsystem integration; prepared the robot for event-level reliability.',
+          'work-ai-buta-camera-title':'AI Buta Camera Improvement Development (Eco-Pork Internship)',
+          'work-ai-buta-camera-meta':'May 2024 – Jul 2024 · Eco-Pork',
+          'work-ai-buta-camera-desc':'Improved the drive unit design for Eco-Pork\'s movable AI camera system used for automated pig weight estimation in barn environments. Focused on achieving stable and efficient driving performance while reducing labor burden in the livestock industry.',
+          'work-drone-payload-title':'Drone Seed Ball Deployment Mechanism Development (LVNS Forest Project)',
+          'work-drone-payload-meta':'Mar 2023 – Aug 2024 · Leave a Nest',
+          'work-drone-payload-desc':'Developed a drone-based seed ball deployment mechanism for the LVNS Forest Project, contributing to reforestation efforts and sustainable forest management. The system achieved patent status (JP 7537816) and supports the vision of creating independent social systems where forests and people coexist.',
+          'work-autonomous-boat-title':'Boat Race Project (Stevens Institute of Technology ENGR 122)',
+          'work-autonomous-boat-meta':'Jan 2025 – May 2025',
+          'work-autonomous-boat-desc':'Designed and constructed an autonomous small robot boat focusing on wiring reliability and IMU-based PID control. Implemented preformed jumper wires for stable breadboard circuits, significantly reducing malfunctions and improving debugging efficiency.',
+          'work-sharky-title':'"Sharky" — AI Social Scheduler',
+          'work-sharky-meta':'Feb 2025 · Hackathon',
+          'work-sharky-desc':'Developed "Sharky," an AI-powered SNS posting scheduling and content strategy support tool that automatically performs target audience identification, optimal posting time suggestions, content generation, and video script creation from user business ideas and location data. The system uses multiple AI nodes with React.js frontend and Django backend, successfully achieving above-average engagement on TikTok posts.',
+          'work-watering-system-title':'Smart Watering System (Stevens Institute of Technology ENGR 111)',
+          'work-watering-system-meta':'Sep 2024 – Dec 2024 · MQTT · Sensors',
+          'work-watering-system-desc':'Designed and developed an autonomous smart watering system for urban agriculture using environmental sensors and automated pump control. Created efficient SolidWorks enclosure design accommodating sensors, LEDs, and water tanks with MQTT dashboard for threshold management.',
 
           'patent-media-feed-title':'Medium feeding mechanism, medium feeding unit, and medium feeding system',
 
@@ -2142,6 +2320,54 @@
           'btn-view-projects':'プロジェクトを見る','btn-contact':'お問い合わせ',
           'qf-title':'概要',
           'title-links':'リンク','title-patents':'特許 (1)','title-experience':'経験 (6)','title-research':'教育 (2)','title-awards':'受賞歴 (4)','title-works':'制作物 (16)','title-media':'メディア掲載 (2)','title-contact':'連絡先',
+          'work-self-driving-1-title':'自動運転カー I',
+          'work-self-driving-1-meta':'2013年7月–8月',
+          'work-self-driving-1-desc':'初期の自動運転実験。基本的なセンシングと制御ループを実装。',
+          'work-self-driving-2-title':'自動運転カー II',
+          'work-self-driving-2-meta':'2014年7月',
+          'work-self-driving-2-desc':'続編として安定性と高速制御を強化。',
+          'work-mekany-title':'カニ型ロボット「メカニー」',
+          'work-mekany-meta':'2015年4月–2016年3月',
+          'work-mekany-desc':'多脚歩行の歩容と機構を検証。',
+          'work-fukku-title':'フクロウ型ロボット「ふっく」',
+          'work-fukku-meta':'2016年4月–2017年3月',
+          'work-fukku-desc':'表情豊かな動きを持つロボット。アクチュエーションとインタラクションを探求。',
+          'work-pen-chan-title':'給仕ロボット「ペンちゃん」',
+          'work-pen-chan-meta':'2017年5月–12月',
+          'work-pen-chan-desc':'ペンギン型の給仕ロボット試作。機構設計とC言語制御を担当。',
+          'work-meter-kun-title':'ロボトレーサー「メーターくん」',
+          'work-meter-kun-meta':'2017年11月',
+          'work-meter-kun-desc':'センサー・フィードバックと高速チューニングに注力したライン追従ロボット。',
+          'work-frc-2018-title':'FRC 2018 — 「Sakura-chan」',
+          'work-frc-2018-meta':'2017年12月–2018年4月 · SAKURA Tempesta',
+          'work-frc-2018-desc':'シーズンロボットの設計・統合・ドライバ準備に貢献。',
+          'work-frc-2019-title':'FRC 2019 — 「黒桜」',
+          'work-frc-2019-meta':'2019年1月–4月 · SAKURA Tempesta',
+          'work-frc-2019-desc':'再現性の高い機構と安定したソフトに注力。',
+          'work-frc-2020-title':'FRC 2020 — 「雨桜」',
+          'work-frc-2020-meta':'2020年1月–3月 · SAKURA Tempesta',
+          'work-frc-2020-desc':'Javaによる制御アーキテクチャと高速な反復改善を推進。',
+          'work-frc-2022-title':'FRC 2022 — 「七桜」',
+          'work-frc-2022-meta':'2022年1月–4月 · SAKURA Tempesta',
+          'work-frc-2022-desc':'エンジニアリングとJavaプログラミングをリード。安定制御と効率的なサイクルに注力。',
+          'work-frc-2023-title':'FRC 2023 — 「春桜」',
+          'work-frc-2023-meta':'2023年1月–4月 · SAKURA Tempesta',
+          'work-frc-2023-desc':'設計とサブシステム統合を共同主導。イベント水準の信頼性を目指して準備。',
+          'work-ai-buta-camera-title':'AIブタカメラ改良開発（Eco-Pork インターンシップ）',
+          'work-ai-buta-camera-meta':'2024年5月–7月 · Eco-Pork',
+          'work-ai-buta-camera-desc':'Eco-Porkの畜舎内自動移動型AIカメラシステム「AIブタカメラ（ABC）」の駆動ユニット改良設計に取り組んだ。畜舎環境での安定した走行性能を実現し、畜産業の労働負荷軽減に貢献する次世代農業ロボットの開発を支援。',
+          'work-drone-payload-title':'ドローンシードボール投下機構開発（LVNS Forest Project）',
+          'work-drone-payload-meta':'2023年3月–2024年8月 · リバネス',
+          'work-drone-payload-desc':'リバネス主導のLVNS Forest Projectにおいて、森林再生のためのドローン用シードボール投下機構を開発。特許取得（JP 7537816）を達成し、森林と人が共生する自立社会システムの実現に貢献。',
+          'work-autonomous-boat-title':'Boat Race Project (Stevens Institute of Technology ENGR 122)',
+          'work-autonomous-boat-meta':'2025年1月–5月',
+          'work-autonomous-boat-desc':'配線の信頼性とIMUベースのPID制御に注力した自律航行ボート設計・製作プロジェクト。成形済みジャンパワイヤを採用してブレッドボード回路を安定化し、誤作動を大幅に削減してデバッグ効率を向上させた。',
+          'work-sharky-title':'"Sharky" — AIソーシャルスケジューラ',
+          'work-sharky-meta':'2025年2月 · ハッカソン',
+          'work-sharky-desc':'ユーザーのビジネスアイデアと位置情報から、ターゲット層の特定→最適投稿時間の提案→コンテンツ案生成→動画スクリプト生成までを自動で行うAI搭載SNS投稿スケジューリング・コンテンツ戦略支援ツール「Sharky」を開発。複数のAIノードを連携させ、React.jsフロントエンドとDjangoバックエンドで構築し、TikTok投稿で平均以上のエンゲージメントを達成。',
+          'work-watering-system-title':'スマート潅水システム（Stevens Institute of Technology ENGR 111）',
+          'work-watering-system-meta':'2024年9月–12月 · MQTT · センサー',
+          'work-watering-system-desc':'都市型農業・家庭菜園向けの環境センサーと自動ポンプ制御を活用した自律型スマート給水システムを設計・開発。SolidWorksによる筐体設計でセンサー、LED、水タンクを効率的に配置し、MQTTダッシュボードでしきい値管理を実現。',
 
           'patent-media-feed-title':'媒体供給機構、媒体供給ユニットおよび媒体供給システム',
 
