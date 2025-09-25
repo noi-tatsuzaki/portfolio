@@ -10,4 +10,18 @@ cover: "https://media.licdn.com/dms/image/v2/D4D0BAQHhBYepid-Weg/company-logo_10
 summary: "Built and operate a community program that supports youth-led research (workshops, mentorship, shared resources)."
 ---
 
-Built and operate a community program that supports youth-led research (workshops, mentorship, shared resources).
+Built and operate a community program that supports youth-led research. Organize workshops, mentorship programs, and shared resource initiatives. Create platforms for knowledge crystallization and future concept creation. Support diverse exploration activities beyond traditional frameworks.
+
+## Press Release
+
+- **Establishment of 'ADvance Campus' Community Creating the Future Through 'Knowledge Crystallization'** (February 28, 2025)
+
+---
+
+## 【日本語版】
+
+若手主導の研究を支援するコミュニティプログラムを構築・運営。ワークショップ、メンタリングプログラム、共有リソースイニシアチブを企画。知の結晶化と未来概念創造のためのプラットフォームを構築。従来の枠組みを超えた多様な探究活動を支援。
+
+## プレスリリース
+
+- **「知の結晶化」を通じて未来を創造するコミュニティ『ADvance Campus』設立** (2025年2月28日)

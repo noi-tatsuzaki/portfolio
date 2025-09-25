@@ -1,0 +1,8 @@
+<div class="card clickable" data-modal="award-{{ include.item.slug }}">
+  <h3>{{ include.item.title }}</h3>
+  <p class="meta">
+    {% if include.item.date %}{{ include.item.date | date: "%b %Y" }}{% endif %}
+  </p>
+  {% if include.item.summary %}<p>{{ include.item.summary }}</p>{% endif %}
+  {% if include.item.url %}<p><a href="{{ include.item.url }}" target="_blank" rel="noopener">View Details</a></p>{% endif %}
+</div>

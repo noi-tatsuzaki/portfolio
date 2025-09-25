@@ -187,32 +187,12 @@
 
     <!-- Awards -->
     <section id="awards">
-      <h2 class="section-title" id="title-awards">Awards & Honors (4)</h2>
+      <h2 class="section-title" id="title-awards">Awards & Honors ({{ site.awards.size }})</h2>
       <div class="grid cols-2">
-        <div class="card clickable" data-modal="awd-forbes">
-          <h3 id="awd-forbes-title">Forbes JAPAN 30 UNDER 30 2022</h3>
-          <p class="meta" id="awd-forbes-meta">Aug 2022</p>
-          <p id="awd-forbes-desc">Youngest awardee; recognized for impact at national scale.</p>
-          <p><a href="https://forbesjapan.com/feat/30under30/2022/" target="_blank" rel="noopener">View Forbes JAPAN 30 UNDER 30 2022</a></p>
-        </div>
-        <div class="card clickable" data-modal="awd-masason">
-          <h3 id="awd-masason-title">Masason Foundation — 5th Cohort</h3>
-          <p class="meta" id="awd-masason-meta">Aug 2021</p>
-          <p id="awd-masason-desc">Selected fellow; frequent presenter and representative at events.</p>
-          <p><a href="https://masason-foundation.org/cpt_testimonial/%E7%AB%8B%E5%B4%8E%E4%B9%83%E8%A1%A3/" target="_blank" rel="noopener">View Masason Foundation</a></p>
-        </div>
-        <div class="card clickable" data-modal="awd-frc">
-          <h3 id="awd-frc-title">FIRST Robotics Competition — Multiple Team Awards</h3>
-          <p class="meta" id="awd-frc-meta">2018 – 2023</p>
-          <p id="awd-frc-desc">Rookie All-Star, Highest Rookie Seed, Rookie Inspiration, Chairman's (2019, 2020), Imagery (2021), Gracious Professionalism (2022), Engineering Inspiration (2023). Individual: Dean's List Finalist (2023).</p>
-          <p><a href="https://www.thebluealliance.com/team/6909" target="_blank" rel="noopener">View Team 6909 Profile</a></p>
-        </div>
-        <div class="card clickable" data-modal="awd-lenovo">
-          <h3 id="awd-lenovo-title">Lenovo "New Realities"</h3>
-          <p class="meta" id="awd-lenovo-meta">Oct 2020</p>
-          <p id="awd-lenovo-desc">Recognizes young women creating change in 10 countries.</p>
-          <p><a href="https://www.youtube.com/watch?v=HWvDamROFqI" target="_blank" rel="noopener">View Lenovo New Realities</a></p>
-        </div>
+        {% assign items = site.awards | sort: "date" | reverse %}
+        {% for item in items %}
+          {% include award-card.html item=item %}
+        {% endfor %}
       </div>
     </section>
 
@@ -294,36 +274,23 @@
 
     <!-- Media -->
     <section id="media">
-      <h2 class="section-title" id="title-media">Media & Public Recognition (2)</h2>
+      <h2 class="section-title" id="title-media">Media & Public Recognition ({{ site.media.size }})</h2>
       <div class="two-col">
-        <div class="card clickable" data-modal="media-disney">
-          <h3 id="media-disney-title">Disney+ Documentary — <em>More Than Robots</em></h3>
-          <p class="meta" id="media-disney-meta">Premiered SXSW · Global release on Disney+</p>
-          <p id="media-disney-desc">Featured as part of FRC Team 6909's story, showcasing youth-led engineering to international audiences.</p>
-          <p><a href="https://ondisneyplus.disney.com/movie/more-than-robots" target="_blank" rel="noopener">Watch More Than Robots</a></p>
-        </div>
-        <div class="card clickable" data-modal="media-coverage">
-          <h3 id="media-coverage-title">Broad Media Coverage</h3>
-          <p class="meta" id="media-coverage-meta">280+ appearances</p>
-          <p id="media-coverage-desc">200+ web articles, 25 TV features, 27 magazines, 21 newspapers, 3 books, 1 movie, 1 radio.</p>
-        </div>
+        {% assign items = site.media | sort: "date" | reverse %}
+        {% for item in items %}
+          {% include media-card.html item=item %}
+        {% endfor %}
       </div>
     </section>
 
     <!-- Patents -->
     <section id="patents">
-      <h2 class="section-title" id="title-patents">Patents (1)</h2>
+      <h2 class="section-title" id="title-patents">Patents ({{ site.patents.size }})</h2>
       <div class="two-col">
-        <article class="card clickable" data-modal="patent-media-feed">
-          <h3 id="patent-media-feed-title">Medium feeding mechanism, medium feeding unit, and medium feeding system</h3>
-          <p class="meta" id="patent-media-feed-meta">JP 7537816 B · Granted: Aug 13, 2024</p>
-          <p id="patent-media-feed-desc">Mechanism design for feeding flexible media with improved alignment and stability.</p>
-          <div id="patent-media-feed-tags">
-            <span class="tag">Mechanism</span>
-            <span class="tag">IP</span>
-        </div>
-          <p><a href="https://www.j-platpat.inpit.go.jp/c1801/PU/JP-7537816/15/ja" target="_blank" rel="noopener">View Patent Details</a></p>
-        </article>
+        {% assign items = site.patents | sort: "date" | reverse %}
+        {% for item in items %}
+          {% include patent-card.html item=item %}
+        {% endfor %}
       </div>
     </section>
 

@@ -9,6 +9,15 @@ collections:
   works:
     output: true
     permalink: /works/:slug/
+  awards:
+    output: true
+    permalink: /awards/:slug/
+  media:
+    output: true
+    permalink: /media/:slug/
+  patents:
+    output: true
+    permalink: /patents/:slug/
 
 defaults:
   - scope: { path: "", type: "experience" }
