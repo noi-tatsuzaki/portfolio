@@ -1,0 +1,15 @@
+<div class="card clickable" data-modal="work-{{ include.item.slug }}">
+  <div style="position: relative; display: flex; gap: 16px; align-items: flex-start;">
+    <div style="flex: 1;">
+      <h3>{{ include.item.title }}</h3>
+      <p class="meta">
+        {% if include.item.date %}{{ include.item.date | date: "%b %Y" }}{% endif %}
+        {% if include.item.tags %} · {{ include.item.tags | join: " · " }}{% endif %}
+      </p>
+      {% if include.item.summary %}<p>{{ include.item.summary }}</p>{% endif %}
+    </div>
+    {% if include.item.cover %}
+    <img src="{{ include.item.cover | relative_url }}" alt="{{ include.item.title }}" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+    {% endif %}
+  </div>
+</div>

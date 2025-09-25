@@ -1,0 +1,30 @@
+---
+layout: default
+---
+<article class="experience-item">
+  <header>
+    <h1>{{ page.title }}</h1>
+    {% if page.org %}<p class="org">{{ page.org }}</p>{% endif %}
+    {% if page.location %}<p class="location">{{ page.location }}</p>{% endif %}
+    <p class="date">
+      {% if page.start %}{{ page.start | date: "%Y.%m" }}{% endif %}
+      {% if page.end == "present" or page.end == nil %}– Present{% else %}– {{ page.end | date: "%Y.%m" }}{% endif %}
+    </p>
+  </header>
+  
+  {% if page.cover %}
+  <div class="cover-image">
+    <img src="{{ page.cover | relative_url }}" alt="{{ page.title }}" />
+  </div>
+  {% endif %}
+  
+  <div class="content">
+    {{ content }}
+  </div>
+  
+  {% if page.url %}
+  <footer>
+    <a href="{{ page.url }}" target="_blank" rel="noopener" class="btn">Visit Website</a>
+  </footer>
+  {% endif %}
+</article>

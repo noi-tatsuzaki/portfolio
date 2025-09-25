@@ -85,12 +85,74 @@
 
     <!-- Experience -->
     <section id="experience">
-      <h2 class="section-title" id="title-experience">Experience ({{ site.experience.size }})</h2>
+      <h2 class="section-title" id="title-experience">Experience (6)</h2>
       <div class="two-col">
-        {% assign items = site.experience | sort: "start" | reverse %}
-        {% for item in items %}
-          {% include experience-card.html item=item %}
-        {% endfor %}
+        <div class="card clickable" data-modal="exp-advance-campus">
+          <div class="company-header">
+            <img src="https://media.licdn.com/dms/image/v2/D4D0BAQHhBYepid-Weg/company-logo_100_100/B4DZZf_E.EG0AQ-/0/1745367093454?e=1761782400&v=beta&t=i_YLeqF7jyDXAkWKGDkOeHP29l-aVY3gC9Y2KO70mSM" alt="ADvance Campus Logo" class="company-logo">
+            <div>
+              <h3 id="exp-advance-campus-title">ADvance Campus — Founder</h3>
+              <p class="meta" id="exp-advance-campus-meta">Mar 2025 – Current</p>
+            </div>
+          </div>
+          <p id="exp-advance-campus-desc">Built and operate a community program that supports youth-led research (workshops, mentorship, shared resources).</p>
+          <p><a href="https://www.linoa-lab.co.jp/adcam" target="_blank" rel="noopener">Visit ADvance Campus Website</a></p>
+        </div>
+        <div class="card clickable" data-modal="exp-linoa">
+          <div class="company-header">
+            <img src="https://media.licdn.com/dms/image/v2/D4D0BAQHsHCaTaHBVHw/company-logo_100_100/B4DZhPTXlzHYAQ-/0/1753677134995/advance_lab_co_ltd_logo?e=1761782400&v=beta&t=D9cvJDWpKIwZXtdx-G7nmmRHgX3WQIl9nvutAmQCpCs" alt="LINOA Logo" class="company-logo">
+            <div>
+          <h3 id="exp-linoa-title">LINOA Co., Ltd. — Founder & CEO</h3>
+          <p class="meta" id="exp-linoa-meta">Jun 2024 – Current · Tokyo</p>
+        </div>
+          </div>
+          <p id="exp-linoa-desc">Founded LINOA with the vision "Creating future concepts driven by curiosity," operating ADvance Lab and expanding into knowledge crystallization businesses.</p>
+          <p><a href="https://www.linoa-lab.co.jp/" target="_blank" rel="noopener">Visit LINOA Website</a></p>
+        </div>
+        <div class="card clickable" data-modal="exp-ecopork">
+          <div class="company-header">
+            <img src="https://media.licdn.com/dms/image/v2/C560BAQFFDyojY4XCZQ/company-logo_100_100/company-logo_100_100/0/1650160752601/eco_pork_logo?e=1761782400&v=beta&t=lW8QQ2VuOCwIvO5hA85Fp8X6C-pnG-4ZB4G-gJvawkY" alt="Eco-Pork Logo" class="company-logo">
+            <div>
+          <h3 id="exp-ecopork-title">Eco-Pork — Mechanical Engineer</h3>
+          <p class="meta" id="exp-ecopork-meta">May 2024 – Jul 2024 · Tokyo</p>
+        </div>
+          </div>
+          <p id="exp-ecopork-desc">Contributed to the "AI Buta Camera" mobile robotic platform, focusing on drive unit improvements for stable movement in agricultural environments.</p>
+          <p><a href="https://www.eco-pork.com/" target="_blank" rel="noopener">Visit Eco-Pork Website</a></p>
+        </div>
+        <div class="card clickable" data-modal="exp-lvn">
+          <div class="company-header">
+            <img src="https://media.licdn.com/dms/image/v2/C4D0BAQFEPpljbwgCFQ/company-logo_100_100/company-logo_100_100/0/1653270245993/leave_a_nest_co_logo?e=1761782400&v=beta&t=ijkDjMh6VAL5bGKuDopJi936d617CwQi4w2NKgFzPrU" alt="Leave a Nest Logo" class="company-logo">
+            <div>
+          <h3 id="exp-lvn-title">Leave a Nest — Molting Generator</h3>
+          <p class="meta" id="exp-lvn-meta">Mar 2023 – Apr 2024 · Tokyo</p>
+            </div>
+          </div>
+          <p id="exp-lvn-desc">Worked across education, HR, research, and new-business creation to drive high community impact and personal growth.</p>
+          <p><a href="https://lne.st/" target="_blank" rel="noopener">Visit Leave a Nest Website</a></p>
+        </div>
+        <div class="card clickable" data-modal="exp-advance-lab">
+          <div class="company-header">
+            <img src="https://media.licdn.com/dms/image/v2/D4D0BAQGhmpvW_vK-2g/company-logo_100_100/B4DZZf_6KMGsAQ-/0/1745367311294/next_generation_advance_lab_logo?e=1761782400&v=beta&t=QZ8_XhAlrb9Vg71qBe9uswY_3MRXJaRqJg3vfokr9TI" alt="ADvance Lab Logo" class="company-logo">
+            <div>
+              <h3 id="exp-advance-lab-title">ADvance Lab — Co-founder / Head of Manufacturing</h3>
+              <p class="meta" id="exp-advance-lab-meta">Aug 2023 – Current</p>
+            </div>
+          </div>
+          <p id="exp-advance-lab-desc">Co-founded a youth-led research institute; set up spaces, equipment, and processes; lead manufacturing operations and safety.</p>
+          <p><a href="https://adlab.lne.st/" target="_blank" rel="noopener">Visit ADvance Lab Website</a></p>
+        </div>
+        <div class="card clickable" data-modal="exp-frc">
+          <div class="company-header">
+            <img src="https://media.licdn.com/dms/image/v2/D560BAQE1r21PN9glXg/company-logo_100_100/company-logo_100_100/0/1684288420721/sakura_tempesta_logo?e=1761782400&v=beta&t=AoZHXp5LwLrDTGIkfSqGlz4QtlIe6FWt3xAez4lZ8z8" alt="SAKURA Tempesta Logo" class="company-logo">
+            <div>
+          <h3 id="exp-frc-title">FRC Team 6909 SAKURA Tempesta — Mentor</h3>
+          <p class="meta" id="exp-frc-meta">Apr 2023 – Current</p>
+            </div>
+          </div>
+          <p id="exp-frc-desc">Mentoring youth in competitive robotics after six years as designer/captain.</p>
+          <p><a href="https://www.sakura-tempesta.org/" target="_blank" rel="noopener">Visit SAKURA Tempesta Website</a></p>
+        </div>
       </div>
     </section>
 
@@ -156,19 +218,161 @@
 
     <!-- Works -->
     <section id="works">
-      <h2 class="section-title" id="title-works">Works ({{ site.works.size }})</h2>
+      <h2 class="section-title" id="title-works">Works (16)</h2>
       <div class="two-col" id="works-container">
-        {% assign items = site.works | sort: "date" | reverse %}
-        {% for item in items limit: 6 %}
-          {% include work-card.html item=item %}
-        {% endfor %}
+        <!-- First 6 items - always visible -->
+        <div class="card clickable" data-modal="work-sharky">
+          <div style="position: relative; display: flex; gap: 16px; align-items: flex-start;">
+            <div style="flex: 1;">
+              <h3 id="work-sharky-title">"Sharky" — AI Social Scheduler</h3>
+              <p class="meta" id="work-sharky-meta">Feb 2025 · Hackathon</p>
+              <p id="work-sharky-desc">Developed "Sharky," an AI-powered SNS posting scheduling and content strategy support tool that automatically performs target audience identification, optimal posting time suggestions, content generation, and video script creation from user business ideas and location data. The system uses multiple AI nodes with React.js frontend and Django backend, successfully achieving above-average engagement on TikTok posts.</p>
+            </div>
+            <img src="images/sharky.jpg" alt="Sharky AI Social Scheduler" class="sharky-image" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable" data-modal="work-autonomous-boat">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-autonomous-boat-title">Boat Race Project (Stevens Institute of Technology ENGR 122)</h3>
+              <p class="meta" id="work-autonomous-boat-meta">Jan 2025 – May 2025</p>
+              <p id="work-autonomous-boat-desc">Autonomous small robot boat design and construction project focusing on wiring reliability and IMU-based PID control.</p>
+            </div>
+            <img src="images/boat race project.png" alt="Boat Race Project" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable" data-modal="work-watering-system">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-watering-system-title">Smart Watering System (Stevens Institute of Technology ENGR 111)</h3>
+              <p class="meta" id="work-watering-system-meta">Sep 2024 – Dec 2024 · MQTT · Sensors</p>
+              <p id="work-watering-system-desc">Modular sensor-driven irrigation (humidity/light/soil) with automated pump and LED control; MQTT dashboard for thresholds and alerts; 3D-printed enclosures designed in Fusion 360.</p>
+            </div>
+            <img src="images/smart watering system.png" alt="Smart Watering System" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable" data-modal="work-ai-buta-camera">
+          <h3 id="work-ai-buta-camera-title">AI Buta Camera Improvement Development (Eco-Pork Internship)</h3>
+          <p class="meta" id="work-ai-buta-camera-meta">May 2024 – Jul 2024 · Eco-Pork</p>
+          <p id="work-ai-buta-camera-desc">Re-engineered the drive unit for a movable AI camera used for pig-weight estimation in barns.</p>
+        </div>
+        <div class="card clickable" data-modal="work-drone-payload">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-drone-payload-title">Drone Seed Ball Deployment Mechanism Development (LVNS Forest Project)</h3>
+              <p class="meta" id="work-drone-payload-meta">Mar 2023 – Aug 2024 · Leave a Nest</p>
+              <p id="work-drone-payload-desc">Developed a mechanism to deploy seed balls from drones for reforestation; contributions informed a patent effort.</p>
+            </div>
+            <img src="images/lvns forest project.jpeg" alt="LVNS Forest Project" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable" data-modal="work-frc-2023">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-frc-2023-title">FRC 2023 — "HELLO"</h3>
+              <p class="meta" id="work-frc-2023-meta">Jan 2023 – Apr 2023 · SAKURA Tempesta</p>
+              <p id="work-frc-2023-desc">Co-led design and subsystem integration; prepared the robot for event-level reliability.</p>
+            </div>
+            <img src="images/hello.png" alt="HELLO Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
         
         <!-- Additional items - hidden by default -->
-        {% for item in items offset: 6 %}
-          <div class="works-hidden">
-            {% include work-card.html item=item %}
+        <div class="card clickable works-hidden" data-modal="work-frc-2022">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-frc-2022-title">FRC 2022 — "NAO"</h3>
+              <p class="meta" id="work-frc-2022-meta">Jan 2022 – Apr 2022 · SAKURA Tempesta</p>
+              <p id="work-frc-2022-desc">Led engineering and Java programming; aimed for reliable control and efficient cycles.</p>
+            </div>
+            <img src="images/nao.png" alt="NAO Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
           </div>
-        {% endfor %}
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-frc-2020">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-frc-2020-title">FRC 2020 — "UROU"</h3>
+              <p class="meta" id="work-frc-2020-meta">Jan 2020 – Mar 2020 · SAKURA Tempesta</p>
+              <p id="work-frc-2020-desc">Focused on Java control architecture and rapid iteration for the 2020 build.</p>
+            </div>
+            <img src="images/urou.jpg" alt="Urou Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-frc-2019">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-frc-2019-title">FRC 2019 — "KUROU"</h3>
+              <p class="meta" id="work-frc-2019-meta">Jan 2019 – Apr 2019 · SAKURA Tempesta</p>
+              <p id="work-frc-2019-desc">Led development cycles emphasizing repeatable mechanisms and software stability.</p>
+            </div>
+            <img src="images/kurou.jpg" alt="Kurou Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-frc-2018">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-frc-2018-title">FRC 2018 — "Sakura-chan"</h3>
+              <p class="meta" id="work-frc-2018-meta">Dec 2017 – Apr 2018 · SAKURA Tempesta</p>
+              <p id="work-frc-2018-desc">Seasonal competition robot; contributed to design, integration, and driveteam preparation.</p>
+            </div>
+            <img src="images/sakura-chan.jpg" alt="Sakura-chan Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-meter-kun">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-meter-kun-title">Robotracer "Meter-kun"</h3>
+              <p class="meta" id="work-meter-kun-meta">Nov 2017</p>
+              <p id="work-meter-kun-desc">Line-tracing robot to study fast sensor-feedback loops and tuning.</p>
+            </div>
+            <img src="images/meter-kun.jpg" alt="Meter-kun Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-pen-chan">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-pen-chan-title">Serving Robot "Pen-chan"</h3>
+              <p class="meta" id="work-pen-chan-meta">May 2017 – Dec 2017</p>
+              <p id="work-pen-chan-desc">Penguin-like serving robot prototype; mechanics and C-based control for indoor routes.</p>
+            </div>
+            <img src="images/pen-chan.jpg" alt="Pen-chan Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-fukku">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-fukku-title">Owl-like Robot "Fukku"</h3>
+              <p class="meta" id="work-fukku-meta">Apr 2016 – Mar 2017</p>
+              <p id="work-fukku-desc">Character-style robot with expressive motion; focused on actuation and interaction.</p>
+            </div>
+            <img src="images/fukku.jpg" alt="Fukku Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-mekany">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-mekany-title">Crab-like Robot "Mekany"</h3>
+              <p class="meta" id="work-mekany-meta">Apr 2015 – Mar 2016</p>
+              <p id="work-mekany-desc">Walking robot exploring legged gait mechanics and simple behaviors.</p>
+            </div>
+            <img src="images/mekany.jpg" alt="Mekany Robot" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-self-driving-2">
+          <h3 id="work-self-driving-2-title">Self-Driving Car II</h3>
+          <p class="meta" id="work-self-driving-2-meta">Jul 2014</p>
+          <p id="work-self-driving-2-desc">Follow-up build emphasizing stability and higher-speed control over the first prototype.</p>
+        </div>
+        <div class="card clickable works-hidden" data-modal="work-self-driving-1">
+          <div style="display: flex; align-items: flex-start; gap: 16px;">
+            <div style="flex: 1;">
+              <h3 id="work-self-driving-1-title">Self-Driving Car I</h3>
+              <p class="meta" id="work-self-driving-1-meta">Jul 2013 – Aug 2013</p>
+              <p id="work-self-driving-1-desc">Early autonomous car experiment focusing on basic sensing and control loops.</p>
+            </div>
+            <img src="images/Self-driving car I.jpg" alt="Self-Driving Car I" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+          </div>
+        </div>
       </div>
       
       <!-- Show More Button -->

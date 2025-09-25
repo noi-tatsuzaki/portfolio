@@ -1,0 +1,13 @@
+---
+layout: default
+title: Works
+---
+<section id="works">
+  <h2>Works</h2>
+  {% assign items = site.works | sort: "date" | reverse %}
+  <div class="two-col">
+    {% for item in items %}
+      {% include work-card.html item=item %}
+    {% endfor %}
+  </div>
+</section>

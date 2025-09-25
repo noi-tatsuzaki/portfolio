@@ -1,0 +1,17 @@
+title: Portfolio
+timezone: America/New_York
+markdown: kramdown
+
+collections:
+  experience:
+    output: true
+    permalink: /experience/:slug/
+  works:
+    output: true
+    permalink: /works/:slug/
+
+defaults:
+  - scope: { path: "", type: "experience" }
+    values: { layout: experience_item }
+  - scope: { path: "", type: "works" }
+    values: { layout: work_item }

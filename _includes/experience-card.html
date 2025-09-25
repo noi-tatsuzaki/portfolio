@@ -1,0 +1,20 @@
+<div class="card clickable" data-modal="exp-{{ include.item.slug }}">
+  <div class="company-header">
+    {% if include.item.cover %}
+    <img src="{{ include.item.cover | relative_url }}" alt="{{ include.item.org | default: include.item.title }} Logo" class="company-logo">
+    {% endif %}
+    <div>
+      <h3>{{ include.item.title }}</h3>
+      <p class="meta">
+        {% if include.item.org %}{{ include.item.org }}{% endif %}
+        {% if include.item.location %} · {{ include.item.location }}{% endif %}
+      </p>
+      <p class="meta">
+        {% if include.item.start %}{{ include.item.start | date: "%b %Y" }}{% endif %}
+        {% if include.item.end == "present" or include.item.end == nil %}– Current{% else %}– {{ include.item.end | date: "%b %Y" }}{% endif %}
+      </p>
+    </div>
+  </div>
+  {% if include.item.summary %}<p>{{ include.item.summary }}</p>{% endif %}
+  {% if include.item.url %}<p><a href="{{ include.item.url }}" target="_blank" rel="noopener">Visit Website</a></p>{% endif %}
+</div>
