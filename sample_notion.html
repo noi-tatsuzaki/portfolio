@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sample Notion Integration | Noi Tatsuzaki Portfolio</title>
+  <meta name="description" content="Notion DB integration sample page for Noi Tatsuzaki Portfolio" />
+  <meta property="og:title" content="Sample Notion Integration | Noi Tatsuzaki Portfolio" />
+  <meta property="og:description" content="Notion DB integration sample page" />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#6C5CE7" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Top Nav -->
+  <header class="site">
+    <div class="wrap nav">
+      <div class="brand"><span class="dot"></span> Noi Tatsuzaki</div>
+      <nav>
+        <a href="index.html">← Back to Portfolio</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div>
+        <h1>Notion Integration Sample</h1>
+        <p class="hero-subtitle">Dynamic content from Notion database</p>
+        <p class="lead">
+          This page demonstrates the Notion DB → GitHub Actions → JSON → Frontend rendering pipeline.
+          Content is dynamically loaded from <code>public/notion.json</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- Projects from Notion -->
+    <section id="projects">
+      <h2 class="section-title">Projects (Notion Sample)</h2>
+      <div class="two-col" id="projects-container">
+        <!-- Cards will be dynamically inserted here by JavaScript -->
+      </div>
+    </section>
+
+    <!-- Template for Notion cards -->
+    <template id="tpl-notion-card">
+      <div class="card clickable">
+        <div style="display: flex; align-items: flex-start; gap: 16px;">
+          <div style="flex: 1;">
+            <h3 data-text="title"></h3>
+            <p class="meta" data-text="date"></p>
+            <p data-text="summary"></p>
+            <p class="meta" data-tags="tags"></p>
+            <p data-href="url" style="display: none;"><a href="" target="_blank" rel="noopener">Visit Website</a></p>
+          </div>
+          <img data-src="cover" alt="" style="width: 160px; height: 160px; border-radius: 12px; object-fit: cover; flex-shrink: 0;">
+        </div>
+      </div>
+    </template>
+  </main>
+
+  <!-- Notion rendering script -->
+  <script defer src="assets/js/render-notion.js"></script>
+</body>
+</html>
