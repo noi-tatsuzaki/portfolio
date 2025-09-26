@@ -1,12 +1,12 @@
 // assets/js/render-markdown.js
 (function () {
   const MD_FILES = [
-    '_works/sharky.md',
-    '_works/boat-race-project.md',
-    '_works/smart-watering-system.md',
-    '_works/ai-buta-camera.md',
-    '_works/lvns-forest-project.md',
-    '_works/frc-2023-hello.md'
+    'public/works/sharky.md',
+    'public/works/boat-race-project.md',
+    'public/works/smart-watering-system.md',
+    'public/works/ai-buta-camera.md',
+    'public/works/lvns-forest-project.md',
+    'public/works/frc-2023-hello.md'
   ];
   
   const TARGET = document.querySelector("#works-container");
@@ -112,7 +112,7 @@
       const { frontMatter } = parseFrontMatter(content);
       
       return {
-        id: filePath.replace('_works/', '').replace('.md', ''),
+        id: filePath.replace('public/works/', '').replace('.md', ''),
         title: frontMatter.title || 'Untitled',
         summary: frontMatter.summary || '',
         tags: frontMatter.tags || [],
@@ -193,9 +193,15 @@
   loadAllMarkdownFiles()
     .then(items => {
       console.log(`Loaded ${items.length} markdown files`);
-      renderItems(items);
+      if (items.length === 0) {
+        // Fallback: show message if no files loaded
+        TARGET.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 2rem;">No markdown files found. Please check the file paths.</p>';
+      } else {
+        renderItems(items);
+      }
     })
     .catch(error => {
       console.error('Error loading markdown files:', error);
+      TARGET.innerHTML = '<p style="text-align: center; color: var(--muted); padding: 2rem;">Error loading markdown files. Please check the console for details.</p>';
     });
 })();
