@@ -1,0 +1,86 @@
+[
+  {
+    "id": "sharky",
+    "title": "Sharky — AI Social Scheduler",
+    "summary": "Developed \\\"Sharky,\\\" an AI-powered SNS posting scheduling and content strategy support tool that automatically performs target audience identification, optimal posting time suggestions, content generation, and video script creation from user business ideas and location data. The system uses multiple AI nodes with React.js frontend and Django backend, successfully achieving above-average engagement on TikTok posts.",
+    "tags": [
+      "ai",
+      "web-development",
+      "hackathon"
+    ],
+    "date": "Jan 31, 2025",
+    "url": "",
+    "cover": "/assets/works/sharky.jpg",
+    "lastEdited": "2025-09-26T00:12:46.891Z"
+  },
+  {
+    "id": "boat-race-project",
+    "title": "Boat Race Project (Stevens Institute of Technology ENGR 122)",
+    "summary": "Autonomous small robot boat design and construction project focusing on wiring reliability and IMU-based PID control.",
+    "tags": [
+      "embedded-systems",
+      "robotics",
+      "control-systems"
+    ],
+    "date": "Dec 31, 2024",
+    "url": "",
+    "cover": "/assets/works/boat-race-project.png",
+    "lastEdited": "2025-09-26T00:12:46.889Z"
+  },
+  {
+    "id": "smart-watering-system",
+    "title": "Smart Watering System (Stevens Institute of Technology ENGR 111)",
+    "summary": "Modular sensor-driven irrigation (humidity/light/soil) with automated pump and LED control; MQTT dashboard for thresholds and alerts; 3D-printed enclosures designed in Fusion 360.",
+    "tags": [
+      "iot",
+      "sensors",
+      "automation"
+    ],
+    "date": "Aug 31, 2024",
+    "url": "",
+    "cover": "/assets/works/smart-watering-system.png",
+    "lastEdited": "2025-09-26T00:12:46.892Z"
+  },
+  {
+    "id": "ai-buta-camera",
+    "title": "AI Buta Camera Improvement Development (Eco-Pork Internship)",
+    "summary": "Re-engineered the drive unit for a movable AI camera used for pig-weight estimation in barns.",
+    "tags": [
+      "mechanical-engineering",
+      "robotics",
+      "agriculture"
+    ],
+    "date": "Apr 30, 2024",
+    "url": "https://eco-pork.com/aibutacamera/",
+    "cover": "",
+    "lastEdited": "2025-09-26T00:12:46.888Z"
+  },
+  {
+    "id": "lvns-forest-project",
+    "title": "Drone Seed Ball Deployment Mechanism Development (LVNS Forest Project)",
+    "summary": "Developed a mechanism to deploy seed balls from drones for reforestation; contributions informed a patent effort.",
+    "tags": [
+      "drones",
+      "sustainability",
+      "mechanical-design"
+    ],
+    "date": "Feb 28, 2023",
+    "url": "https://forest.lne.st/",
+    "cover": "/assets/works/lvns-forest-project.jpeg",
+    "lastEdited": "2025-09-26T00:12:46.891Z"
+  },
+  {
+    "id": "frc-2023-hello",
+    "title": "FRC 2023 — HELLO",
+    "summary": "Co-led design and subsystem integration; prepared the robot for event-level reliability.",
+    "tags": [
+      "robotics",
+      "competition",
+      "leadership"
+    ],
+    "date": "Dec 31, 2022",
+    "url": "",
+    "cover": "/assets/works/hello.png",
+    "lastEdited": "2025-09-26T00:12:46.890Z"
+  }
+]

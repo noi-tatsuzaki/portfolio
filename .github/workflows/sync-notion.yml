@@ -20,10 +20,12 @@ jobs:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
         run: node scripts/fetch-notion.js
+      - name: Generate public/works.json
+        run: node scripts/generate-works-json.js
       - name: Commit & push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/notion.json
-          git diff --quiet || git commit -m "chore: update notion data"
+          git add public/notion.json public/works.json
+          git diff --quiet || git commit -m "chore: update notion and works data"
           git push
