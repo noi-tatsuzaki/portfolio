@@ -1,0 +1,9 @@
+# Enable CORS for markdown files
+<Files "*.md">
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type"
+</Files>
+
+# Set MIME type for markdown files
+AddType text/markdown .md
