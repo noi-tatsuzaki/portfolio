@@ -1,12 +1,12 @@
 // assets/js/render-markdown.js
 (function () {
   const MD_FILES = [
-    './public/works/sharky.md',
-    './public/works/boat-race-project.md',
-    './public/works/smart-watering-system.md',
-    './public/works/ai-buta-camera.md',
-    './public/works/lvns-forest-project.md',
-    './public/works/frc-2023-hello.md'
+    'public/works/sharky.md',
+    'public/works/boat-race-project.md',
+    'public/works/smart-watering-system.md',
+    'public/works/ai-buta-camera.md',
+    'public/works/lvns-forest-project.md',
+    'public/works/frc-2023-hello.md'
   ];
   
   const TARGET = document.querySelector("#works-container");
@@ -106,15 +106,17 @@
       console.log(`Loading: ${filePath}`);
       const response = await fetch(filePath);
       if (!response.ok) {
-        console.warn(`Failed to load ${filePath}: ${response.status}`);
+        console.warn(`Failed to load ${filePath}: ${response.status} ${response.statusText}`);
         return null;
       }
       const content = await response.text();
-      console.log(`Loaded content from ${filePath}:`, content.substring(0, 100) + '...');
+      console.log(`Successfully loaded ${filePath}, content length: ${content.length}`);
+      console.log(`Content preview:`, content.substring(0, 200) + '...');
       const { frontMatter } = parseFrontMatter(content);
+      console.log(`Parsed front matter:`, frontMatter);
       
       return {
-        id: filePath.replace('./public/works/', '').replace('.md', ''),
+        id: filePath.replace('public/works/', '').replace('.md', ''),
         title: frontMatter.title || 'Untitled',
         summary: frontMatter.summary || '',
         tags: frontMatter.tags || [],
@@ -198,7 +200,7 @@
       if (items.length === 0) {
         console.log('No markdown files loaded, trying JSON fallback...');
         // Fallback to JSON if markdown files fail
-        return fetch('./public/works.json', { cache: "no-store" })
+        return fetch('public/works.json', { cache: "no-store" })
           .then(response => {
             if (!response.ok) throw new Error(`JSON fetch failed: ${response.status}`);
             return response.json();
