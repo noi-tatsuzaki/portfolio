@@ -1,0 +1,10 @@
+# Placeholder config.
+# (If you plan to use Netlify CMS / Decap CMS, replace this with the real config.)
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections: []

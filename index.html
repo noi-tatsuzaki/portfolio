@@ -1,12 +1,658 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Noi Tatsuzaki</title>
-</head>
-<body>
-  <h1>Hello, this is Noi's website</h1>
-  <p>First deployment test</p>
-</body>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noi Tatsuzaki</title>
+    <meta
+      name="description"
+      content="Building robots, systems, and future concepts driven by curiosity."
+    />
+    <style>
+      :root {
+        --bg: #0b0c10;
+        --panel: #0f1119;
+        --text: #f5f7ff;
+        --muted: rgba(245, 247, 255, 0.68);
+        --hairline: rgba(245, 247, 255, 0.14);
+        --accent: #a7ffcf;
+        --accent2: #8fb3ff;
+        --shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
+        --radius: 18px;
+        --max: 1160px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        color: var(--text);
+        background: radial-gradient(
+            900px 540px at 12% 18%,
+            rgba(143, 179, 255, 0.22),
+            transparent 60%
+          ),
+          radial-gradient(
+            760px 520px at 86% 24%,
+            rgba(167, 255, 207, 0.18),
+            transparent 60%
+          ),
+          radial-gradient(
+            820px 680px at 60% 92%,
+            rgba(167, 255, 207, 0.1),
+            transparent 60%
+          ),
+          var(--bg);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial,
+          "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+        letter-spacing: 0.01em;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+        text-decoration-color: rgba(167, 255, 207, 0.7);
+        text-underline-offset: 0.24em;
+      }
+
+      .wrap {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 22px 18px 72px;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(14px);
+        background: linear-gradient(
+          to bottom,
+          rgba(11, 12, 16, 0.78),
+          rgba(11, 12, 16, 0.35)
+        );
+        border-bottom: 1px solid rgba(245, 247, 255, 0.08);
+      }
+
+      .topbar {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 12px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        white-space: nowrap;
+      }
+
+      .brand strong {
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        font-size: 12px;
+      }
+
+      .brand span {
+        color: var(--muted);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 14px;
+        justify-content: flex-end;
+      }
+
+      .nav a {
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+      }
+
+      .nav a:hover {
+        color: var(--text);
+        text-decoration: none;
+        border-color: rgba(245, 247, 255, 0.18);
+        background: rgba(15, 17, 25, 0.55);
+      }
+
+      .hero {
+        padding: 34px 0 10px;
+        display: grid;
+        gap: 18px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(15, 17, 25, 0.82),
+          rgba(15, 17, 25, 0.62)
+        );
+        border: 1px solid rgba(245, 247, 255, 0.12);
+        box-shadow: var(--shadow);
+        border-radius: var(--radius);
+        padding: 18px;
+      }
+
+      .hero-name {
+        display: grid;
+        gap: 10px;
+      }
+
+      .kicker {
+        font-size: 12px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .title {
+        font-size: clamp(44px, 6vw, 74px);
+        line-height: 0.96;
+        letter-spacing: 0.02em;
+        margin: 0;
+        font-weight: 900;
+      }
+
+      .title .accent {
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .subtitle {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.7;
+        max-width: 62ch;
+      }
+
+      .identity {
+        display: grid;
+        gap: 10px;
+        align-content: start;
+      }
+
+      .identity h2 {
+        margin: 0;
+        font-size: 12px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .identity .big {
+        font-size: 34px;
+        line-height: 0.95;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+        margin: 0;
+      }
+
+      .identity .meta {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+        border-top: 1px solid var(--hairline);
+        padding-top: 12px;
+      }
+
+      .ticker {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+        border: 1px solid rgba(245, 247, 255, 0.12);
+        border-radius: 999px;
+        padding: 10px 12px;
+        background: rgba(15, 17, 25, 0.45);
+      }
+
+      .pill {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(245, 247, 255, 0.76);
+      }
+
+      .dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(245, 247, 255, 0.25);
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+
+      .stat {
+        border-radius: 14px;
+        border: 1px solid rgba(245, 247, 255, 0.12);
+        background: rgba(15, 17, 25, 0.35);
+        padding: 14px;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 22px;
+        letter-spacing: 0.06em;
+      }
+
+      .stat span {
+        display: block;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      main {
+        display: grid;
+        gap: 18px;
+        padding-top: 18px;
+      }
+
+      section h2 {
+        margin: 0 0 10px;
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 10px;
+      }
+
+      .row {
+        display: grid;
+        gap: 4px;
+        padding: 12px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(245, 247, 255, 0.12);
+        background: rgba(15, 17, 25, 0.35);
+      }
+
+      .row .top {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .row .top strong {
+        font-size: 14px;
+        letter-spacing: 0.02em;
+      }
+
+      .row .top time {
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        white-space: nowrap;
+      }
+
+      .row p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .cta {
+        display: grid;
+        gap: 12px;
+        align-items: start;
+      }
+
+      .cta h3 {
+        margin: 0;
+        font-size: clamp(26px, 4vw, 44px);
+        line-height: 1.02;
+        letter-spacing: 0.02em;
+        font-weight: 900;
+      }
+
+      .cta p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(245, 247, 255, 0.18);
+        background: rgba(15, 17, 25, 0.55);
+        color: var(--text);
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .btn.primary {
+        border-color: rgba(167, 255, 207, 0.45);
+        background: linear-gradient(
+          90deg,
+          rgba(167, 255, 207, 0.16),
+          rgba(143, 179, 255, 0.12)
+        );
+      }
+
+      footer {
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid rgba(245, 247, 255, 0.12);
+        color: rgba(245, 247, 255, 0.6);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      @media (max-width: 920px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        .nav a {
+          padding: 6px 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="topbar">
+        <div class="brand">
+          <strong>NOI TATSUZAKI</strong>
+          <span>JAPAN / US</span>
+        </div>
+        <nav class="nav" aria-label="Primary">
+          <a href="/about/">About</a>
+          <a href="/works/">Works</a>
+          <a href="/experience/">Experience</a>
+          <a href="/awards-media/">Awards &amp; Media</a>
+          <a href="/news/">News</a>
+          <a href="/contact/">Contact</a>
+          <a href="/admin/">Admin</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <div class="hero">
+        <div class="hero-grid">
+          <div class="card hero-name">
+            <div class="kicker">Robotics Design /// Mechanical Engineering</div>
+            <h1 class="title">
+              <span class="accent">BUILDING</span><br />
+              THE FUTURE.
+            </h1>
+            <p class="subtitle">
+              Building robots, systems, and future concepts driven by curiosity.
+            </p>
+            <div class="ticker" aria-label="Core focus">
+              <span class="pill">robotics design</span>
+              <span class="dot" aria-hidden="true"></span>
+              <span class="pill">mechanical engineering</span>
+              <span class="dot" aria-hidden="true"></span>
+              <span class="pill">startups</span>
+              <span class="dot" aria-hidden="true"></span>
+              <span class="pill">prototyping</span>
+            </div>
+            <div class="stats" aria-label="Highlights">
+              <div class="stat">
+                <strong>10+</strong>
+                <span>years in robotics</span>
+              </div>
+              <div class="stat">
+                <strong>280+</strong>
+                <span>media appearances</span>
+              </div>
+              <div class="stat">
+                <strong>5+</strong>
+                <span>projects</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="card identity" aria-label="Profile summary">
+            <h2>NOI</h2>
+            <p class="big">TATSUZAKI</p>
+            <div class="meta">
+              LINOA Co., Ltd. | Stevens Institute of Technology | ADvance Lab |
+              ADvance Campus | Forbes JAPAN 30 UNDER 30 2022
+            </div>
+            <div class="buttons">
+              <a class="btn primary" href="/works/">Featured Works</a>
+              <a class="btn" href="/contact/">Contact</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <main>
+        <section class="card" aria-label="Why I build">
+          <h2>Why I build</h2>
+          <p class="subtitle" style="margin-top: 0">
+            Curiosity-driven making — from concept to prototype to real-world
+            systems. I aim to build tools that expand what people can do.
+          </p>
+        </section>
+
+        <div class="grid-2">
+          <section class="card" aria-label="Featured works">
+            <h2>Featured works</h2>
+            <ul class="list">
+              <li class="row">
+                <div class="top">
+                  <strong>BOAT RACE PROJECT</strong>
+                  <a href="/works/" aria-label="View all works">View all →</a>
+                </div>
+                <p>
+                  A featured project highlight. Details and case studies live in
+                  the Works page.
+                </p>
+              </li>
+              <li class="row">
+                <div class="top">
+                  <strong>More projects</strong>
+                  <span style="color: rgba(245, 247, 255, 0.5)">→</span>
+                </div>
+                <p>
+                  Add/update entries under `content/works/` and surface them
+                  here later.
+                </p>
+              </li>
+            </ul>
+          </section>
+
+          <section class="card" aria-label="Experience">
+            <h2>Experience</h2>
+            <ul class="list">
+              <li class="row">
+                <div class="top">
+                  <strong>Founder &amp; CEO — LINOA Co., Ltd.</strong>
+                  <time>2024 - Present</time>
+                </div>
+              </li>
+              <li class="row">
+                <div class="top">
+                  <strong>Co-founder — ADvance Lab</strong>
+                  <time>2024</time>
+                </div>
+              </li>
+              <li class="row">
+                <div class="top">
+                  <strong>Mechanical Engineer Intern — Eco-Pork</strong>
+                  <time>2023 - 2024</time>
+                </div>
+              </li>
+              <li class="row">
+                <div class="top">
+                  <strong>Hardware Leader / Team Captain — FRC 6909</strong>
+                  <time>2018 - 2023</time>
+                </div>
+              </li>
+            </ul>
+            <div class="buttons" style="margin-top: 12px">
+              <a class="btn" href="/experience/">Full timeline</a>
+            </div>
+          </section>
+        </div>
+
+        <div class="grid-2">
+          <section class="card" aria-label="Awards and media">
+            <h2>Awards</h2>
+            <ul class="list">
+              <li class="row">
+                <div class="top">
+                  <strong>Forbes JAPAN 30 UNDER 30</strong>
+                  <time>2022</time>
+                </div>
+              </li>
+              <li class="row">
+                <div class="top">
+                  <strong>Masason Foundation Scholar</strong>
+                  <time>—</time>
+                </div>
+              </li>
+              <li class="row">
+                <div class="top">
+                  <strong>Dean’s List Finalist Award (FRC)</strong>
+                  <time>—</time>
+                </div>
+              </li>
+              <li class="row">
+                <div class="top">
+                  <strong>Chairman’s Award (FRC)</strong>
+                  <time>—</time>
+                </div>
+              </li>
+              <li class="row">
+                <div class="top">
+                  <strong>➚ Media recognition</strong>
+                  <a href="/awards-media/">View →</a>
+                </div>
+                <p>
+                  Disney+ Documentary: Featured in “More Than Robots” / Lenovo
+                  New Realities / 280+ Media Appearances
+                </p>
+              </li>
+            </ul>
+          </section>
+
+          <section class="card" aria-label="Latest news">
+            <h2>Latest news</h2>
+            <ul class="list">
+              <li class="row">
+                <div class="top">
+                  <strong>BOAT RACE PROJECT</strong>
+                  <a href="/news/">View all →</a>
+                </div>
+                <p>
+                  Latest update placeholder. Add actual posts under
+                  `content/news/` later.
+                </p>
+              </li>
+              <li class="row">
+                <div class="top">
+                  <strong>News item</strong>
+                  <span style="color: rgba(245, 247, 255, 0.5)">→</span>
+                </div>
+                <p>Short summary goes here.</p>
+              </li>
+            </ul>
+          </section>
+        </div>
+
+        <section class="card cta" aria-label="Call to action">
+          <h2>Let’s build</h2>
+          <h3>
+            LET’S BUILD<br />
+            <span class="accent" style="background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; color: transparent;">THE FUTURE</span><br />
+            TOGETHER.
+          </h3>
+          <p>
+            Collaboration, speaking, and project inquiries are welcome. Reach
+            out anytime.
+          </p>
+          <div class="buttons">
+            <a class="btn primary" href="/contact/">Contact</a>
+            <a class="btn" href="/works/">See works</a>
+          </div>
+        </section>
+
+        <footer>
+          <div>© 2026 NOI TATSUZAKI. All rights reserved.</div>
+          <div>
+            <a href="/admin/">Admin</a>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </body>
 </html>
