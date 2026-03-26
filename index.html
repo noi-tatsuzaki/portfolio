@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,20 +8,82 @@
       name="description"
       content="Building robots, systems, and future concepts driven by curiosity."
     />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
+      /* =========================
+         Design System (Tokens)
+         ========================= */
       :root {
-        --bg: #0b0c10;
-        --panel: #0f1119;
-        --text: #f5f7ff;
-        --muted: rgba(245, 247, 255, 0.68);
-        --hairline: rgba(245, 247, 255, 0.14);
-        --accent: #a7ffcf;
-        --accent2: #8fb3ff;
-        --shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
-        --radius: 18px;
-        --max: 1160px;
+        /* layout */
+        --page-gutter: 48px; /* minimum outside margin = 3x (was 16px) */
+        --grid-columns: 12; /* enables 4-up (span 3) and 3-up (span 4) */
+        --grid-gap: 0px; /* no gaps; use 1px lines instead */
+        --content-max: 1200px; /* caps width on ultrawide screens */
+        --row-header-w: 48px;
+
+        /* spacing (8px system) */
+        --space-0: 0px;
+        --space-1: 8px;
+        --space-2: 16px;
+        --space-3: 24px;
+        --space-4: 32px;
+        --space-5: 40px;
+        --space-6: 48px;
+        --space-7: 56px;
+        --space-8: 64px;
+        --space-10: 80px;
+        --space-12: 96px;
+
+        /* typography */
+        --font-title: "Glitch Demo", "Oxanium", system-ui, sans-serif;
+        --font-name: "Shibuya Zero", "Oxanium", system-ui, sans-serif;
+        --font-sub-title: "Oxanium", system-ui, sans-serif;
+        --font-text: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+        --fs-00: 11px;
+        --fs-0: 12px;
+        --fs-1: 14px;
+        --fs-2: 16px;
+        --fs-3: 20px;
+        --fs-4: 24px;
+        --fs-5: 32px;
+        --fs-6: 40px;
+        --fs-7: 56px;
+
+        --lh-tight: 1.05;
+        --lh-solid: 1.15;
+        --lh-base: 1.6;
+
+        --track-tight: 0.02em;
+        --track-tech: 0.12em;
+        --track-title: 0.08em;
+
+        /* color */
+        --c-bg: #e4e4e4;
+        --c-surface: #ffffff;
+        --c-ink: #000000;
+        --c-muted: #1a1a1a;
+        --c-accent: #48b7d5;
+        --c-border: #606060; /* strict */
+
+        /* component */
+        --border: 1px solid var(--c-border);
+        --radius: 0px; /* no border radius */
+
+        /* debug */
+        --addr: 1; /* show block address labels */
       }
 
+      /* =========================
+         Base
+         ========================= */
       * {
         box-sizing: border-box;
       }
@@ -33,26 +95,11 @@
 
       body {
         margin: 0;
-        color: var(--text);
-        background: radial-gradient(
-            900px 540px at 12% 18%,
-            rgba(143, 179, 255, 0.22),
-            transparent 60%
-          ),
-          radial-gradient(
-            760px 520px at 86% 24%,
-            rgba(167, 255, 207, 0.18),
-            transparent 60%
-          ),
-          radial-gradient(
-            820px 680px at 60% 92%,
-            rgba(167, 255, 207, 0.1),
-            transparent 60%
-          ),
-          var(--bg);
-        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial,
-          "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-        letter-spacing: 0.01em;
+        background: var(--c-bg);
+        color: var(--c-ink);
+        font-family: var(--font-text);
+        font-size: var(--fs-2);
+        line-height: var(--lh-base);
       }
 
       a {
@@ -62,597 +109,629 @@
 
       a:hover {
         text-decoration: underline;
-        text-decoration-color: rgba(167, 255, 207, 0.7);
-        text-underline-offset: 0.24em;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
       }
 
-      .wrap {
-        max-width: var(--max);
+      /* =========================
+         Grid System (Strict)
+         ========================= */
+      .page {
+        max-width: var(--content-max);
+        width: 100%;
         margin: 0 auto;
-        padding: 22px 18px 72px;
+        padding-left: var(--page-gutter);
+        padding-right: var(--page-gutter);
+        padding-top: var(--space-3);
+        padding-bottom: var(--space-10);
       }
 
-      header {
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        backdrop-filter: blur(14px);
-        background: linear-gradient(
-          to bottom,
-          rgba(11, 12, 16, 0.78),
-          rgba(11, 12, 16, 0.35)
-        );
-        border-bottom: 1px solid rgba(245, 247, 255, 0.08);
-      }
-
-      .topbar {
-        max-width: var(--max);
-        margin: 0 auto;
-        padding: 12px 18px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-      }
-
-      .brand {
-        display: flex;
-        align-items: baseline;
-        gap: 10px;
-        white-space: nowrap;
-      }
-
-      .brand strong {
-        font-weight: 800;
-        letter-spacing: 0.18em;
-        font-size: 12px;
-      }
-
-      .brand span {
-        color: var(--muted);
-        font-size: 12px;
-        letter-spacing: 0.08em;
-      }
-
-      .nav {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px 14px;
-        justify-content: flex-end;
-      }
-
-      .nav a {
-        font-size: 12px;
-        color: var(--muted);
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        padding: 8px 10px;
-        border-radius: 999px;
-        border: 1px solid transparent;
-      }
-
-      .nav a:hover {
-        color: var(--text);
-        text-decoration: none;
-        border-color: rgba(245, 247, 255, 0.18);
-        background: rgba(15, 17, 25, 0.55);
-      }
-
-      .hero {
-        padding: 34px 0 10px;
+      .grid {
         display: grid;
-        gap: 18px;
-      }
-
-      .hero-grid {
-        display: grid;
-        grid-template-columns: 1.25fr 0.75fr;
-        gap: 18px;
-        align-items: stretch;
-      }
-
-      .card {
-        background: linear-gradient(
-          180deg,
-          rgba(15, 17, 25, 0.82),
-          rgba(15, 17, 25, 0.62)
-        );
-        border: 1px solid rgba(245, 247, 255, 0.12);
-        box-shadow: var(--shadow);
-        border-radius: var(--radius);
-        padding: 18px;
-      }
-
-      .hero-name {
-        display: grid;
-        gap: 10px;
-      }
-
-      .kicker {
-        font-size: 12px;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
-
-      .title {
-        font-size: clamp(44px, 6vw, 74px);
-        line-height: 0.96;
-        letter-spacing: 0.02em;
-        margin: 0;
-        font-weight: 900;
-      }
-
-      .title .accent {
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-
-      .subtitle {
-        margin: 0;
-        color: var(--muted);
-        font-size: 15px;
-        line-height: 1.7;
-        max-width: 62ch;
-      }
-
-      .identity {
-        display: grid;
-        gap: 10px;
-        align-content: start;
-      }
-
-      .identity h2 {
-        margin: 0;
-        font-size: 12px;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
-
-      .identity .big {
-        font-size: 34px;
-        line-height: 0.95;
-        font-weight: 900;
-        letter-spacing: 0.06em;
-        margin: 0;
-      }
-
-      .identity .meta {
-        color: var(--muted);
-        font-size: 13px;
-        line-height: 1.6;
-        border-top: 1px solid var(--hairline);
-        padding-top: 12px;
-      }
-
-      .ticker {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        align-items: center;
-        border: 1px solid rgba(245, 247, 255, 0.12);
-        border-radius: 999px;
-        padding: 10px 12px;
-        background: rgba(15, 17, 25, 0.45);
-      }
-
-      .pill {
-        font-size: 11px;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: rgba(245, 247, 255, 0.76);
-      }
-
-      .dot {
-        width: 4px;
-        height: 4px;
-        border-radius: 999px;
-        background: rgba(245, 247, 255, 0.25);
-      }
-
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-      }
-
-      .stat {
-        border-radius: 14px;
-        border: 1px solid rgba(245, 247, 255, 0.12);
-        background: rgba(15, 17, 25, 0.35);
-        padding: 14px;
-      }
-
-      .stat strong {
-        display: block;
-        font-size: 22px;
-        letter-spacing: 0.06em;
-      }
-
-      .stat span {
-        display: block;
-        margin-top: 6px;
-        color: var(--muted);
-        font-size: 11px;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-      }
-
-      main {
-        display: grid;
-        gap: 18px;
-        padding-top: 18px;
-      }
-
-      section h2 {
-        margin: 0 0 10px;
-        font-size: 12px;
-        color: var(--muted);
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-      }
-
-      .grid-2 {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 18px;
-      }
-
-      .list {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        display: grid;
-        gap: 10px;
-      }
-
-      .row {
-        display: grid;
-        gap: 4px;
-        padding: 12px 12px;
-        border-radius: 14px;
-        border: 1px solid rgba(245, 247, 255, 0.12);
-        background: rgba(15, 17, 25, 0.35);
-      }
-
-      .row .top {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 10px;
-      }
-
-      .row .top strong {
-        font-size: 14px;
-        letter-spacing: 0.02em;
-      }
-
-      .row .top time {
-        font-size: 12px;
-        color: var(--muted);
-        letter-spacing: 0.1em;
-        white-space: nowrap;
-      }
-
-      .row p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 13px;
-        line-height: 1.6;
-      }
-
-      .cta {
-        display: grid;
-        gap: 12px;
+        grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+        column-gap: var(--grid-gap);
+        row-gap: var(--grid-gap);
         align-items: start;
       }
 
-      .cta h3 {
-        margin: 0;
-        font-size: clamp(26px, 4vw, 44px);
-        line-height: 1.02;
-        letter-spacing: 0.02em;
-        font-weight: 900;
+      .col-12 {
+        grid-column: span 12;
+      }
+      .col-8 {
+        grid-column: span 8;
+      }
+      .col-6 {
+        grid-column: span 6;
+      }
+      .col-4 {
+        grid-column: span 4;
+      } /* 3-up: thirds */
+      .col-3 {
+        grid-column: span 3;
+      } /* 4-up: quarters */
+
+      @media (max-width: 900px) {
+        .col-8,
+        .col-6,
+        .col-4,
+        .col-3 {
+          grid-column: span 12;
+        }
       }
 
-      .cta p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.7;
+      /* =========================
+         Reusable Components
+         ========================= */
+      .card {
+        background: var(--c-surface);
+        border: none; /* borders handled by gridlined separators */
+        border-radius: var(--radius);
+        padding: var(--space-3);
       }
 
-      .buttons {
+      .section {
+        border: none; /* borders handled by gridlined separators */
+        border-radius: var(--radius);
+        background: var(--c-surface);
+      }
+
+      .section__head {
+        border-bottom: none; /* avoid double borders; handled by inner gridlines */
+        padding: var(--space-2) var(--space-3);
         display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: var(--space-2);
       }
 
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        padding: 10px 12px;
-        border-radius: 999px;
-        border: 1px solid rgba(245, 247, 255, 0.18);
-        background: rgba(15, 17, 25, 0.55);
-        color: var(--text);
-        font-size: 12px;
-        letter-spacing: 0.14em;
+      .section__body {
+        padding: var(--space-3);
+      }
+
+      .title-xl {
+        margin: 0;
+        font-family: var(--font-title);
+        font-size: var(--fs-7);
+        line-height: var(--lh-tight);
+        letter-spacing: var(--track-title);
         text-transform: uppercase;
       }
 
-      .btn.primary {
-        border-color: rgba(167, 255, 207, 0.45);
-        background: linear-gradient(
-          90deg,
-          rgba(167, 255, 207, 0.16),
-          rgba(143, 179, 255, 0.12)
-        );
+      .title-lg {
+        margin: 0;
+        font-family: var(--font-sub-title);
+        font-size: var(--fs-5);
+        line-height: var(--lh-solid);
+        letter-spacing: var(--track-tech);
+        text-transform: uppercase;
       }
 
-      footer {
-        margin-top: 18px;
-        padding-top: 18px;
-        border-top: 1px solid rgba(245, 247, 255, 0.12);
-        color: rgba(245, 247, 255, 0.6);
-        font-size: 12px;
-        letter-spacing: 0.08em;
+      .label {
+        font-size: var(--fs-0);
+        letter-spacing: var(--track-tech);
+        text-transform: uppercase;
+      }
+
+      .accent {
+        color: var(--c-accent);
+      }
+
+      .divider-accent {
+        height: 8px;
+        background: var(--c-accent);
+        border: none;
+        border-radius: var(--radius);
+      }
+
+      .mono {
+        font-family: var(--font-sub-title);
+        letter-spacing: var(--track-tech);
+        text-transform: uppercase;
+      }
+
+      /* =========================
+         Rectangle (placed blocks)
+         =========================
+         Rule:
+         - always 1px #606060 border
+         - default fill: white
+         - can override fill with modifier classes
+      */
+      .rect {
+        border: var(--border);
+        border-radius: var(--radius);
+        background: var(--c-surface);
+      }
+
+      .rect--bg {
+        background: var(--c-bg);
+      }
+
+      .rect--black {
+        background: #000;
+        color: #fff;
+      }
+
+      .rect--accent {
+        background: var(--c-accent);
+        color: #000;
+      }
+
+      .rect--no-left {
+        border-left-color: transparent;
+      }
+
+      /* =========================
+         Debug grid (A-L x 1..)
+         ========================= */
+      .debugGrid {
+        display: grid;
+        grid-template-columns: var(--row-header-w) repeat(12, minmax(0, 1fr));
+        /* rows are set by JS to allow per-row heights */
+        gap: 0;
+        border-top: var(--border);
+        border-left: var(--border);
+        background: var(--c-bg);
+        position: relative;
+        isolation: isolate; /* create a predictable stacking context */
+      }
+
+      .dgCell {
+        border-right: var(--border);
+        border-bottom: var(--border);
+        display: grid;
+        place-items: center;
+        font-family: var(--font-sub-title);
+        letter-spacing: var(--track-tech);
+        text-transform: uppercase;
+        font-size: var(--fs-0);
+        color: rgba(0, 0, 0, 0.72);
+        user-select: none;
+      }
+
+      .dgHead {
+        background: var(--c-bg);
+        color: rgba(0, 0, 0, 0.85);
+      }
+
+      .dgCorner {
+        background: var(--c-bg);
+      }
+
+      .dgRow {
+        background: var(--c-bg);
+      }
+
+      .dgBody {
+        background: var(--c-bg);
+      }
+
+      .dgMerge {
+        background: transparent; /* allow background image behind */
+        font-size: var(--fs-0);
+        color: rgba(0, 0, 0, 0.8);
+        display: block; /* avoid dgCell grid centering behavior */
+        overflow: hidden; /* never bleed outside merged cell */
+      }
+
+      .dgWhite {
+        background: #ffffff;
+      }
+
+      .dgBlack {
+        background: #000000;
+        color: rgba(255, 255, 255, 0.92);
+      }
+
+      .dgClear {
+        background: transparent;
+      }
+
+      .dgBg {
+        position: relative;
+        z-index: -2; /* behind everything */
+        border-right: none;
+        border-bottom: none;
+        padding: 0;
+        overflow: hidden;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      .debugGrid > .dgCell {
+        position: relative;
+        z-index: 0; /* grid lines live here (below overlay rectangles) */
+      }
+
+      .dgOverlay {
+        position: relative;
+        z-index: 2; /* above grid lines */
+        border-right: none;
+        border-bottom: none;
+        padding: 0;
+        background: transparent;
+        pointer-events: none;
+      }
+
+      /* =========================
+         Cell content presets
+         ========================= */
+      .dgMergeContent {
+        width: 100%;
+        height: 100%;
+        padding: var(--merge-pad, 10px); /* default inset */
         display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 10px;
+        align-items: center; /* vertical center */
+        justify-content: flex-start; /* left aligned */
+        box-sizing: border-box;
       }
 
-      @media (max-width: 920px) {
-        .hero-grid {
-          grid-template-columns: 1fr;
-        }
-        .grid-2 {
-          grid-template-columns: 1fr;
-        }
-        .stats {
-          grid-template-columns: 1fr;
-        }
-        .nav a {
-          padding: 6px 8px;
-        }
+      .dgMergeContent--23 {
+        --merge-pad: 23px;
+      }
+
+      .dgMergeContent--23pt {
+        --merge-pad: 23pt;
+      }
+
+      .dgHeroTitle {
+        font-family: var(--font-title);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: var(--track-title);
+        line-height: 0.92;
+        font-size: 84px; /* will be auto-fit by JS */
+        color: var(--c-ink);
+        max-width: 100%;
+      }
+
+      .dgHeroTitle > span {
+        display: block;
+        white-space: nowrap; /* keep exactly 2 lines */
+      }
+
+      .dgInsetRect {
+        width: 100%;
+        height: 100%;
+      }
+
+      .dgOverlayFill {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        display: flex;
+        align-items: stretch;
+        justify-content: flex-start;
+      }
+
+      /* A..E center = 4.5 columns of 5 columns => 90% */
+      .dgRectToEcenter {
+        width: 90%;
+        height: 100%;
       }
     </style>
   </head>
+
   <body>
-    <header>
-      <div class="topbar">
-        <div class="brand">
-          <strong>NOI TATSUZAKI</strong>
-          <span>JAPAN / US</span>
-        </div>
-        <nav class="nav" aria-label="Primary">
-          <a href="/about/">About</a>
-          <a href="/works/">Works</a>
-          <a href="/experience/">Experience</a>
-          <a href="/awards-media/">Awards &amp; Media</a>
-          <a href="/news/">News</a>
-          <a href="/contact/">Contact</a>
-          <a href="/admin/">Admin</a>
-        </nav>
-      </div>
-    </header>
+    <main class="page">
+      <div class="debugGrid" id="debugGrid" aria-label="Grid address map"></div>
+    </main>
 
-    <div class="wrap">
-      <div class="hero">
-        <div class="hero-grid">
-          <div class="card hero-name">
-            <div class="kicker">Robotics Design /// Mechanical Engineering</div>
-            <h1 class="title">
-              <span class="accent">BUILDING</span><br />
-              THE FUTURE.
-            </h1>
-            <p class="subtitle">
-              Building robots, systems, and future concepts driven by curiosity.
-            </p>
-            <div class="ticker" aria-label="Core focus">
-              <span class="pill">robotics design</span>
-              <span class="dot" aria-hidden="true"></span>
-              <span class="pill">mechanical engineering</span>
-              <span class="dot" aria-hidden="true"></span>
-              <span class="pill">startups</span>
-              <span class="dot" aria-hidden="true"></span>
-              <span class="pill">prototyping</span>
-            </div>
-            <div class="stats" aria-label="Highlights">
-              <div class="stat">
-                <strong>10+</strong>
-                <span>years in robotics</span>
-              </div>
-              <div class="stat">
-                <strong>280+</strong>
-                <span>media appearances</span>
-              </div>
-              <div class="stat">
-                <strong>5+</strong>
-                <span>projects</span>
-              </div>
-            </div>
-          </div>
+    <script>
+      (function () {
+        const COLS = 12; // A-L
+        const ROWS = 27; // extended as needed
+        const BASE_ROW_PX = 56; // 7 * 8 (8px system)
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").slice(0, COLS);
 
-          <aside class="card identity" aria-label="Profile summary">
-            <h2>NOI</h2>
-            <p class="big">TATSUZAKI</p>
-            <div class="meta">
-              LINOA Co., Ltd. | Stevens Institute of Technology | ADvance Lab |
-              ADvance Campus | Forbes JAPAN 30 UNDER 30 2022
-            </div>
-            <div class="buttons">
-              <a class="btn primary" href="/works/">Featured Works</a>
-              <a class="btn" href="/contact/">Contact</a>
-            </div>
-          </aside>
-        </div>
-      </div>
+        const root = document.getElementById("debugGrid");
+        if (!root) return;
 
-      <main>
-        <section class="card" aria-label="Why I build">
-          <h2>Why I build</h2>
-          <p class="subtitle" style="margin-top: 0">
-            Curiosity-driven making — from concept to prototype to real-world
-            systems. I aim to build tools that expand what people can do.
-          </p>
-        </section>
+        // Row height rules (Excel-like row numbers):
+        // - Row 1: base * 5
+        // - Row 2: base * 2
+        // - Row 4: base * 2.5
+        // - Others: base
+        const multiplierByRow = new Map([
+          [1, 5],
+          [2, 2],
+          [4, 2.5],
+          [6, 1.8],
+          [7, 2],
+          [8, 2],
+          [10, 4],
+          [12, 5],
+          [15, 4],
+          [17, 5],
+          [19, 2],
+          [20, 5],
+          [21, 1.5],
+          [22, 3.5],
+          [24, 2],
+          [26, 7],
+        ]);
 
-        <div class="grid-2">
-          <section class="card" aria-label="Featured works">
-            <h2>Featured works</h2>
-            <ul class="list">
-              <li class="row">
-                <div class="top">
-                  <strong>BOAT RACE PROJECT</strong>
-                  <a href="/works/" aria-label="View all works">View all →</a>
-                </div>
-                <p>
-                  A featured project highlight. Details and case studies live in
-                  the Works page.
-                </p>
-              </li>
-              <li class="row">
-                <div class="top">
-                  <strong>More projects</strong>
-                  <span style="color: rgba(245, 247, 255, 0.5)">→</span>
-                </div>
-                <p>
-                  Add/update entries under `content/works/` and surface them
-                  here later.
-                </p>
-              </li>
-            </ul>
-          </section>
+        const rowHeights = [`${BASE_ROW_PX}px`]; // header row (A-L)
+        for (let r = 1; r <= ROWS; r++) {
+          const mul = multiplierByRow.get(r) ?? 1;
+          rowHeights.push(`${BASE_ROW_PX * mul}px`);
+        }
+        root.style.gridTemplateRows = rowHeights.join(" ");
 
-          <section class="card" aria-label="Experience">
-            <h2>Experience</h2>
-            <ul class="list">
-              <li class="row">
-                <div class="top">
-                  <strong>Founder &amp; CEO — LINOA Co., Ltd.</strong>
-                  <time>2024 - Present</time>
-                </div>
-              </li>
-              <li class="row">
-                <div class="top">
-                  <strong>Co-founder — ADvance Lab</strong>
-                  <time>2024</time>
-                </div>
-              </li>
-              <li class="row">
-                <div class="top">
-                  <strong>Mechanical Engineer Intern — Eco-Pork</strong>
-                  <time>2023 - 2024</time>
-                </div>
-              </li>
-              <li class="row">
-                <div class="top">
-                  <strong>Hardware Leader / Team Captain — FRC 6909</strong>
-                  <time>2018 - 2023</time>
-                </div>
-              </li>
-            </ul>
-            <div class="buttons" style="margin-top: 12px">
-              <a class="btn" href="/experience/">Full timeline</a>
-            </div>
-          </section>
-        </div>
+        const frag = document.createDocumentFragment();
 
-        <div class="grid-2">
-          <section class="card" aria-label="Awards and media">
-            <h2>Awards</h2>
-            <ul class="list">
-              <li class="row">
-                <div class="top">
-                  <strong>Forbes JAPAN 30 UNDER 30</strong>
-                  <time>2022</time>
-                </div>
-              </li>
-              <li class="row">
-                <div class="top">
-                  <strong>Masason Foundation Scholar</strong>
-                  <time>—</time>
-                </div>
-              </li>
-              <li class="row">
-                <div class="top">
-                  <strong>Dean’s List Finalist Award (FRC)</strong>
-                  <time>—</time>
-                </div>
-              </li>
-              <li class="row">
-                <div class="top">
-                  <strong>Chairman’s Award (FRC)</strong>
-                  <time>—</time>
-                </div>
-              </li>
-              <li class="row">
-                <div class="top">
-                  <strong>➚ Media recognition</strong>
-                  <a href="/awards-media/">View →</a>
-                </div>
-                <p>
-                  Disney+ Documentary: Featured in “More Than Robots” / Lenovo
-                  New Realities / 280+ Media Appearances
-                </p>
-              </li>
-            </ul>
-          </section>
+        const makeCell = (cls, text) => {
+          const el = document.createElement("div");
+          el.className = cls;
+          if (text !== undefined) el.textContent = text;
+          return el;
+        };
 
-          <section class="card" aria-label="Latest news">
-            <h2>Latest news</h2>
-            <ul class="list">
-              <li class="row">
-                <div class="top">
-                  <strong>BOAT RACE PROJECT</strong>
-                  <a href="/news/">View all →</a>
-                </div>
-                <p>
-                  Latest update placeholder. Add actual posts under
-                  `content/news/` later.
-                </p>
-              </li>
-              <li class="row">
-                <div class="top">
-                  <strong>News item</strong>
-                  <span style="color: rgba(245, 247, 255, 0.5)">→</span>
-                </div>
-                <p>Short summary goes here.</p>
-              </li>
-            </ul>
-          </section>
-        </div>
+        const colIndex = (letter) => {
+          const idx = letters.indexOf(letter.toUpperCase());
+          if (idx < 0) throw new Error(`Invalid column: ${letter}`);
+          return idx + 1; // 1..12
+        };
 
-        <section class="card cta" aria-label="Call to action">
-          <h2>Let’s build</h2>
-          <h3>
-            LET’S BUILD<br />
-            <span class="accent" style="background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; color: transparent;">THE FUTURE</span><br />
-            TOGETHER.
-          </h3>
-          <p>
-            Collaboration, speaking, and project inquiries are welcome. Reach
-            out anytime.
-          </p>
-          <div class="buttons">
-            <a class="btn primary" href="/contact/">Contact</a>
-            <a class="btn" href="/works/">See works</a>
-          </div>
-        </section>
+        const parseRef = (ref) => {
+          const m = String(ref).trim().match(/^(\d+)([A-Za-z])$/);
+          if (!m) throw new Error(`Invalid ref: ${ref}`);
+          return { row: Number(m[1]), col: colIndex(m[2]) };
+        };
 
-        <footer>
-          <div>© 2026 NOI TATSUZAKI. All rights reserved.</div>
-          <div>
-            <a href="/admin/">Admin</a>
-          </div>
-        </footer>
-      </main>
-    </div>
+        const mergeSpecs = [
+          {
+            from: "1A",
+            to: "1F",
+            cls: "dgWhite",
+            html:
+              '<div class="dgMergeContent dgMergeContent--23pt"><div class="dgHeroTitle" data-fit="hero-title"><span>BUILDING</span><span>THE FUTURE.</span></div></div>',
+          },
+          { from: "1G", to: "2I", cls: "" },
+          { from: "1J", to: "2L", cls: "" },
+          { from: "2A", to: "2F", cls: "" },
+          { from: "3A", to: "3L", cls: "dgBlack" },
+          { from: "4A", to: "4D", cls: "dgWhite" },
+          { from: "4E", to: "4H", cls: "dgWhite" },
+          { from: "4I", to: "4L", cls: "dgWhite" },
+          { from: "5A", to: "5C", cls: "" },
+          { from: "5D", to: "5F", cls: "" },
+          { from: "5G", to: "5I", cls: "" },
+          { from: "5J", to: "5L", cls: "" },
+          { from: "6A", to: "6F", cls: "dgWhite" },
+          { from: "6G", to: "6I", cls: "" },
+          { from: "6J", to: "6L", cls: "" },
+          { from: "7A", to: "8C", cls: "" },
+          { from: "7D", to: "8F", cls: "" },
+          { from: "7G", to: "7I", cls: "dgWhite" },
+          { from: "7J", to: "7L", cls: "dgWhite" },
+          { from: "8G", to: "8I", cls: "dgWhite" },
+          { from: "8J", to: "8L", cls: "dgWhite" },
+          { from: "9A", to: "13C", cls: "" },
+          { from: "9D", to: "13F", cls: "" },
+          { from: "9G", to: "13I", cls: "" },
+          { from: "9J", to: "13L", cls: "" },
+          { from: "14A", to: "18C", cls: "" },
+          { from: "14D", to: "18F", cls: "" },
+          { from: "14G", to: "18I", cls: "" },
+          { from: "14J", to: "18L", cls: "" },
+          { from: "19A", to: "19C", cls: "dgWhite" },
+          { from: "20A", to: "20C", cls: "" },
+          { from: "19D", to: "20L", cls: "" },
+          { from: "21A", to: "22F", cls: "" },
+          { from: "21G", to: "22L", cls: "" },
+          { from: "23A", to: "23C", cls: "" },
+          { from: "23D", to: "23F", cls: "" },
+          { from: "23G", to: "23I", cls: "" },
+          { from: "23J", to: "23L", cls: "" },
+          { from: "24A", to: "24F", cls: "dgWhite" },
+          { from: "24G", to: "24I", cls: "" },
+          { from: "24J", to: "24L", cls: "" },
+          { from: "25A", to: "27C", cls: "" },
+          { from: "25D", to: "27F", cls: "" },
+          { from: "25G", to: "27I", cls: "" },
+          { from: "25J", to: "27L", cls: "" },
+        ];
+
+        const covered = new Set();
+        const key = (r, c) => `${r}:${c}`;
+        const inRange = (r, c, r1, c1, r2, c2) =>
+          r >= r1 && r <= r2 && c >= c1 && c <= c2;
+
+        const bgSpecs = [
+          { from: "9A", to: "13L", img: "public/images/featured-works.png" },
+          { from: "14A", to: "18L", img: "public/images/bg-purple.png" },
+        ];
+
+        const overlayRects = [
+          {
+            from: "1G",
+            to: "2L",
+            html:
+              '<div class="dgMergeContent dgMergeContent--23"><div class="rect dgInsetRect"></div></div>',
+          },
+          {
+            from: "2A",
+            to: "2F",
+            html:
+              '<div class="dgMergeContent dgMergeContent--23"><div class="rect dgInsetRect"></div></div>',
+          },
+          {
+            from: "10A",
+            to: "10E",
+            html:
+              '<div class="dgOverlayFill"><div class="rect rect--no-left dgRectToEcenter"></div></div>',
+          },
+          {
+            from: "15A",
+            to: "15E",
+            html:
+              '<div class="dgOverlayFill"><div class="rect rect--no-left dgRectToEcenter"></div></div>',
+          },
+        ];
+
+        // headers
+        const corner = makeCell("dgCell dgHead dgCorner", "");
+        corner.style.gridRow = "1";
+        corner.style.gridColumn = "1";
+        frag.appendChild(corner);
+
+        for (let c = 1; c <= COLS; c++) {
+          const el = makeCell("dgCell dgHead", letters[c - 1]);
+          el.style.gridRow = "1";
+          el.style.gridColumn = String(1 + c); // + row header column
+          frag.appendChild(el);
+        }
+
+        for (let r = 1; r <= ROWS; r++) {
+          const el = makeCell("dgCell dgHead dgRow", String(r));
+          el.style.gridRow = String(1 + r); // + header row
+          el.style.gridColumn = "1";
+          frag.appendChild(el);
+        }
+
+        // background images (behind grid lines)
+        for (const bg of bgSpecs) {
+          const a = parseRef(bg.from);
+          const b = parseRef(bg.to);
+          const r1 = Math.min(a.row, b.row);
+          const r2 = Math.max(a.row, b.row);
+          const c1 = Math.min(a.col, b.col);
+          const c2 = Math.max(a.col, b.col);
+
+          const el = makeCell("dgBg", "");
+          el.style.gridRow = `${1 + r1} / ${1 + r2 + 1}`;
+          el.style.gridColumn = `${1 + c1} / ${1 + c2 + 1}`;
+          el.style.backgroundImage = `url("${bg.img}")`;
+          frag.appendChild(el);
+        }
+
+        // overlay rectangles (above cell fills, below grid lines)
+        for (const ov of overlayRects) {
+          const a = parseRef(ov.from);
+          const b = parseRef(ov.to);
+          const r1 = Math.min(a.row, b.row);
+          const r2 = Math.max(a.row, b.row);
+          const c1 = Math.min(a.col, b.col);
+          const c2 = Math.max(a.col, b.col);
+
+          const el = makeCell("dgOverlay", "");
+          el.style.gridRow = `${1 + r1} / ${1 + r2 + 1}`;
+          el.style.gridColumn = `${1 + c1} / ${1 + c2 + 1}`;
+          el.innerHTML = ov.html;
+          frag.appendChild(el);
+        }
+
+        // merges
+        for (const spec of mergeSpecs) {
+          const a = parseRef(spec.from);
+          const b = parseRef(spec.to);
+          const r1 = Math.min(a.row, b.row);
+          const r2 = Math.max(a.row, b.row);
+          const c1 = Math.min(a.col, b.col);
+          const c2 = Math.max(a.col, b.col);
+
+          for (let r = r1; r <= r2; r++) {
+            for (let c = c1; c <= c2; c++) covered.add(key(r, c));
+          }
+
+          const el = makeCell(`dgCell dgMerge ${spec.cls}`.trim(), "");
+          if (spec.html) {
+            el.innerHTML = spec.html;
+          } else {
+            el.textContent = `${spec.from}:${spec.to}`;
+          }
+          el.style.gridRow = `${1 + r1} / ${1 + r2 + 1}`;
+          el.style.gridColumn = `${1 + c1} / ${1 + c2 + 1}`;
+          frag.appendChild(el);
+        }
+
+        // remaining body cells
+        for (let r = 1; r <= ROWS; r++) {
+          for (let c = 1; c <= COLS; c++) {
+            if (covered.has(key(r, c))) continue;
+            let cls = "dgCell dgBody";
+            const clearRanges = [
+              ...bgSpecs.map((x) => ({ from: x.from, to: x.to })),
+              ...overlayRects.map((x) => ({ from: x.from, to: x.to })),
+            ];
+            for (const cr of clearRanges) {
+              const a = parseRef(cr.from);
+              const b = parseRef(cr.to);
+              const r1 = Math.min(a.row, b.row);
+              const r2 = Math.max(a.row, b.row);
+              const c1 = Math.min(a.col, b.col);
+              const c2 = Math.max(a.col, b.col);
+              if (inRange(r, c, r1, c1, r2, c2)) {
+                cls += " dgClear";
+                break;
+              }
+            }
+            const el = makeCell(cls, "");
+            el.style.gridRow = String(1 + r);
+            el.style.gridColumn = String(1 + c);
+            frag.appendChild(el);
+          }
+        }
+
+        root.appendChild(frag);
+
+        const fitText = (el) => {
+          const box = el.closest(".dgMergeContent");
+          if (!box) return;
+
+          const max = 140;
+          const min = 18;
+
+          // available size inside padding
+          const padL = parseFloat(getComputedStyle(box).paddingLeft) || 0;
+          const padR = parseFloat(getComputedStyle(box).paddingRight) || 0;
+          const padT = parseFloat(getComputedStyle(box).paddingTop) || 0;
+          const padB = parseFloat(getComputedStyle(box).paddingBottom) || 0;
+          const availW = box.clientWidth - padL - padR;
+          const availH = box.clientHeight - padT - padB;
+          if (availW <= 0 || availH <= 0) return;
+
+          // binary search font-size so it fits both width and height
+          let lo = min;
+          let hi = max;
+          let best = min;
+
+          const fits = (px) => {
+            el.style.fontSize = `${px}px`;
+            const spans = Array.from(el.querySelectorAll("span"));
+            if (spans.length === 0) return false;
+            const lineMaxW = Math.max(
+              ...spans.map((s) => s.getBoundingClientRect().width)
+            );
+            const h = el.getBoundingClientRect().height;
+            // small safety margin to avoid 1px overflow due to subpixel rounding
+            return lineMaxW <= availW - 1 && h <= availH - 1;
+          };
+
+          while (lo <= hi) {
+            const mid = Math.floor((lo + hi) / 2);
+            if (fits(mid)) {
+              best = mid;
+              lo = mid + 1;
+            } else {
+              hi = mid - 1;
+            }
+          }
+
+          el.style.fontSize = `${best}px`;
+        };
+
+        const fitAll = () => {
+          document
+            .querySelectorAll('[data-fit="hero-title"]')
+            .forEach((el) => fitText(el));
+        };
+
+        fitAll();
+        window.addEventListener("resize", fitAll, { passive: true });
+      })();
+    </script>
   </body>
 </html>
