@@ -7,7 +7,7 @@
   --grid-columns: 12; /* enables 4-up (span 3) and 3-up (span 4) */
   --grid-gap: 0px; /* no gaps; use 1px lines instead */
   --content-max: 1200px; /* caps width on ultrawide screens */
-  --row-header-w: 48px;
+  --row-header-w: 0px; /* hide 123... header column */
   --site-header-h: calc(56px * 1.3);
   --site-footer-h: calc(56px * 7);
 
@@ -121,6 +121,58 @@ body {
   align-items: center;
 }
 
+.siteHeaderHomeLink {
+  font-family: var(--font-name);
+  font-weight: 800;
+  letter-spacing: var(--track-title);
+  text-transform: uppercase;
+  line-height: var(--lh-tight);
+  font-size: calc(20px * 2.5 * 0.9);
+  color: var(--c-ink);
+  white-space: nowrap; /* single-line in header */
+  text-decoration: none;
+}
+
+.siteFooterTagline {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 84px; /* same base as hero title */
+  letter-spacing: var(--track-title);
+  line-height: 1.196;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.siteFooterTagline > span {
+  display: block;
+  white-space: nowrap;
+}
+
+.siteFooter__inner {
+  position: relative;
+  align-items: flex-start;
+}
+
+.siteFooterCopyright {
+  position: absolute;
+  right: 0;
+  bottom: 16px;
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2;
+  color: #fff;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.siteHeaderHomeLink:hover,
+.siteHeaderHomeLink:focus,
+.siteHeaderHomeLink:active,
+.siteHeaderHomeLink:visited {
+  text-decoration: none;
+}
+
 .siteHeader__inner {
   min-height: var(--site-header-h);
 }
@@ -149,8 +201,8 @@ a:hover {
   margin: 0 auto;
   padding-left: var(--page-gutter);
   padding-right: var(--page-gutter);
-  padding-top: var(--space-3);
-  padding-bottom: var(--space-10);
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .grid {
@@ -296,7 +348,7 @@ a:hover {
   grid-template-columns: var(--row-header-w) repeat(12, minmax(0, 1fr));
   /* rows are set by JS to allow per-row heights */
   gap: 0;
-  border-top: var(--border);
+  border-top: none; /* hide row 1 top edge */
   border-left: var(--border);
   background: var(--c-bg);
   position: relative;
@@ -313,12 +365,17 @@ a:hover {
   text-transform: uppercase;
   font-size: var(--fs-0);
   color: rgba(0, 0, 0, 0.72);
-  user-select: none;
+  user-select: text;
+}
+
+.dgNoBottomEdge {
+  border-bottom: none;
 }
 
 .dgHead {
   background: var(--c-bg);
   color: rgba(0, 0, 0, 0.85);
+  display: none; /* hide old A..L / 1.. headers completely */
 }
 
 .dgCorner {
@@ -401,7 +458,25 @@ a:hover {
   width: calc((100% - 140px) / 3);
 }
 
+.js-carousel26 .swiper-wrapper {
+  height: 100%;
+  align-items: stretch;
+}
+
+.js-carousel26 .swiper-slide {
+  /* 26A:26L
+     - box1 left and box2 right inset: 40px each
+     - box1 center at C|D and box2 center at I|J
+     -> width = 50% - 80px, gap = 80px
+  */
+  width: calc(50% - 80px);
+}
+
 .dgCarouselSlide {
+  position: relative;
+  --work-pad: 16px;
+  --work-img-w: calc(100% - (var(--work-pad) * 2));
+  --work-img-h: calc(var(--work-img-w) * 3 / 4); /* keep 4:3 */
   height: 100%;
   background: #fff;
   border: 1px solid #606060;
@@ -415,6 +490,136 @@ a:hover {
   color: #000;
 }
 
+.dgCarouselWorkImg {
+  position: absolute;
+  top: var(--work-pad); /* share top-left anchor with corner dot */
+  left: var(--work-pad);
+  width: var(--work-img-w); /* equal left/right padding */
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 50px;
+  border: 1px solid #606060;
+  box-sizing: border-box;
+  display: block;
+}
+
+.dgCarouselWorkCaptionArea {
+  position: absolute;
+  top: calc(var(--work-pad) + var(--work-img-h));
+  left: var(--work-pad);
+  width: var(--work-img-w); /* match image width */
+  bottom: 0;
+  display: flex;
+  align-items: center; /* equal top/bottom space in remaining area */
+  justify-content: center;
+}
+
+.dgCarouselWorkCaption {
+  font-family: var(--font-sub-title);
+  font-weight: 700;
+  font-size: 22px;
+  color: #000;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.dgCarousel26Slide {
+  height: 100%;
+  background: var(--c-bg);
+  border-bottom: var(--border);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-family: var(--font-sub-title);
+  font-weight: 700;
+  letter-spacing: var(--track-tech);
+  text-transform: uppercase;
+  color: #000;
+  overflow: hidden;
+}
+
+.dgCarousel26Card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.dgCarousel26Img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.dgCarousel26ImgFrame {
+  position: relative;
+  width: 100%;
+  border: 1px solid #606060;
+  box-sizing: border-box;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 0;
+  overflow: hidden;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 16px),
+    calc(100% - 16px) 100%,
+    0 100%
+  );
+}
+
+.dgCarousel26ImgFrame::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 23px; /* covers 16px chamfer with border thickness */
+  height: 1px;
+  background: #606060;
+  transform: rotate(-45deg);
+  transform-origin: right center;
+  pointer-events: none;
+}
+
+.dgCarousel26Meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly; /* vertical even spacing */
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.dgCarousel26Title {
+  font-family: var(--font-sub-title);
+  font-weight: 700;
+  font-size: calc(16px * 1.5);
+  color: #000;
+  text-align: left;
+  line-height: 1.2;
+  text-transform: none;
+}
+
+.dgCarousel26Date {
+  font-family: var(--font-text);
+  font-weight: 500;
+  font-size: 14px;
+  color: #000;
+  text-align: right;
+  line-height: 1.2;
+}
+
 /* =========================
    Cell content presets
    ========================= */
@@ -426,6 +631,7 @@ a:hover {
   align-items: center; /* vertical center */
   justify-content: flex-start; /* left aligned */
   box-sizing: border-box;
+  position: relative;
 }
 
 .dgMergeContent--23 {
@@ -441,6 +647,47 @@ a:hover {
 
 .dgMergeContent--23pt {
   --merge-pad: 23pt;
+}
+
+.dgMergeContent--viewAll {
+  --merge-pad: 0px;
+  padding: 0 0 0 30px; /* 30px from left edge */
+  align-items: center; /* vertical center */
+  justify-content: flex-start;
+}
+
+.dgViewAllCluster {
+  --viewall-box-h: 42px;
+  display: inline-flex;
+  align-items: flex-start; /* top corners align */
+}
+
+.dgViewAllBox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: max-content; /* fit to text width */
+  min-height: var(--viewall-box-h);
+  padding: 0 14px;
+  background: #fff;
+  border: 1px solid #606060;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  margin: 0;
+  outline: none;
+  text-align: inherit;
+}
+
+.dgViewAllText {
+  font-family: var(--font-sub-title);
+  font-weight: 500; /* medium */
+  font-size: 20px;
+  line-height: 1;
+  color: #000;
+  white-space: nowrap;
+  text-transform: none;
 }
 
 .dgMergeContent--10 {
@@ -491,6 +738,116 @@ a:hover {
   white-space: nowrap;
 }
 
+.dgCornerDot {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 8px;
+  height: 8px;
+  background: #000;
+}
+
+.dgSkillPillsArea {
+  position: absolute;
+  top: 28px; /* start from heading bottom */
+  left: 16px;
+  right: 16px;
+  bottom: 0;
+  display: flex;
+  align-items: center; /* center between heading-bottom and box-bottom */
+  justify-content: flex-start;
+}
+
+.dgSkillPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  row-gap: 8px;
+  justify-content: flex-start;
+  align-content: flex-start;
+  max-height: 56px; /* two rows baseline */
+  overflow: hidden;
+}
+
+.dgSkillPill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border: 1px solid #606060;
+  border-radius: 9999px;
+  background: transparent;
+  font-family: var(--font-text);
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 1;
+  color: #000;
+  white-space: nowrap;
+}
+
+.dgSkillHeading {
+  position: absolute;
+  top: 20px; /* aligned with corner dot center */
+  right: 16px;
+  transform: translateY(-50%);
+  font-family: var(--font-sub-title);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  color: #000;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.dgImageCorners {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    /* top-left */ linear-gradient(var(--c-bg), var(--c-bg)) left 16px top 16px / 10px 3px no-repeat,
+    linear-gradient(var(--c-bg), var(--c-bg)) left 16px top 16px / 3px 10px no-repeat,
+    /* top-right */ linear-gradient(var(--c-bg), var(--c-bg)) right 16px top 16px / 10px 3px no-repeat,
+    linear-gradient(var(--c-bg), var(--c-bg)) right 16px top 16px / 3px 10px no-repeat,
+    /* bottom-left */ linear-gradient(var(--c-bg), var(--c-bg)) left 16px bottom 16px / 10px 3px no-repeat,
+    linear-gradient(var(--c-bg), var(--c-bg)) left 16px bottom 16px / 3px 10px no-repeat,
+    /* bottom-right */ linear-gradient(var(--c-bg), var(--c-bg)) right 16px bottom 16px / 10px 3px no-repeat,
+    linear-gradient(var(--c-bg), var(--c-bg)) right 16px bottom 16px / 3px 10px no-repeat;
+}
+
+.dgImageCorners--portrait {
+  inset: auto;
+  top: 0;
+  left: 0;
+  width: 160px;
+  height: 160px;
+}
+
+.dgStat {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px; /* line gap */
+}
+
+.dgStat__big {
+  font-family: var(--font-sub-title);
+  font-weight: 700; /* bold */
+  font-size: 35px;
+  line-height: 1;
+  color: var(--c-accent); /* blue */
+}
+
+.dgStat__small {
+  font-family: var(--font-sub-title);
+  font-weight: 400; /* regular */
+  font-size: 18px;
+  line-height: 1.1;
+  color: #000;
+}
+
 .dgBadge {
   position: absolute;
   top: 23px;
@@ -515,6 +872,33 @@ a:hover {
   line-height: 1;
   white-space: nowrap;
   max-width: 100%;
+}
+
+.dgCoreSkills {
+  width: 100%;
+  font-family: var(--font-title);
+  font-weight: 700; /* bold */
+  letter-spacing: var(--track-title);
+  text-transform: uppercase;
+  color: #000;
+  text-align: center;
+  line-height: 1;
+}
+
+.dgCoreSkills > span {
+  display: block;
+  white-space: nowrap;
+}
+
+.dgSampleText {
+  margin: 0;
+  width: 100%;
+  font-family: var(--font-text);
+  font-weight: 400; /* regular */
+  font-size: calc(18px * 0.7);
+  line-height: 1.4;
+  color: #000;
+  text-align: left;
 }
 
 .dgMergeContent--marquee {
@@ -546,6 +930,7 @@ a:hover {
   color: #fff;
   font-size: calc(28px * 0.7);
   line-height: 1;
+  transform: translateY(3px);
 }
 
 @keyframes dgMarqueeScroll {
@@ -633,6 +1018,43 @@ a:hover {
   white-space: nowrap; /* keep each line unbroken */
 }
 
+.dgPortraitBelow {
+  position: absolute;
+  top: 160px; /* below photo */
+  left: 0;
+  width: 100%; /* span full inner white rectangle width */
+  height: calc(100% - 160px);
+  padding: 10px; /* >=10px from inner white rectangle perimeter */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly; /* evenly in vertical direction */
+  align-items: flex-start;
+  text-align: left;
+  gap: 0;
+  overflow: hidden;
+}
+
+.dgPortraitBelow__a {
+  font-family: var(--font-sub-title);
+  font-weight: 700; /* bold */
+  font-size: 20px;
+  line-height: 1.2;
+  color: #000;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.dgPortraitBelow__b {
+  font-family: var(--font-text);
+  font-weight: 300; /* light */
+  font-size: 18px;
+  line-height: 1.2;
+  color: #000;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
 .dgOverlayFill {
   width: 100%;
   height: 100%;
@@ -650,6 +1072,197 @@ a:hover {
 .dgOverlayCard .dgMergeContent {
   position: absolute;
   inset: 0;
+}
+
+.dgOverlayAnchorTopRight {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.dgWhiteCornerRect {
+  position: absolute;
+  top: 0;
+  right: 48px; /* align white top-right to black top-left */
+  width: 144px;
+  height: 120px;
+  background: #fff;
+  border: 1px solid #606060;
+  box-sizing: border-box;
+  padding: 10px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  margin: 0;
+  outline: none;
+  text-align: inherit;
+}
+
+.dgWhiteRectText {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.dgWhiteRectText__top {
+  width: 100%;
+  font-family: var(--font-sub-title);
+  font-weight: 500; /* medium */
+  color: #000;
+  line-height: 1;
+  letter-spacing: 0.1em; /* 10% */
+  white-space: nowrap; /* must stay single-line */
+}
+
+.dgWhiteRectText__bottom {
+  width: 100%;
+  font-family: var(--font-title);
+  font-weight: 900; /* black */
+  color: #000;
+  font-size: calc(34px * 1.6);
+  line-height: 1;
+}
+
+.dgExperienceList {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dgExperienceRow {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 14px;
+  align-items: start; /* keep year and role aligned at same height */
+  align-content: center; /* center the whole content block between separators */
+  border-bottom: 1px solid #606060;
+}
+
+.dgExperienceRow:last-child {
+  border-bottom: none;
+}
+
+.dgExperienceYear,
+.dgExperienceRole,
+.dgExperienceCompany {
+  font-family: var(--font-sub-title);
+  font-size: 15px; /* same size for all */
+  color: #000;
+  line-height: 1.15;
+}
+
+.dgExperienceYear,
+.dgExperienceRole {
+  font-weight: 700; /* bold */
+  text-transform: uppercase;
+}
+
+.dgExperienceCompany {
+  font-weight: 300; /* light */
+  text-transform: none; /* keep lowercase characters */
+}
+
+.dgExperienceMain {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.dgAwardsPanel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 65%; /* center of row 22 within merged rows 21-22 */
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+.dgAwardsList {
+  margin: 0;
+  padding-left: 20px;
+  width: 100%;
+  font-family: var(--font-sub-title);
+  font-size: 15px;
+  line-height: 1.8;
+  color: #000;
+  text-align: left;
+  text-transform: none;
+}
+
+.dgAwardsList li {
+  margin: 0;
+}
+
+.dgAwardsList__bold {
+  font-weight: 700;
+}
+
+.dgAwardsList__light {
+  font-weight: 200; /* extra light */
+}
+
+.dgBlackCornerSquare {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 48px;
+  height: 48px;
+  background: #000;
+  border: 1px solid #606060;
+  border-left: none;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  outline: none;
+}
+
+.dgBlackCornerSquare--inline {
+  position: static;
+  width: var(--viewall-box-h);
+  height: var(--viewall-box-h);
+}
+
+.dgBlackCornerSquare--inline .dgBlackCornerArrow {
+  font-size: calc(var(--viewall-box-h) * 0.5);
+}
+
+.dgBlackCornerSquare:hover,
+.dgBlackCornerSquare:focus-visible {
+  background: var(--c-accent);
+}
+
+.dgWhiteCornerRect:hover + .dgBlackCornerSquare,
+.dgWhiteCornerRect:focus-within + .dgBlackCornerSquare,
+.dgViewAllBox:hover + .dgBlackCornerSquare,
+.dgViewAllBox:focus-within + .dgBlackCornerSquare {
+  background: var(--c-accent);
+}
+
+.dgBlackCornerArrow {
+  font-family: "Handjet", system-ui, sans-serif;
+  font-weight: 900; /* black */
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
 }
 
 /* A..E center = 4.5 columns of 5 columns => 90% */

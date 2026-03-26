@@ -1,0 +1,81 @@
+{
+  "heroTitleLines": ["BUILDING", "THE FUTURE."],
+  "marqueeItems": [
+    "ROBOTICS DESIGN",
+    "MECHANICAL ENGINEERING",
+    "STARTUPS",
+    "PROTOTYPING"
+  ],
+  "stats": [
+    { "big": "10+", "small": "YEARS IN ROBOTICS" },
+    { "big": "280+", "small": "MEDIA APPEARANCES" },
+    { "big": "5+", "small": "PROJECTS" }
+  ],
+  "whyBuild": "WHY I BUILD",
+  "coreSkillsLabel": "CORE SKILLS:",
+  "sampleText": "this is a sample text block for layout testing. it demonstrates readable body copy inside the grid area. this is a sample text block for layout testing. it demonstrates readable body copy inside the grid area. this is a sample text block for layout testing. it demonstrates readable body copy inside the grid area.",
+  "skills": {
+    "leftTop": {
+      "heading": "MECHANICAL DESIGN",
+      "pills": ["Autodesk Fusion", "SolidWorks", "3D Printing"]
+    },
+    "rightTop": {
+      "heading": "PROGRAMMING",
+      "pills": ["C / C++", "Python", "Java", "JavaScript"]
+    },
+    "leftBottom": {
+      "heading": "ROBOTICS & HARDWARE",
+      "pills": ["Arduino", "ESP32", "MQTT", "Sensors", "PID Control"]
+    },
+    "rightBottom": {
+      "heading": "LANGUAGES",
+      "pills": ["Japanese (Native)", "English (Fluent)"]
+    }
+  },
+  "featuredWorksLines": ["FEATURED", "WORKS"],
+  "featuredProjectsLines": ["FEATURED", "PROJECTS"],
+  "experienceTitle": "EXPERIENCE",
+  "experienceRows": [
+    { "year": "2024 - Present", "role": "FOUNDER & CEO", "company": "LINOA Co., Ltd." },
+    { "year": "2024 - Present", "role": "CO-FOUNDER", "company": "ADvance Lab" },
+    { "year": "2024", "role": "MECHANICAL ENGINEER INTERN", "company": "Eco-Pork" },
+    { "year": "2023 - 2024", "role": "MOLTING GENERATOR", "company": "Leave a Nest" },
+    { "year": "2018 - 2023", "role": "HARDWARE LEADER / TEAM CAPTAIN", "company": "FRC TEAM 6909 SAKURA TEMPESTA" }
+  ],
+  "awardsTitle": "AWARDS",
+  "awardsRows": [
+    { "bold": "Forbes JAPAN 30 UNDER 30 2022" },
+    { "bold": "Masason Foundation ", "light": "Scholar" },
+    { "bold": "Dean's List Finalist Award ", "light": "(FIRST Robotics Competition)" },
+    { "bold": "Chairman's Award ", "light": "(FIRST Robotics Competition)" }
+  ],
+  "mediaTitle": "MEDIA RECOGNITION",
+  "mediaRows": [
+    { "bold": "Disney+ Documentary: Featured in \"More Than Robots\"" },
+    { "bold": "Lenovo New Realities" },
+    { "bold": "280+ Media Appearances" }
+  ],
+  "latestNews": "LATEST NEWS",
+  "viewAllLabel": "View all",
+  "allWorks": { "label": "All Works", "count": "15" },
+  "allProjects": { "label": "All Projects", "count": "10" },
+  "profile": {
+    "nameLines": ["NOI", "TATSUZAKI"],
+    "bioTop": "Building robots, systems, and future concepts driven by curiosity.",
+    "bioBottom": "LINOA Co., Ltd. | Stevens Institute of Technology | ADvance Lab | ADvance Campus | Forbes JAPAN 30 UNDER 30 2022"
+  },
+  "carousel": {
+    "worksCaption": "SAMPLE WORKS TITLE",
+    "projectsCaption": "SAMPLE PROJECT TITLE",
+    "newsTitle": "Sample article title",
+    "newsDate": "YYYY/MM/DD"
+  },
+  "images": {
+    "worksCard": "public/images/sample-works.png",
+    "newsCard": "public/images/sample-news.png",
+    "portrait": "public/images/noi-portrait.png",
+    "bgFeatured": "public/images/featured-works.png",
+    "bgPurple": "public/images/bg-purple.png",
+    "bgSkillPhoto": "file:///C:/Users/noifu/.cursor/projects/c-Users-noifu-OneDrive-GitHub-portfolio/assets/c__Users_noifu_AppData_Roaming_Cursor_User_workspaceStorage_c4458fd55862ea14baaf868aa6bde8d2_images_img_p1-05-174a7892-cd72-419a-b343-2d331a4c40ab.png"
+  }
+}

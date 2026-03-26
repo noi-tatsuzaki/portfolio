@@ -15,6 +15,10 @@
       href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Handjet:wght@900&display=swap"
+      rel="stylesheet"
+    />
 
     <link
       rel="stylesheet"
@@ -23,19 +27,16 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
 
-  <body>
-    <header class="siteHeader" aria-label="Header">
-      <div class="siteHeader__inner"></div>
-    </header>
+  <body data-base-path=".">
+    <div id="site-header-placeholder"></div>
 
     <main class="page">
       <div class="debugGrid" id="debugGrid" aria-label="Grid address map"></div>
     </main>
 
-    <footer class="siteFooter" aria-label="Footer">
-      <div class="siteFooter__inner"></div>
-    </footer>
+    <div id="site-footer-placeholder"></div>
 
+    <script src="./layout-loader.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <script src="./main.js" defer></script>
   </body>

@@ -1,4 +1,4 @@
-(() => {
+ (async () => {
   const COLS = 12; // A-L
   const ROWS = 27; // extended as needed
   const BASE_ROW_PX = 56; // 7 * 8 (8px system)
@@ -6,6 +6,141 @@
 
   const root = document.getElementById("debugGrid");
   if (!root) return;
+
+  const loadContent = async () => {
+    try {
+      const res = await fetch("content.json", { cache: "no-cache" });
+      if (res.ok) return res.json();
+    } catch (_) {
+      // Fallback for local file previews where fetch can fail.
+    }
+    return {
+      heroTitleLines: ["BUILDING", "THE FUTURE."],
+      marqueeItems: [
+        "ROBOTICS DESIGN",
+        "MECHANICAL ENGINEERING",
+        "STARTUPS",
+        "PROTOTYPING",
+      ],
+      stats: [
+        { big: "10+", small: "YEARS IN ROBOTICS" },
+        { big: "280+", small: "MEDIA APPEARANCES" },
+        { big: "5+", small: "PROJECTS" },
+      ],
+      whyBuild: "WHY I BUILD",
+      coreSkillsLabel: "CORE SKILLS:",
+      sampleText:
+        "this is a sample text block for layout testing. it demonstrates readable body copy inside the grid area. this is a sample text block for layout testing. it demonstrates readable body copy inside the grid area. this is a sample text block for layout testing. it demonstrates readable body copy inside the grid area.",
+      skills: {
+        leftTop: {
+          heading: "MECHANICAL DESIGN",
+          pills: ["Autodesk Fusion", "SolidWorks", "3D Printing"],
+        },
+        rightTop: {
+          heading: "PROGRAMMING",
+          pills: ["C / C++", "Python", "Java", "JavaScript"],
+        },
+        leftBottom: {
+          heading: "ROBOTICS & HARDWARE",
+          pills: ["Arduino", "ESP32", "MQTT", "Sensors", "PID Control"],
+        },
+        rightBottom: {
+          heading: "LANGUAGES",
+          pills: ["Japanese (Native)", "English (Fluent)"],
+        },
+      },
+      featuredWorksLines: ["FEATURED", "WORKS"],
+      featuredProjectsLines: ["FEATURED", "PROJECTS"],
+      experienceTitle: "EXPERIENCE",
+      experienceRows: [
+        { year: "2024 - Present", role: "FOUNDER & CEO", company: "LINOA Co., Ltd." },
+        { year: "2024 - Present", role: "CO-FOUNDER", company: "ADvance Lab" },
+        { year: "2024", role: "MECHANICAL ENGINEER INTERN", company: "Eco-Pork" },
+        { year: "2023 - 2024", role: "MOLTING GENERATOR", company: "Leave a Nest" },
+        {
+          year: "2018 - 2023",
+          role: "HARDWARE LEADER / TEAM CAPTAIN",
+          company: "FRC TEAM 6909 SAKURA TEMPESTA",
+        },
+      ],
+      awardsTitle: "AWARDS",
+      awardsRows: [
+        { bold: "Forbes JAPAN 30 UNDER 30 2022" },
+        { bold: "Masason Foundation ", light: "Scholar" },
+        { bold: "Dean's List Finalist Award ", light: "(FIRST Robotics Competition)" },
+        { bold: "Chairman's Award ", light: "(FIRST Robotics Competition)" },
+      ],
+      mediaTitle: "MEDIA RECOGNITION",
+      mediaRows: [
+        { bold: 'Disney+ Documentary: Featured in "More Than Robots"' },
+        { bold: "Lenovo New Realities" },
+        { bold: "280+ Media Appearances" },
+      ],
+      latestNews: "LATEST NEWS",
+      viewAllLabel: "View all",
+      allWorks: { label: "All Works", count: "15" },
+      allProjects: { label: "All Projects", count: "10" },
+      profile: {
+        nameLines: ["NOI", "TATSUZAKI"],
+        bioTop: "Building robots, systems, and future concepts driven by curiosity.",
+        bioBottom:
+          "LINOA Co., Ltd. | Stevens Institute of Technology | ADvance Lab | ADvance Campus | Forbes JAPAN 30 UNDER 30 2022",
+      },
+      carousel: {
+        worksCaption: "SAMPLE WORKS TITLE",
+        projectsCaption: "SAMPLE PROJECT TITLE",
+        newsTitle: "Sample article title",
+        newsDate: "YYYY/MM/DD",
+      },
+      images: {
+        worksCard: "public/images/sample-works.png",
+        newsCard: "public/images/sample-news.png",
+        portrait: "public/images/noi-portrait.png",
+        bgFeatured: "public/images/featured-works.png",
+        bgPurple: "public/images/bg-purple.png",
+        bgSkillPhoto:
+          "file:///C:/Users/noifu/.cursor/projects/c-Users-noifu-OneDrive-GitHub-portfolio/assets/c__Users_noifu_AppData_Roaming_Cursor_User_workspaceStorage_c4458fd55862ea14baaf868aa6bde8d2_images_img_p1-05-174a7892-cd72-419a-b343-2d331a4c40ab.png",
+      },
+    };
+  };
+  const C = await loadContent();
+
+  const esc = (s) =>
+    String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+
+  const heroHtml = `<div class="dgMergeContent dgMergeContent--23pt"><div class="dgHeroTitle" data-fit="hero-title"><span>${esc(
+    C.heroTitleLines[0]
+  )}</span><span>${esc(C.heroTitleLines[1])}</span></div></div>`;
+
+  const marqueeLine = `${C.marqueeItems.map(esc).join(
+    "&nbsp;&nbsp;&nbsp;///&nbsp;&nbsp;&nbsp;"
+  )}&nbsp;&nbsp;&nbsp;///&nbsp;&nbsp;&nbsp;`;
+  const marqueeHtml = `<div class="dgMergeContent dgMergeContent--marquee"><div class="dgMarquee" aria-label="Marquee"><div class="dgMarquee__track"><span class="dgMarquee__text">${marqueeLine}</span><span class="dgMarquee__text" aria-hidden="true">${marqueeLine}</span></div></div></div>`;
+
+  const statHtml = (idx) =>
+    `<div class="dgMergeContent dgMergeContent--23 dgMergeContent--centerBoth"><div class="dgStat"><div class="dgStat__big">${esc(
+      C.stats[idx].big
+    )}</div><div class="dgStat__small">${esc(C.stats[idx].small)}</div></div></div>`;
+
+  const pillsHtml = (items) =>
+    items.map((x) => `<span class="dgSkillPill">${esc(x)}</span>`).join("");
+
+  const awardsRowsHtml = (rows) =>
+    rows
+      .map(
+        (r) =>
+          `<li><span class="dgAwardsList__bold">${esc(r.bold)}</span>${
+            r.light
+              ? `<span class="dgAwardsList__light">${esc(r.light)}</span>`
+              : ""
+          }</li>`
+      )
+      .join("");
 
   // Row height rules (Excel-like row numbers):
   // - Row 1: base * 5
@@ -32,7 +167,7 @@
     [26, 7],
   ]);
 
-  const rowHeights = [`${BASE_ROW_PX}px`]; // header row (A-L)
+  const rowHeights = ["0px"]; // hide ABC... header row
   for (let r = 1; r <= ROWS; r++) {
     const mul = multiplierByRow.get(r) ?? 1;
     rowHeights.push(`${BASE_ROW_PX * mul}px`);
@@ -65,7 +200,7 @@
       from: "1A",
       to: "1F",
       cls: "dgWhite",
-      html: '<div class="dgMergeContent dgMergeContent--23pt"><div class="dgHeroTitle" data-fit="hero-title"><span>BUILDING</span><span>THE FUTURE.</span></div></div>',
+      html: heroHtml,
     },
     { from: "1G", to: "2I", cls: "" },
     { from: "1J", to: "2L", cls: "" },
@@ -74,11 +209,26 @@
       from: "3A",
       to: "3L",
       cls: "dgBlack",
-      html: '<div class="dgMergeContent dgMergeContent--marquee"><div class="dgMarquee" aria-label="Marquee"><div class="dgMarquee__track"><span class="dgMarquee__text">ROBOTICS DESIGN&nbsp;&nbsp;&nbsp;///&nbsp;&nbsp;&nbsp;MECHANICAL ENGINEERING&nbsp;&nbsp;&nbsp;///&nbsp;&nbsp;&nbsp;STARTUPS&nbsp;&nbsp;&nbsp;///&nbsp;&nbsp;&nbsp;PROTOTYPING&nbsp;&nbsp;&nbsp;///&nbsp;&nbsp;&nbsp;</span><span class="dgMarquee__text" aria-hidden="true">ROBOTICS DESIGN&nbsp;&nbsp;&nbsp;///&nbsp;&nbsp;&nbsp;MECHANICAL ENGINEERING&nbsp;&nbsp;&nbsp;///&nbsp;&nbsp;&nbsp;STARTUPS&nbsp;&nbsp;&nbsp;///&nbsp;&nbsp;&nbsp;PROTOTYPING&nbsp;&nbsp;&nbsp;///&nbsp;&nbsp;&nbsp;</span></div></div></div>',
+      html: marqueeHtml,
     },
-    { from: "4A", to: "4D", cls: "dgWhite" },
-    { from: "4E", to: "4H", cls: "dgWhite" },
-    { from: "4I", to: "4L", cls: "dgWhite" },
+    {
+      from: "4A",
+      to: "4D",
+      cls: "dgWhite",
+      html: statHtml(0),
+    },
+    {
+      from: "4E",
+      to: "4H",
+      cls: "dgWhite",
+      html: statHtml(1),
+    },
+    {
+      from: "4I",
+      to: "4L",
+      cls: "dgWhite",
+      html: statHtml(2),
+    },
     { from: "5A", to: "5C", cls: "" },
     { from: "5D", to: "5F", cls: "" },
     { from: "5G", to: "5I", cls: "" },
@@ -87,16 +237,73 @@
       from: "6A",
       to: "6F",
       cls: "dgWhite",
-      html: '<div class="dgMergeContent dgMergeContent--x23 dgMergeContent--centerBoth"><div class="dgTitle" data-fit="title-block" data-sync="featured" data-scramble="1"><span>WHY I BUILD</span></div></div>',
+      html: `<div class="dgMergeContent dgMergeContent--x23 dgMergeContent--centerBoth"><div class="dgTitle" data-fit="title-block" data-sync="featured" data-scramble="1"><span>${esc(
+        C.whyBuild
+      )}</span></div></div>`,
     },
-    { from: "6G", to: "6I", cls: "" },
+    {
+      from: "6G",
+      to: "6I",
+      cls: "",
+      html: `<div class="dgMergeContent dgMergeContent--10 dgMergeContent--bottomCenter"><div class="dgCoreSkills" data-sync="experience"><span>${esc(
+        C.coreSkillsLabel
+      )}</span></div></div>`,
+    },
     { from: "6J", to: "6L", cls: "" },
-    { from: "7A", to: "8C", cls: "" },
-    { from: "7D", to: "8F", cls: "" },
-    { from: "7G", to: "7I", cls: "dgWhite" },
-    { from: "7J", to: "7L", cls: "dgWhite" },
-    { from: "8G", to: "8I", cls: "dgWhite" },
-    { from: "8J", to: "8L", cls: "dgWhite" },
+    {
+      from: "7A",
+      to: "8C",
+      cls: "",
+      html: `<div class="dgMergeContent dgMergeContent--10"><p class="dgSampleText">${esc(
+        C.sampleText
+      )}</p></div>`,
+    },
+    {
+      from: "7D",
+      to: "8F",
+      cls: "",
+      html: '<div class="dgImageCorners"></div>',
+    },
+    {
+      from: "7G",
+      to: "7I",
+      cls: "dgWhite",
+      html: `<div class="dgMergeContent"><div class="dgCornerDot"></div><div class="dgSkillHeading">${esc(
+        C.skills.leftTop.heading
+      )}</div><div class="dgSkillPillsArea"><div class="dgSkillPills">${pillsHtml(
+        C.skills.leftTop.pills
+      )}</div></div></div>`,
+    },
+    {
+      from: "7J",
+      to: "7L",
+      cls: "dgWhite",
+      html: `<div class="dgMergeContent"><div class="dgCornerDot"></div><div class="dgSkillHeading">${esc(
+        C.skills.rightTop.heading
+      )}</div><div class="dgSkillPillsArea"><div class="dgSkillPills">${pillsHtml(
+        C.skills.rightTop.pills
+      )}</div></div></div>`,
+    },
+    {
+      from: "8G",
+      to: "8I",
+      cls: "dgWhite",
+      html: `<div class="dgMergeContent"><div class="dgCornerDot"></div><div class="dgSkillHeading">${esc(
+        C.skills.leftBottom.heading
+      )}</div><div class="dgSkillPillsArea"><div class="dgSkillPills">${pillsHtml(
+        C.skills.leftBottom.pills
+      )}</div></div></div>`,
+    },
+    {
+      from: "8J",
+      to: "8L",
+      cls: "dgWhite",
+      html: `<div class="dgMergeContent"><div class="dgCornerDot"></div><div class="dgSkillHeading">${esc(
+        C.skills.rightBottom.heading
+      )}</div><div class="dgSkillPillsArea"><div class="dgSkillPills">${pillsHtml(
+        C.skills.rightBottom.pills
+      )}</div></div></div>`,
+    },
     { from: "9A", to: "13C", cls: "" },
     { from: "9D", to: "13F", cls: "" },
     { from: "9G", to: "13I", cls: "" },
@@ -109,21 +316,47 @@
       from: "19A",
       to: "19C",
       cls: "dgWhite",
-      html: '<div class="dgMergeContent dgMergeContent--10 dgMergeContent--bottomCenter"><div class="dgTitle dgTitle--center" data-fit="title-block" data-sync="experience" data-scramble="1"><span>EXPERIENCE</span></div></div>',
+      html: `<div class="dgMergeContent dgMergeContent--10 dgMergeContent--bottomCenter"><div class="dgTitle dgTitle--center" data-fit="title-block" data-sync="experience" data-scramble="1"><span>${esc(
+        C.experienceTitle
+      )}</span></div></div>`,
     },
     { from: "20A", to: "20C", cls: "" },
-    { from: "19D", to: "20L", cls: "" },
+    {
+      from: "19D",
+      to: "20L",
+      cls: "",
+      html: `<div class="dgMergeContent dgMergeContent--23"><div class="dgExperienceList">${C.experienceRows
+        .map(
+          (r) =>
+            `<div class="dgExperienceRow"><div class="dgExperienceYear">${esc(
+              r.year
+            )}</div><div class="dgExperienceMain"><div class="dgExperienceRole">${esc(
+              r.role
+            )}</div><div class="dgExperienceCompany">${esc(
+              r.company
+            )}</div></div></div>`
+        )
+        .join("")}</div></div>`,
+    },
     {
       from: "21A",
       to: "22F",
       cls: "",
-      html: '<div class="dgMergeContent dgMergeContent--23" style="position:relative;"><div class="dgBadge"><div class="dgBadgeText" data-sync="experience" data-box="badge" data-scramble="1">AWARDS</div></div></div>',
+      html: `<div class="dgMergeContent dgMergeContent--23" style="position:relative;"><div class="dgBadge"><div class="dgBadgeText" data-sync="experience" data-box="badge" data-scramble="1">${esc(
+        C.awardsTitle
+      )}</div></div><div class="dgAwardsPanel"><ul class="dgAwardsList">${awardsRowsHtml(
+        C.awardsRows
+      )}</ul></div></div>`,
     },
     {
       from: "21G",
       to: "22L",
       cls: "",
-      html: '<div class="dgMergeContent dgMergeContent--23" style="position:relative;"><div class="dgBadge"><div class="dgBadgeText" data-sync="experience" data-box="badge" data-scramble="1">MEDIA RECOGNITION</div></div></div>',
+      html: `<div class="dgMergeContent dgMergeContent--23" style="position:relative;"><div class="dgBadge"><div class="dgBadgeText" data-sync="experience" data-box="badge" data-scramble="1">${esc(
+        C.mediaTitle
+      )}</div></div><div class="dgAwardsPanel"><ul class="dgAwardsList">${awardsRowsHtml(
+        C.mediaRows
+      )}</ul></div></div>`,
     },
     { from: "23A", to: "23C", cls: "" },
     { from: "23D", to: "23F", cls: "" },
@@ -133,9 +366,18 @@
       from: "24A",
       to: "24F",
       cls: "dgWhite",
-      html: '<div class="dgMergeContent dgMergeContent--23 dgMergeContent--centerBoth"><div class="dgTitle" data-fit="title-block" data-scramble="1"><span>LATEST NEWS</span></div></div>',
+      html: `<div class="dgMergeContent dgMergeContent--23 dgMergeContent--centerBoth"><div class="dgTitle" data-fit="title-block" data-scramble="1"><span>${esc(
+        C.latestNews
+      )}</span></div></div>`,
     },
-    { from: "24G", to: "24I", cls: "" },
+    {
+      from: "24G",
+      to: "24I",
+      cls: "",
+      html: `<div class="dgMergeContent dgMergeContent--viewAll"><div class="dgViewAllCluster"><button type="button" class="dgViewAllBox" aria-label="View all"><span class="dgViewAllText">${esc(
+        C.viewAllLabel
+      )}</span></button><button type="button" class="dgBlackCornerSquare dgBlackCornerSquare--inline" aria-label="View all arrow"><span class="dgBlackCornerArrow">→</span></button></div></div>`,
+    },
     { from: "24J", to: "24L", cls: "" },
     { from: "25A", to: "27C", cls: "" },
     { from: "25D", to: "27F", cls: "" },
@@ -149,15 +391,30 @@
     r >= r1 && r <= r2 && c >= c1 && c <= c2;
 
   const bgSpecs = [
-    { from: "9A", to: "13L", img: "public/images/featured-works.png" },
-    { from: "14A", to: "18L", img: "public/images/bg-purple.png" },
+    {
+      from: "7D",
+      to: "8F",
+      img: C.images.bgSkillPhoto,
+    },
+    { from: "9A", to: "13L", img: C.images.bgFeatured },
+    { from: "14A", to: "18L", img: C.images.bgPurple },
   ];
 
   const overlayRects = [
     {
       from: "1G",
       to: "2L",
-      html: '<div class="dgMergeContent dgMergeContent--23"><div class="dgPortraitStack"><div class="rect dgInsetRect"></div><img class="dgPortraitImg" src="public/images/noi-portrait.png" width="160" height="160" alt="Portrait" /><div class="dgPortraitNameWrap"><div class="dgPortraitName" data-fit="portrait-name"><span>NOI</span><span>TATSUZAKI</span></div></div></div></div>',
+      html: `<div class="dgMergeContent dgMergeContent--23"><div class="dgPortraitStack"><div class="rect dgInsetRect"></div><img class="dgPortraitImg" src="${esc(
+        C.images.portrait
+      )}" width="160" height="160" alt="Portrait" /><div class="dgImageCorners dgImageCorners--portrait"></div><div class="dgPortraitNameWrap"><div class="dgPortraitName" data-fit="portrait-name"><span>${esc(
+        C.profile.nameLines[0]
+      )}</span><span>${esc(
+        C.profile.nameLines[1]
+      )}</span></div></div><div class="dgPortraitBelow"><div class="dgPortraitBelow__a">${esc(
+        C.profile.bioTop
+      )}</div><div class="dgPortraitBelow__b">${esc(
+        C.profile.bioBottom
+      )}</div></div></div></div>`,
     },
     {
       from: "2A",
@@ -168,23 +425,91 @@
       from: "12A",
       to: "12L",
       interactive: true,
-      html: '<div class="dgCarousel swiper js-carousel12" aria-label="Carousel"><div class="swiper-wrapper"><div class="swiper-slide dgCarouselSlide">box1</div><div class="swiper-slide dgCarouselSlide">box2</div><div class="swiper-slide dgCarouselSlide">box3</div><div class="swiper-slide dgCarouselSlide">box4</div><div class="swiper-slide dgCarouselSlide">box5</div><div class="swiper-slide dgCarouselSlide">box6</div></div></div>',
+      html: `<div class="dgCarousel swiper js-carousel12" aria-label="Carousel"><div class="swiper-wrapper">${Array
+        .from({ length: 6 })
+        .map(
+          () =>
+            `<div class="swiper-slide dgCarouselSlide"><div class="dgCornerDot"></div><img class="dgCarouselWorkImg" src="${esc(
+              C.images.worksCard
+            )}" alt="Sample works" /><div class="dgCarouselWorkCaptionArea"><div class="dgCarouselWorkCaption">${esc(
+              C.carousel.worksCaption
+            )}</div></div></div>`
+        )
+        .join("")}</div></div>`,
     },
     {
       from: "17A",
       to: "17L",
       interactive: true,
-      html: '<div class="dgCarousel swiper js-carousel17" aria-label="Carousel"><div class="swiper-wrapper"><div class="swiper-slide dgCarouselSlide">box1</div><div class="swiper-slide dgCarouselSlide">box2</div><div class="swiper-slide dgCarouselSlide">box3</div><div class="swiper-slide dgCarouselSlide">box4</div><div class="swiper-slide dgCarouselSlide">box5</div><div class="swiper-slide dgCarouselSlide">box6</div></div></div>',
+      html: `<div class="dgCarousel swiper js-carousel17" aria-label="Carousel"><div class="swiper-wrapper">${Array
+        .from({ length: 6 })
+        .map(
+          () =>
+            `<div class="swiper-slide dgCarouselSlide"><div class="dgCornerDot"></div><img class="dgCarouselWorkImg" src="${esc(
+              C.images.worksCard
+            )}" alt="Sample works" /><div class="dgCarouselWorkCaptionArea"><div class="dgCarouselWorkCaption">${esc(
+              C.carousel.projectsCaption
+            )}</div></div></div>`
+        )
+        .join("")}</div></div>`,
+    },
+    {
+      from: "26A",
+      to: "26L",
+      interactive: true,
+      html: `<div class="dgCarousel swiper js-carousel26" aria-label="Row 26 Carousel"><div class="swiper-wrapper">${Array
+        .from({ length: 4 })
+        .map(
+          () =>
+            `<div class="swiper-slide dgCarousel26Slide"><div class="dgCarousel26Card"><div class="dgCarousel26ImgFrame"><img class="dgCarousel26Img" src="${esc(
+              C.images.newsCard
+            )}" alt="Sample news" /></div><div class="dgCarousel26Meta"><div class="dgCarousel26Title">${esc(
+              C.carousel.newsTitle
+            )}</div><div class="dgCarousel26Date">${esc(
+              C.carousel.newsDate
+            )}</div></div></div></div>`
+        )
+        .join("")}</div></div>`,
     },
     {
       from: "10A",
       to: "10E",
-      html: '<div class="dgOverlayFill"><div class="dgOverlayCard dgRectToEcenter"><div class="rect rect--no-left dgInsetRect"></div><div class="dgMergeContent dgMergeContent--23 dgMergeContent--centerBoth"><div class="dgTitle dgTitle--left dgTitle--lh13" data-fit="title-block" data-sync="featured" data-scramble="1"><span>FEATURED</span><span>WORKS</span></div></div></div></div>',
+      interactive: true,
+      html: `<div class="dgOverlayFill"><div class="dgOverlayCard dgRectToEcenter"><div class="rect rect--no-left dgInsetRect"></div><div class="dgMergeContent dgMergeContent--23 dgMergeContent--centerBoth"><div class="dgTitle dgTitle--left dgTitle--lh13" data-fit="title-block" data-sync="featured" data-scramble="1"><span>${esc(
+        C.featuredWorksLines[0]
+      )}</span><span>${esc(
+        C.featuredWorksLines[1]
+      )}</span></div></div></div></div>`,
+    },
+    {
+      from: "10L",
+      to: "10L",
+      interactive: true,
+      html: `<div class="dgOverlayAnchorTopRight"><button type="button" class="dgWhiteCornerRect" aria-label="All works"><div class="dgWhiteRectText"><div class="dgWhiteRectText__top" data-fit="white-meta">${esc(
+        C.allWorks.label
+      )}</div><div class="dgWhiteRectText__bottom">${esc(
+        C.allWorks.count
+      )}</div></div></button><button type="button" class="dgBlackCornerSquare" aria-label="Open works"><span class="dgBlackCornerArrow">→</span></button></div>`,
     },
     {
       from: "15A",
       to: "15E",
-      html: '<div class="dgOverlayFill"><div class="dgOverlayCard dgRectToEcenter"><div class="rect rect--no-left dgInsetRect"></div><div class="dgMergeContent dgMergeContent--23 dgMergeContent--centerBoth"><div class="dgTitle dgTitle--left dgTitle--lh13" data-fit="title-block" data-scramble="1"><span>FEATURED</span><span>PROJECTS</span></div></div></div></div>',
+      interactive: true,
+      html: `<div class="dgOverlayFill"><div class="dgOverlayCard dgRectToEcenter"><div class="rect rect--no-left dgInsetRect"></div><div class="dgMergeContent dgMergeContent--23 dgMergeContent--centerBoth"><div class="dgTitle dgTitle--left dgTitle--lh13" data-fit="title-block" data-scramble="1"><span>${esc(
+        C.featuredProjectsLines[0]
+      )}</span><span>${esc(
+        C.featuredProjectsLines[1]
+      )}</span></div></div></div></div>`,
+    },
+    {
+      from: "15L",
+      to: "15L",
+      interactive: true,
+      html: `<div class="dgOverlayAnchorTopRight"><button type="button" class="dgWhiteCornerRect" aria-label="All projects"><div class="dgWhiteRectText"><div class="dgWhiteRectText__top" data-fit="white-meta">${esc(
+        C.allProjects.label
+      )}</div><div class="dgWhiteRectText__bottom">${esc(
+        C.allProjects.count
+      )}</div></div></button><button type="button" class="dgBlackCornerSquare" aria-label="Open projects"><span class="dgBlackCornerArrow">→</span></button></div>`,
     },
   ];
 
@@ -255,6 +580,7 @@
     }
 
     const el = makeCell(`dgCell dgMerge ${spec.cls}`.trim(), "");
+    if (r2 === ROWS) el.classList.add("dgNoBottomEdge");
     if (spec.html) {
       el.innerHTML = spec.html;
     } else {
@@ -287,6 +613,7 @@
         }
       }
       const el = makeCell(cls, "");
+      if (r === ROWS) el.classList.add("dgNoBottomEdge");
       el.style.gridRow = String(1 + r);
       el.style.gridColumn = String(1 + c);
       frag.appendChild(el);
@@ -295,12 +622,12 @@
 
   root.appendChild(frag);
 
-  const fitText = (el) => {
+  const fitText = (el, opts) => {
     const box = el.closest(".dgMergeContent");
     if (!box) return;
 
-    const max = 140;
-    const min = 18;
+    const max = opts?.max ?? 140;
+    const min = opts?.min ?? 18;
 
     // available size inside padding
     const padL = parseFloat(getComputedStyle(box).paddingLeft) || 0;
@@ -344,7 +671,6 @@
     document
       .querySelectorAll('[data-fit="title-block"]:not([data-sync])')
       .forEach((el) => fitText(el));
-
     document.querySelectorAll('[data-fit="portrait-name"]').forEach((el) => {
       const wrap = el.closest(".dgPortraitNameWrap");
       if (!wrap) return;
@@ -505,6 +831,23 @@
     }, 160);
   };
 
+  const initHeroScrambleOnVisible = () => {
+    const hero = document.querySelector('[data-fit="hero-title"]');
+    if (!hero) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          scrambleOnceHeroTitle();
+          io.disconnect();
+          break;
+        }
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(hero);
+  };
+
   const initScrambleOnVisible = () => {
     const targets = Array.from(document.querySelectorAll("[data-scramble]"));
     if (targets.length === 0) return;
@@ -597,7 +940,7 @@
   fitSyncedText("featured");
   fitSyncedText("experience");
   initScrambleOnVisible();
-  scrambleOnceHeroTitle();
+  initHeroScrambleOnVisible();
   const initCarousel12 = () => {
     const el = document.querySelector(".js-carousel12");
     if (!el) return;
@@ -642,14 +985,66 @@
       grabCursor: true,
     });
   };
+
+  const initCarousel26 = () => {
+    const el = document.querySelector(".js-carousel26");
+    if (!el) return;
+    if (el.dataset.inited === "1") return;
+    if (typeof window.Swiper !== "function") return;
+    el.dataset.inited = "1";
+
+    new window.Swiper(el, {
+      slidesPerView: "auto",
+      spaceBetween: 80,
+      slidesOffsetBefore: 40,
+      slidesOffsetAfter: 40,
+      centeredSlides: false,
+      initialSlide: 0,
+      speed: 500,
+      grabCursor: true,
+    });
+  };
+
+  const fitWhiteMetaLine = () => {
+    document.querySelectorAll('[data-fit="white-meta"]').forEach((el) => {
+      const box = el.closest(".dgWhiteCornerRect");
+      if (!box) return;
+      const cs = getComputedStyle(box);
+      const padL = parseFloat(cs.paddingLeft) || 0;
+      const padR = parseFloat(cs.paddingRight) || 0;
+      const availW = box.clientWidth - padL - padR;
+      if (availW <= 0) return;
+
+      let lo = 8;
+      let hi = 28;
+      let best = 8;
+      while (lo <= hi) {
+        const mid = Math.floor((lo + hi) / 2);
+        el.style.fontSize = `${mid}px`;
+        if (el.scrollWidth <= availW) {
+          best = mid;
+          lo = mid + 1;
+        } else {
+          hi = mid - 1;
+        }
+      }
+      el.style.fontSize = `${best}px`;
+    });
+  };
   initCarousel12();
   initCarousel17();
+  initCarousel26();
+  fitWhiteMetaLine();
+  window.addEventListener("layout:loaded", () => {
+    initScrambleOnVisible();
+  });
   window.addEventListener(
     "resize",
     () => {
       fitAll();
       fitSyncedText("featured");
       fitSyncedText("experience");
+      fitWhiteMetaLine();
     },
     { passive: true }
   );
