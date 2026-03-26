@@ -113,6 +113,14 @@
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#39;");
 
+  const resolveUrl = (p) => {
+    const str = String(p || "").trim();
+    if (!str) return "";
+    // Keep fully-qualified URLs and protocol-relative URLs as-is
+    if (/^(https?:)?\/\//i.test(str)) return str;
+    return new URL(str, document.baseURI).toString();
+  };
+
   const heroHtml = `<div class="dgMergeContent dgMergeContent--23pt"><div class="dgHeroTitle" data-fit="hero-title"><span>${esc(
     C.heroTitleLines[0]
   )}</span><span>${esc(C.heroTitleLines[1])}</span></div></div>`;
@@ -181,7 +189,9 @@
     // For now: use the test markdown file as sample data.
     // This can be expanded later with a JSON manifest of posts.
     try {
-      const res = await fetch("content/news/test-news.md", { cache: "no-cache" });
+      const res = await fetch(resolveUrl("content/news/test-news.md"), {
+        cache: "no-cache",
+      });
       if (!res.ok) throw new Error("Failed to load test-news.md");
       const md = await res.text();
       const { data } = parseFrontmatter(md);
@@ -189,7 +199,9 @@
         {
           title: data.title || C.carousel.newsTitle,
           date: formatDateYmdSlash(data.date || C.carousel.newsDate),
-          thumbnail: normalizeAssetPath(data.thumbnail || C.images.newsCard),
+          thumbnail: resolveUrl(
+            normalizeAssetPath(data.thumbnail || C.images.newsCard)
+          ),
         },
       ];
     } catch (_) {
@@ -197,7 +209,7 @@
         {
           title: C.carousel.newsTitle,
           date: C.carousel.newsDate,
-          thumbnail: C.images.newsCard,
+          thumbnail: resolveUrl(normalizeAssetPath(C.images.newsCard)),
         },
       ];
     }
@@ -526,7 +538,7 @@
         .map(
           () =>
             `<div class="swiper-slide dgCarousel26Slide"><div class="dgCarousel26Card"><div class="dgCarousel26ImgFrame"><img class="dgCarousel26Img" src="${esc(
-              newsEntries[0]?.thumbnail || C.images.newsCard
+              newsEntries[0]?.thumbnail || resolveUrl(normalizeAssetPath(C.images.newsCard))
             )}" alt="Sample news" /></div><div class="dgCarousel26Meta"><div class="dgCarousel26Title">${esc(
               newsEntries[0]?.title || C.carousel.newsTitle
             )}</div><div class="dgCarousel26Date">${esc(
