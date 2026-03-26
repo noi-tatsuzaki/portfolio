@@ -997,7 +997,7 @@ a:hover {
   display: flex;
   align-items: center; /* vertical center vs photo */
   justify-content: center; /* center within remaining white space */
-  pointer-events: none;
+  pointer-events: auto;
   overflow: hidden; /* safety: never bleed outside white block */
 }
 

@@ -26,6 +26,9 @@
       loadInto("#site-header-placeholder", "header.html", FALLBACK_HEADER),
       loadInto("#site-footer-placeholder", "footer.html", FALLBACK_FOOTER),
     ]);
+    document.querySelectorAll(".siteHeaderHomeLink").forEach((el) => {
+      el.setAttribute("href", `${base}/index.html`);
+    });
     window.dispatchEvent(new CustomEvent("layout:loaded"));
   };
 

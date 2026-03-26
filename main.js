@@ -142,6 +142,69 @@
       )
       .join("");
 
+  const parseFrontmatter = (md) => {
+    const m = String(md).match(/^---\s*\n([\s\S]*?)\n---\s*\n?/);
+    if (!m) return { data: {}, body: String(md) };
+    const raw = m[1];
+    const data = {};
+    for (const line of raw.split("\n")) {
+      const idx = line.indexOf(":");
+      if (idx < 0) continue;
+      const key = line.slice(0, idx).trim();
+      let val = line.slice(idx + 1).trim();
+      if (
+        (val.startsWith('"') && val.endsWith('"')) ||
+        (val.startsWith("'") && val.endsWith("'"))
+      ) {
+        val = val.slice(1, -1);
+      }
+      data[key] = val;
+    }
+    const body = String(md).slice(m[0].length);
+    return { data, body };
+  };
+
+  const formatDateYmdSlash = (s) => {
+    const str = String(s || "").trim();
+    const m = str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) return `${m[1]}/${m[2]}/${m[3]}`;
+    return str;
+  };
+
+  const normalizeAssetPath = (p) => {
+    const str = String(p || "").trim();
+    if (!str) return "";
+    return str.startsWith("/") ? str.slice(1) : str;
+  };
+
+  const loadNewsEntries = async () => {
+    // For now: use the test markdown file as sample data.
+    // This can be expanded later with a JSON manifest of posts.
+    try {
+      const res = await fetch("content/news/test-news.md", { cache: "no-cache" });
+      if (!res.ok) throw new Error("Failed to load test-news.md");
+      const md = await res.text();
+      const { data } = parseFrontmatter(md);
+      return [
+        {
+          title: data.title || C.carousel.newsTitle,
+          date: formatDateYmdSlash(data.date || C.carousel.newsDate),
+          thumbnail: normalizeAssetPath(data.thumbnail || C.images.newsCard),
+        },
+      ];
+    } catch (_) {
+      return [
+        {
+          title: C.carousel.newsTitle,
+          date: C.carousel.newsDate,
+          thumbnail: C.images.newsCard,
+        },
+      ];
+    }
+  };
+
+  const newsEntries = await loadNewsEntries();
+
   // Row height rules (Excel-like row numbers):
   // - Row 1: base * 5
   // - Row 2: base * 2
@@ -404,6 +467,7 @@
     {
       from: "1G",
       to: "2L",
+      interactive: true,
       html: `<div class="dgMergeContent dgMergeContent--23"><div class="dgPortraitStack"><div class="rect dgInsetRect"></div><img class="dgPortraitImg" src="${esc(
         C.images.portrait
       )}" width="160" height="160" alt="Portrait" /><div class="dgImageCorners dgImageCorners--portrait"></div><div class="dgPortraitNameWrap"><div class="dgPortraitName" data-fit="portrait-name"><span>${esc(
@@ -462,11 +526,11 @@
         .map(
           () =>
             `<div class="swiper-slide dgCarousel26Slide"><div class="dgCarousel26Card"><div class="dgCarousel26ImgFrame"><img class="dgCarousel26Img" src="${esc(
-              C.images.newsCard
+              newsEntries[0]?.thumbnail || C.images.newsCard
             )}" alt="Sample news" /></div><div class="dgCarousel26Meta"><div class="dgCarousel26Title">${esc(
-              C.carousel.newsTitle
+              newsEntries[0]?.title || C.carousel.newsTitle
             )}</div><div class="dgCarousel26Date">${esc(
-              C.carousel.newsDate
+              newsEntries[0]?.date || C.carousel.newsDate
             )}</div></div></div></div>`
         )
         .join("")}</div></div>`,
