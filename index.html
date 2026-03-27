@@ -40,7 +40,7 @@
 
     <script id="latest-news-data" type="application/json">
       [
-      {% assign latest_news = site.news | sort: "date" | reverse %}
+      {% assign latest_news = site.pages | where_exp: "p", "p.path contains 'content/news/'" | sort: "date" | reverse %}
       {% for post in latest_news limit:10 %}
         {
           "title": {{ post.title | jsonify }},

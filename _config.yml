@@ -3,10 +3,3 @@ description: Portfolio site
 
 # Keep GitHub Pages compatibility and simple defaults.
 markdown: kramdown
-
-# Collections live under content/<collection_name>/
-collections_dir: content
-collections:
-  news:
-    output: true
-    permalink: /news/:name/
