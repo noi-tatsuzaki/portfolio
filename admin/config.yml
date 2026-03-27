@@ -3,6 +3,8 @@ backend:
   repo: noi-tatsuzaki/portfolio
   branch: main
 
+local_backend: true
+
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
