@@ -527,11 +527,11 @@
               n.thumbnail
             )}" alt="${esc(
               n.title
-            )}" /><time class="latestNewsCard__date">${esc(
-              n.date
-            )}</time><h3 class="latestNewsCard__title">${esc(
+            )}" /><h3 class="latestNewsCard__title">${esc(
               n.title
-            )}</h3></article></div>`
+            )}</h3><time class="latestNewsCard__date">${esc(
+              n.date
+            )}</time></article></div>`
         )
         .join("")}</div></div>`,
     },
