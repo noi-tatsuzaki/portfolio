@@ -7,9 +7,16 @@
   const root = document.getElementById("debugGrid");
   if (!root) return;
 
+  const resolveUrl = (p) => {
+    const str = String(p || "").trim();
+    if (!str) return "";
+    if (/^(https?:)?\/\//i.test(str)) return str;
+    return new URL(str, document.baseURI).toString();
+  };
+
   const loadContent = async () => {
     try {
-      const res = await fetch("content.json", { cache: "no-cache" });
+      const res = await fetch(resolveUrl("content.json"), { cache: "no-cache" });
       if (res.ok) return res.json();
     } catch (_) {
       // Fallback for local file previews where fetch can fail.
@@ -113,14 +120,6 @@
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#39;");
 
-  const resolveUrl = (p) => {
-    const str = String(p || "").trim();
-    if (!str) return "";
-    // Keep fully-qualified URLs and protocol-relative URLs as-is
-    if (/^(https?:)?\/\//i.test(str)) return str;
-    return new URL(str, document.baseURI).toString();
-  };
-
   const heroHtml = `<div class="dgMergeContent dgMergeContent--23pt"><div class="dgHeroTitle" data-fit="hero-title"><span>${esc(
     C.heroTitleLines[0]
   )}</span><span>${esc(C.heroTitleLines[1])}</span></div></div>`;
@@ -186,36 +185,51 @@
   };
 
   const loadNewsEntries = async () => {
-    // For now: use the test markdown file as sample data.
-    // This can be expanded later with a JSON manifest of posts.
-    try {
-      const res = await fetch(resolveUrl("content/news/test-news.md"), {
-        cache: "no-cache",
-      });
-      if (!res.ok) throw new Error("Failed to load test-news.md");
-      const md = await res.text();
-      const { data } = parseFrontmatter(md);
-      return [
-        {
-          title: data.title || C.carousel.newsTitle,
-          date: formatDateYmdSlash(data.date || C.carousel.newsDate),
-          thumbnail: resolveUrl(
-            normalizeAssetPath(data.thumbnail || C.images.newsCard)
-          ),
-        },
-      ];
-    } catch (_) {
-      return [
+    // Single source of truth: content/news/*.md (no duplicate article fields in content.json).
+    const placeholder = () => ({
+      entries: [
         {
           title: C.carousel.newsTitle,
           date: C.carousel.newsDate,
           thumbnail: resolveUrl(normalizeAssetPath(C.images.newsCard)),
         },
-      ];
+      ],
+      source: "fallback",
+    });
+
+    try {
+      const res = await fetch(resolveUrl("content/news/test-news.md"), {
+        cache: "no-cache",
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const md = await res.text();
+      const trimmed = md.trimStart();
+      if (/^<!DOCTYPE/i.test(trimmed) || /^<html/i.test(trimmed)) {
+        throw new Error("response is HTML, not markdown");
+      }
+      if (!/^---\s*\n/.test(md)) {
+        throw new Error("not markdown with frontmatter");
+      }
+      const { data } = parseFrontmatter(md);
+      if (!data || typeof data !== "object") throw new Error("bad frontmatter");
+      return {
+        entries: [
+          {
+            title: data.title || C.carousel.newsTitle,
+            date: formatDateYmdSlash(data.date || C.carousel.newsDate),
+            thumbnail: resolveUrl(
+              normalizeAssetPath(data.thumbnail || C.images.newsCard)
+            ),
+          },
+        ],
+        source: "md",
+      };
+    } catch (_) {
+      return placeholder();
     }
   };
 
-  const newsEntries = await loadNewsEntries();
+  const { entries: newsEntries, source: newsSource } = await loadNewsEntries();
 
   // Row height rules (Excel-like row numbers):
   // - Row 1: base * 5
@@ -533,7 +547,9 @@
       from: "26A",
       to: "26L",
       interactive: true,
-      html: `<div class="dgCarousel swiper js-carousel26" aria-label="Row 26 Carousel"><div class="swiper-wrapper">${Array
+      html: `<div class="dgCarousel swiper js-carousel26" data-news-source="${esc(
+        newsSource
+      )}" aria-label="Row 26 Carousel"><div class="swiper-wrapper">${Array
         .from({ length: 4 })
         .map(
           () =>
