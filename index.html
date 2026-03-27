@@ -36,6 +36,19 @@
 
     <div id="site-footer-placeholder"></div>
 
+    <script id="latest-news-data" type="application/json">
+      [
+      {% assign latest_news = site.news | sort: "date" | reverse %}
+      {% for post in latest_news limit:10 %}
+        {
+          "title": {{ post.title | jsonify }},
+          "date": {{ post.date | date: "%Y/%m/%d" | jsonify }},
+          "thumbnail": {{ post.thumbnail | default: "/public/images/sample-news.png" | jsonify }}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+      ]
+    </script>
+
     <script src="./layout-loader.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <script src="./main.js" defer></script>

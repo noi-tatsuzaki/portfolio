@@ -185,51 +185,24 @@
   };
 
   const loadNewsEntries = async () => {
-    // Single source of truth: content/news/*.md (no duplicate article fields in content.json).
-    const placeholder = () => ({
-      entries: [
-        {
-          title: C.carousel.newsTitle,
-          date: C.carousel.newsDate,
-          thumbnail: resolveUrl(normalizeAssetPath(C.images.newsCard)),
-        },
-      ],
-      source: "fallback",
-    });
-
+    const jsonEl = document.getElementById("latest-news-data");
+    if (!jsonEl) return [];
     try {
-      const res = await fetch(resolveUrl("content/news/test-news.md"), {
-        cache: "no-cache",
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const md = await res.text();
-      const trimmed = md.trimStart();
-      if (/^<!DOCTYPE/i.test(trimmed) || /^<html/i.test(trimmed)) {
-        throw new Error("response is HTML, not markdown");
-      }
-      if (!/^---\s*\n/.test(md)) {
-        throw new Error("not markdown with frontmatter");
-      }
-      const { data } = parseFrontmatter(md);
-      if (!data || typeof data !== "object") throw new Error("bad frontmatter");
-      return {
-        entries: [
-          {
-            title: data.title || C.carousel.newsTitle,
-            date: formatDateYmdSlash(data.date || C.carousel.newsDate),
-            thumbnail: resolveUrl(
-              normalizeAssetPath(data.thumbnail || C.images.newsCard)
-            ),
-          },
-        ],
-        source: "md",
-      };
+      const parsed = JSON.parse(jsonEl.textContent || "[]");
+      if (!Array.isArray(parsed)) return [];
+      return parsed.slice(0, 10).map((item) => ({
+        title: item?.title || C.carousel.newsTitle,
+        date: formatDateYmdSlash(item?.date || C.carousel.newsDate),
+        thumbnail: resolveUrl(
+          normalizeAssetPath(item?.thumbnail || C.images.newsCard)
+        ),
+      }));
     } catch (_) {
-      return placeholder();
+      return [];
     }
   };
 
-  const { entries: newsEntries, source: newsSource } = await loadNewsEntries();
+  const newsEntries = await loadNewsEntries();
 
   // Row height rules (Excel-like row numbers):
   // - Row 1: base * 5
@@ -547,19 +520,18 @@
       from: "26A",
       to: "26L",
       interactive: true,
-      html: `<div class="dgCarousel swiper js-carousel26" data-news-source="${esc(
-        newsSource
-      )}" aria-label="Row 26 Carousel"><div class="swiper-wrapper">${Array
-        .from({ length: 4 })
+      html: `<div class="dgCarousel swiper js-carousel26" aria-label="Row 26 Carousel"><div class="swiper-wrapper">${newsEntries
         .map(
-          () =>
-            `<div class="swiper-slide dgCarousel26Slide"><div class="dgCarousel26Card"><div class="dgCarousel26ImgFrame"><img class="dgCarousel26Img" src="${esc(
-              newsEntries[0]?.thumbnail || resolveUrl(normalizeAssetPath(C.images.newsCard))
-            )}" alt="Sample news" /></div><div class="dgCarousel26Meta"><div class="dgCarousel26Title">${esc(
-              newsEntries[0]?.title || C.carousel.newsTitle
-            )}</div><div class="dgCarousel26Date">${esc(
-              newsEntries[0]?.date || C.carousel.newsDate
-            )}</div></div></div></div>`
+          (n) =>
+            `<div class="swiper-slide dgCarousel26Slide"><article class="latestNewsCard"><img class="latestNewsCard__thumbnail" src="${esc(
+              n.thumbnail
+            )}" alt="${esc(
+              n.title
+            )}" /><time class="latestNewsCard__date">${esc(
+              n.date
+            )}</time><h3 class="latestNewsCard__title">${esc(
+              n.title
+            )}</h3></article></div>`
         )
         .join("")}</div></div>`,
     },
