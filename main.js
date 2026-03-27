@@ -106,7 +106,7 @@
         bgFeatured: "public/images/featured-works.png",
         bgPurple: "public/images/bg-purple.png",
         bgSkillPhoto:
-          "file:///C:/Users/noifu/.cursor/projects/c-Users-noifu-OneDrive-GitHub-portfolio/assets/c__Users_noifu_AppData_Roaming_Cursor_User_workspaceStorage_c4458fd55862ea14baaf868aa6bde8d2_images_img_p1-05-174a7892-cd72-419a-b343-2d331a4c40ab.png",
+          "public/images/sample-works.png",
       },
     };
   };
