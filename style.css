@@ -1925,6 +1925,100 @@ a:hover {
   pointer-events: none;
 }
 
+/* カルーセル左のナビが A 列左端よりはみ出す */
+#debugGrid .dgOverlay:has(.dgCarouselHost) {
+  overflow: visible;
+}
+
+.dgCarouselHost {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* A 列左罫線を挟む: 左 25px（prev）+ 右 25px（next）。罫線接続面はボーダーなし */
+.dgCarouselNav {
+  position: absolute;
+  left: -25px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: row;
+  width: 50px;
+  height: 50px;
+  box-sizing: border-box;
+  pointer-events: auto;
+}
+
+.dgCarouselNavBtn {
+  width: 25px;
+  height: 50px;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #606060;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.dgCarouselNavBtn--prev {
+  border-right: none;
+}
+
+.dgCarouselNavBtn--next {
+  border-left: none;
+}
+
+.dgCarouselNavBtn__icon {
+  display: block;
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.dgCarouselNavBtn--prev .dgCarouselNavBtn__icon {
+  transform: rotate(180deg);
+}
+
+.dgCarouselNavBtn.swiper-button-disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.dgCarouselNavBtn:focus {
+  outline: none;
+}
+
+.dgCarouselNavBtn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.dgCarouselMain {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  box-sizing: border-box;
+  padding-left: 25px; /* A 列内側の next ボタン分 */
+}
+
+.dgCarouselMain .dgCarousel {
+  height: 100%;
+}
+
 .dgCarousel {
   width: 100%;
   height: 100%;
@@ -1961,8 +2055,10 @@ a:hover {
 
 .dgCarouselSlide {
   position: relative;
-  --work-pad: 16px;
-  --work-img-w: calc(100% - (var(--work-pad) * 2));
+  /* 左右: ボックス端〜画像枠まで 16px の 4/3。上下は従来どおり 16px */
+  --work-pad-y: 16px;
+  --work-pad-x: calc(16px * 4 / 3);
+  --work-img-w: calc(100% - (var(--work-pad-x) * 2));
   --work-img-h: calc(var(--work-img-w) * 3 / 4); /* keep 4:3 */
   height: 100%;
   background: #fff;
@@ -1979,8 +2075,8 @@ a:hover {
 
 .dgCarouselWorkImg {
   position: absolute;
-  top: var(--work-pad); /* share top-left anchor with corner dot */
-  left: var(--work-pad);
+  top: var(--work-pad-y); /* share top-left anchor with corner dot */
+  left: var(--work-pad-x);
   width: var(--work-img-w); /* equal left/right padding */
   aspect-ratio: 4 / 3;
   object-fit: cover;
@@ -1995,8 +2091,8 @@ a:hover {
 
 .dgCarouselWorkCaptionArea {
   position: absolute;
-  top: calc(var(--work-pad) + var(--work-img-h));
-  left: var(--work-pad);
+  top: calc(var(--work-pad-y) + var(--work-img-h));
+  left: var(--work-pad-x);
   width: var(--work-img-w); /* match image width */
   bottom: 0;
   display: flex;
@@ -2038,6 +2134,20 @@ a:hover {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  min-height: 0;
+  overflow: visible;
+}
+
+#debugGrid .dgOverlay--latestNews26 > .dgCarouselHost {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#debugGrid .dgCarouselHost--news .dgCarouselMain {
+  flex: 1 1 auto;
   min-height: 0;
 }
 
@@ -2213,10 +2323,11 @@ a:hover {
   flex-shrink: 0;
   align-self: stretch;
   overflow: hidden;
-  width: calc(100% - 4px);
-  max-width: calc(100% - 4px);
-  margin-left: 2px;
-  margin-right: 2px;
+  /* ボックス端〜メディア枠まで。基準 2px 側マージンの 4/3 */
+  width: calc(100% - 2 * (2px * 4 / 3));
+  max-width: calc(100% - 2 * (2px * 4 / 3));
+  margin-left: calc(2px * 4 / 3);
+  margin-right: calc(2px * 4 / 3);
   box-sizing: border-box;
 }
 
@@ -2423,6 +2534,12 @@ a:hover {
   width: 8px;
   height: 8px;
   background: #000;
+}
+
+/* Featured works / projects: ドット位置をパディングに同期 */
+.dgCarouselSlide .dgCornerDot {
+  top: var(--work-pad-y);
+  left: var(--work-pad-x);
 }
 
 .dgSkillPillsArea {

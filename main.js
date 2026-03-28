@@ -257,6 +257,14 @@
     resolveUrl(normalizeAssetPath("public/images/home-corner-chevron.png"))
   );
 
+  const homeCarouselArrowSrc = esc(
+    resolveUrl(normalizeAssetPath("public/images/home-carousel-arrow.png"))
+  );
+
+  /** A列左罫線を挟む prev/next（各 25×50px） */
+  const makeHomeCarouselNav = (rowNum, variant) =>
+    `<div class="dgCarouselNav dgCarouselNav--${variant}" role="group" aria-label="Carousel navigation"><button type="button" class="dgCarouselNavBtn dgCarouselNavBtn--prev js-carousel${rowNum}-nav-prev" aria-label="Previous slide"><img class="dgCarouselNavBtn__icon" src="${homeCarouselArrowSrc}" width="14" height="14" alt="" aria-hidden="true" /></button><button type="button" class="dgCarouselNavBtn dgCarouselNavBtn--next js-carousel${rowNum}-nav-next" aria-label="Next slide"><img class="dgCarouselNavBtn__icon" src="${homeCarouselArrowSrc}" width="14" height="14" alt="" aria-hidden="true" /></button></div>`;
+
   /**
    * Home grid only (#debugGrid): row heights + hidden axis row.
    * Edit here for home. News uses news-grid.js separately.
@@ -540,7 +548,10 @@
       from: "12A",
       to: "12L",
       interactive: true,
-      html: `<div class="dgCarousel swiper js-carousel12" aria-label="Carousel"><div class="swiper-wrapper">${Array
+      html: `<div class="dgCarouselHost dgCarouselHost--works">${makeHomeCarouselNav(
+        12,
+        "works"
+      )}<div class="dgCarouselMain"><div class="dgCarousel swiper js-carousel12" aria-label="Carousel"><div class="swiper-wrapper">${Array
         .from({ length: 6 })
         .map(
           () =>
@@ -550,13 +561,16 @@
               C.carousel.worksCaption
             )}</div></div></div>`
         )
-        .join("")}</div></div>`,
+        .join("")}</div></div></div></div>`,
     },
     {
       from: "17A",
       to: "17L",
       interactive: true,
-      html: `<div class="dgCarousel swiper js-carousel17" aria-label="Carousel"><div class="swiper-wrapper">${Array
+      html: `<div class="dgCarouselHost dgCarouselHost--projects">${makeHomeCarouselNav(
+        17,
+        "projects"
+      )}<div class="dgCarouselMain"><div class="dgCarousel swiper js-carousel17" aria-label="Carousel"><div class="swiper-wrapper">${Array
         .from({ length: 6 })
         .map(
           () =>
@@ -566,14 +580,17 @@
               C.carousel.projectsCaption
             )}</div></div></div>`
         )
-        .join("")}</div></div>`,
+        .join("")}</div></div></div></div>`,
     },
     {
       from: "26A",
       to: "26L",
       interactive: true,
       overlayClass: "dgOverlay--latestNews26",
-      html: `<div class="dgCarousel swiper js-carousel26" aria-label="Row 26 Carousel"><div class="swiper-wrapper">${newsEntries
+      html: `<div class="dgCarouselHost dgCarouselHost--news">${makeHomeCarouselNav(
+        26,
+        "news"
+      )}<div class="dgCarouselMain"><div class="dgCarousel swiper js-carousel26" aria-label="Row 26 Carousel"><div class="swiper-wrapper">${newsEntries
         .map(
           (n) =>
             `<div class="swiper-slide dgCarousel26Slide"><a class="homeLatestNewsCardLink" href="${esc(
@@ -588,7 +605,7 @@
               n.date
             )}</time></article></a></div>`
         )
-        .join("")}</div></div>`,
+        .join("")}</div></div></div></div>`,
     },
     {
       from: "10A",
@@ -1087,6 +1104,20 @@
     return maxH;
   };
 
+  /** LATEST NEWS: ナビをサムネ（メディア枠）の縦中央に */
+  const positionHomeNewsCarouselNav = () => {
+    const host = root.querySelector(".dgCarouselHost--news");
+    if (!host) return;
+    const nav = host.querySelector(".dgCarouselNav--news");
+    const media = host.querySelector(".homeLatestCard__mediaHost");
+    if (!nav || !media) return;
+    const hostRect = host.getBoundingClientRect();
+    const mediaRect = media.getBoundingClientRect();
+    const center = mediaRect.top + mediaRect.height / 2 - hostRect.top;
+    nav.style.top = `${Math.round(center)}px`;
+    nav.style.transform = "translateY(-50%)";
+  };
+
   const layoutLatestNewsRow26FromContent = () => {
     const carousel = root.querySelector(".js-carousel26");
     if (!carousel) return;
@@ -1103,6 +1134,7 @@
     }
     const sw = carousel.swiper;
     if (sw && typeof sw.update === "function") sw.update();
+    requestAnimationFrame(() => positionHomeNewsCarouselNav());
   };
 
   const wireHomeLatestNewsRowImages = () => {
@@ -1134,6 +1166,9 @@
     // - box3 right = 40px inset
     // - spacing = 30px
     // Achieved via offsets + symmetric layout.
+    const host = el.closest(".dgCarouselHost");
+    const prevEl = host?.querySelector(".js-carousel12-nav-prev");
+    const nextEl = host?.querySelector(".js-carousel12-nav-next");
     new window.Swiper(el, {
       slidesPerView: "auto",
       spaceBetween: 30,
@@ -1143,6 +1178,13 @@
       initialSlide: 0,
       speed: 500,
       grabCursor: true,
+      navigation:
+        prevEl && nextEl
+          ? {
+              prevEl,
+              nextEl,
+            }
+          : undefined,
     });
   };
 
@@ -1153,6 +1195,9 @@
     if (typeof window.Swiper !== "function") return;
     el.dataset.inited = "1";
 
+    const host = el.closest(".dgCarouselHost");
+    const prevEl = host?.querySelector(".js-carousel17-nav-prev");
+    const nextEl = host?.querySelector(".js-carousel17-nav-next");
     new window.Swiper(el, {
       slidesPerView: "auto",
       spaceBetween: 30,
@@ -1162,6 +1207,13 @@
       initialSlide: 0,
       speed: 500,
       grabCursor: true,
+      navigation:
+        prevEl && nextEl
+          ? {
+              prevEl,
+              nextEl,
+            }
+          : undefined,
     });
   };
 
@@ -1172,6 +1224,9 @@
     if (typeof window.Swiper !== "function") return;
     el.dataset.inited = "1";
 
+    const host = el.closest(".dgCarouselHost");
+    const prevEl = host?.querySelector(".js-carousel26-nav-prev");
+    const nextEl = host?.querySelector(".js-carousel26-nav-next");
     new window.Swiper(el, {
       slidesPerView: "auto",
       spaceBetween: 80,
@@ -1181,12 +1236,22 @@
       initialSlide: 0,
       speed: 500,
       grabCursor: true,
+      navigation:
+        prevEl && nextEl
+          ? {
+              prevEl,
+              nextEl,
+            }
+          : undefined,
     });
 
     requestAnimationFrame(() => {
       layoutLatestNewsRow26FromContent();
       wireHomeLatestNewsRowImages();
-      requestAnimationFrame(() => layoutLatestNewsRow26FromContent());
+      requestAnimationFrame(() => {
+        layoutLatestNewsRow26FromContent();
+        positionHomeNewsCarouselNav();
+      });
     });
   };
 
@@ -1242,7 +1307,10 @@
   }
   window.addEventListener("layout:loaded", () => {
     initScrambleOnVisible();
-    requestAnimationFrame(() => layoutLatestNewsRow26FromContent());
+    requestAnimationFrame(() => {
+      layoutLatestNewsRow26FromContent();
+      positionHomeNewsCarouselNav();
+    });
   });
   window.addEventListener(
     "resize",
@@ -1252,6 +1320,7 @@
       fitSyncedText("experience");
       fitWhiteMetaLine();
       layoutLatestNewsRow26FromContent();
+      positionHomeNewsCarouselNav();
     },
     { passive: true }
   );
