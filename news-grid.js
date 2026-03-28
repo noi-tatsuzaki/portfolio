@@ -473,19 +473,23 @@
   const ROW7_EDGE_PAD_TOP = 60;
   const ROW7_EDGE_PAD_BOTTOM = 0;
 
-  /** リピーターが空のときも、カード1段（3列×1行）分の高さを使う */
+  /**
+   * リピーターが空のとき、1段分（カード1〜3枚と同じ1行）の高さを測る。
+   * body 直下だと #newsGrid 配下用の CSS が効かず画像が縦に伸びて異常値になるため、必ず root (#newsGrid) 内に置く。
+   */
   const measureRow7RepeaterOneRowHeightPx = (repeaterEl) => {
     const probeEntry = newsViewState.allArticles[0] || latestNewsFallback;
     const scratch = document.createElement("div");
     scratch.className = repeaterEl.className;
+    scratch.setAttribute("aria-hidden", "true");
     const w = Math.max(1, Math.ceil(repeaterEl.getBoundingClientRect().width));
     scratch.style.cssText = `position:absolute;left:-10000px;top:0;width:${w}px;visibility:hidden;pointer-events:none;box-sizing:border-box;`;
     for (let i = 0; i < 3; i++) {
       scratch.appendChild(createRow7RepeaterCard(probeEntry));
     }
-    document.body.appendChild(scratch);
+    root.appendChild(scratch);
     const h = Math.ceil(scratch.offsetHeight);
-    document.body.removeChild(scratch);
+    root.removeChild(scratch);
     return h;
   };
 
