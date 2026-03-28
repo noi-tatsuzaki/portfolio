@@ -6,11 +6,40 @@
   if (!root) return;
 
   const basePath = document.body?.getAttribute("data-base-path")?.trim() ?? "../..";
+  const siteBaseurl = document.body?.getAttribute("data-site-baseurl")?.trim() ?? "";
   const asset = (...parts) =>
     [basePath, ...parts].filter(Boolean).join("/").replace(/\/+/g, "/");
   const arrowSrc = asset("public/images/news-back-arrow.png");
   const thumbSrc = asset("public/images/sample-news.png");
   const navArrowSrc = asset("public/images/news-nav-arrow.png");
+  const cornerAccentArrowSrc = asset("public/images/corner-accent-arrow.png");
+
+  const rootAbsolutePath = (path) => {
+    const s = String(path || "").trim();
+    if (!s || /^(https?:)?\/\//i.test(s)) return s;
+    if (!s.startsWith("/")) return s;
+    const base = siteBaseurl.replace(/\/$/, "");
+    if (!base) return s;
+    if (s === base || s.startsWith(`${base}/`)) return s;
+    return `${base}${s}`;
+  };
+
+  const resolveUrl = (p) => {
+    const str = String(p || "").trim();
+    if (!str) return "";
+    if (/^(https?:)?\/\//i.test(str)) return str;
+    try {
+      return new URL(str, document.baseURI).toString();
+    } catch (_) {
+      return str;
+    }
+  };
+
+  const normalizeAssetPath = (p) => {
+    const str = String(p || "").trim();
+    if (!str) return "";
+    return str.startsWith("/") ? str.slice(1) : str;
+  };
 
   const COLS = 12;
   const ROWS = 5;
@@ -37,8 +66,8 @@
 
   const rowHeights = [`${HEADER_ROW_PX}px`];
   for (let r = 1; r <= ROWS; r++) {
-    /** データ3行目(3D:3L 本文)は内容に合わせて伸ばす（px 固定だと計測ループ・未定義関数で壊れやすい） */
-    if (r === 3) {
+    /** データ3・4行目は本文・関連記事の内容高さに合わせる */
+    if (r === 3 || r === 4) {
       rowHeights.push(`minmax(${BASE_ROW_PX}px, max-content)`);
     } else {
       rowHeights.push(`${BASE_ROW_PX}px`);
@@ -185,6 +214,21 @@
       el.appendChild(wrap);
     }
 
+    if (spec.from === "4D" && spec.to === "4L") {
+      el.classList.add("newsDetailMerge--4d4l");
+      const wrap = document.createElement("div");
+      wrap.className = "dgMergeContent newsDetailRelatedHost";
+      const dual = document.createElement("div");
+      dual.className = "newsDetailRelatedDualGrid";
+      const col1 = document.createElement("div");
+      col1.className = "newsDetailRelatedCol";
+      const col2 = document.createElement("div");
+      col2.className = "newsDetailRelatedCol";
+      dual.append(col1, col2);
+      wrap.appendChild(dual);
+      el.appendChild(wrap);
+    }
+
     frag.appendChild(el);
   }
 
@@ -228,6 +272,154 @@
     const sb = seg(b);
     if (sa.length && sb.length && sa[sa.length - 1] === sb[sb.length - 1]) return true;
     return false;
+  };
+
+  const formatDateSlash = (raw) => {
+    const str = String(raw ?? "").trim();
+    const m = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return `${m[1]}/${m[2]}/${m[3]}`;
+    return str;
+  };
+
+  const resolveThumbString = (raw) => {
+    const s = String(raw || "").trim();
+    if (!s) return thumbSrc;
+    if (/^(https?:)?\/\//i.test(s)) return s;
+    if (s.startsWith("/")) {
+      try {
+        return new URL(rootAbsolutePath(s), document.baseURI).toString();
+      } catch (_) {
+        return thumbSrc;
+      }
+    }
+    return resolveUrl(normalizeAssetPath(s)) || thumbSrc;
+  };
+
+  const parseRawToCardEntry = (item) => {
+    const lang = document.documentElement.lang === "ja" ? "ja" : "en";
+    const titleJa = String(item?.title_ja ?? item?.title ?? "").trim();
+    const titleEn = String(item?.title_en ?? item?.title ?? "").trim();
+    const title =
+      lang === "ja"
+        ? titleJa || titleEn || "—"
+        : titleEn || titleJa || "—";
+    const thumbRaw =
+      lang === "ja"
+        ? item?.thumbnail_ja ?? item?.thumbnail_en ?? item?.thumbnail
+        : item?.thumbnail_en ?? item?.thumbnail_ja ?? item?.thumbnail;
+    let url = String(item?.url ?? "#").trim() || "#";
+    if (url !== "#" && url.startsWith("/")) {
+      try {
+        url = new URL(rootAbsolutePath(url), document.baseURI).toString();
+      } catch (_) {
+        url = "#";
+      }
+    }
+    return {
+      title,
+      date: formatDateSlash(item?.date) || "—",
+      thumbnail: resolveThumbString(thumbRaw),
+      url,
+    };
+  };
+
+  /** news 一覧 7 行リピーターと同一 DOM（createRow7RepeaterCard 相当） */
+  const createRelatedRepeaterCard = (entry) => {
+    const item = document.createElement("div");
+    item.className = "newsGridRow7RepeaterItem";
+    const inner = document.createElement("div");
+    inner.className = "newsGridLatestCardInner newsGridLatestCardInner--repeater";
+    const slide = document.createElement("div");
+    slide.className = "dgCarousel26Slide newsGridLatestCardSlide";
+    const link = document.createElement("a");
+    link.className = "newsGridLatestCard__link";
+    link.href = entry.url || "#";
+    const article = document.createElement("article");
+    article.className = "latestNewsCard newsGridLatestCard__article";
+    const media = document.createElement("div");
+    media.className = "newsGridLatestCard__media";
+    const img = document.createElement("img");
+    img.className = "latestNewsCard__thumbnail";
+    img.src = entry.thumbnail;
+    img.alt = entry.title;
+    const mediaHost = document.createElement("div");
+    mediaHost.className = "newsGridRow7Card__mediaHost";
+    const corner = document.createElement("div");
+    corner.className = "newsGridRow7Card__cornerAccent";
+    corner.setAttribute("aria-hidden", "true");
+    const cornerArrow = document.createElement("img");
+    cornerArrow.className = "newsGridRow7Card__cornerAccentArrow";
+    cornerArrow.src = cornerAccentArrowSrc;
+    cornerArrow.alt = "";
+    cornerArrow.setAttribute("aria-hidden", "true");
+    corner.appendChild(cornerArrow);
+    media.append(img, corner);
+    mediaHost.appendChild(media);
+    const title = document.createElement("h3");
+    title.className = "latestNewsCard__title";
+    title.textContent = entry.title;
+    const date = document.createElement("time");
+    date.className = "latestNewsCard__date";
+    date.textContent = entry.date;
+    article.append(mediaHost, title, date);
+    link.appendChild(article);
+    slide.appendChild(link);
+    inner.appendChild(slide);
+    item.appendChild(inner);
+    return item;
+  };
+
+  const wireRelatedArticles = () => {
+    const host = root.querySelector(".newsDetailRelatedHost");
+    if (!host) return;
+    const cols = host.querySelectorAll(".newsDetailRelatedCol");
+    if (cols.length !== 2) return;
+
+    const jsonEl = document.getElementById("latest-news-data");
+    let rawList = [];
+    if (jsonEl) {
+      try {
+        const parsed = JSON.parse(jsonEl.textContent || "[]");
+        if (Array.isArray(parsed)) rawList = parsed;
+      } catch (_) {
+        rawList = [];
+      }
+    }
+
+    const sorted = [...rawList].sort(
+      (a, b) => newsDateSortKey(b?.date) - newsDateSortKey(a?.date)
+    );
+    const idx = sorted.findIndex((e) => pathMatchesArticle(e?.url, location.pathname));
+    const currentCat =
+      idx >= 0 && sorted[idx]?.category
+        ? String(sorted[idx].category).toLowerCase().trim()
+        : "announcement";
+
+    const sameCat = sorted.filter(
+      (e) => String(e?.category ?? "").toLowerCase().trim() === currentCat
+    );
+    const notCurrent = sameCat.filter(
+      (e) => !pathMatchesArticle(e?.url, location.pathname)
+    );
+    const picked = notCurrent.slice(0, 2);
+
+    const lang = document.documentElement.lang === "ja" ? "ja" : "en";
+    while (picked.length < 2) {
+      const n = picked.length + 1;
+      picked.push({
+        title_ja: `関連記事（ダミー） ${n}`,
+        title_en: `Related article (dummy) ${n}`,
+        date: "2025/06/15",
+        thumbnail_ja: "/public/images/sample-news.png",
+        thumbnail_en: "/public/images/sample-news.png",
+        url: "#",
+        category: currentCat,
+      });
+    }
+
+    const cardEntries = picked.map(parseRawToCardEntry);
+    cols[0].replaceChildren(createRelatedRepeaterCard(cardEntries[0]));
+    cols[1].replaceChildren(createRelatedRepeaterCard(cardEntries[1]));
   };
 
   const wireNewsArticleNav = () => {

@@ -1,7 +1,7 @@
 ---
-title_ja: 新会社「株式会社ADvance Lab（現・株式会社LINOA）」を設立、立崎乃衣が代表取締役社長CEOに就任
-title_en: Establishment of ADvance Lab Co., Ltd. (currently LINOA Co., Ltd.)
-  with Noi Tatsuzaki Appointed as CEO
+title_ja: 株式会社ADvance Lab（現・株式会社LINOA）設立および代表取締役社長CEO就任のお知らせ
+title_en: Establishment of ADvance Lab Co., Ltd. (now LINOA Co., Ltd.) and
+  Appointment as CEO
 date: 2024-06-17T00:00:00.000-04:00
 category: announcement
 thumbnail_ja: /public/uploads/advance-lab-co-ltd.png
