@@ -18,18 +18,6 @@ layout: null
     <link rel="stylesheet" href="{{ '/style.css' | relative_url }}" />
   </head>
   <body data-base-path="{{ base_path | strip }}" data-site-baseurl="{{ site.baseurl }}">
-    <script>
-      (function () {
-        try {
-          var path = location.pathname;
-          var i = path.indexOf("/news/");
-          var base = i > 0 ? path.slice(0, i) : "";
-          document.body.setAttribute("data-site-baseurl", base);
-        } catch (e) {
-          document.body.setAttribute("data-site-baseurl", "");
-        }
-      })();
-    </script>
     <div id="site-header-placeholder"></div>
 
     <main class="page">

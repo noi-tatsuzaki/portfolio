@@ -513,14 +513,14 @@ a:hover {
   display: none;
 }
 
-/* News article detail: 行ヘッダ列あり、A–L / 1–N を表示。データ行は同一高さ */
+/* News article detail: 軸ラベルは非表示（ホーム・ニュース一覧と同様） */
 #newsDetailGrid.debugGrid {
-  --row-header-w: 36px;
+  --row-header-w: 0px;
   border-top: var(--border);
 }
 
 #newsDetailGrid.debugGrid > .dgHead {
-  display: grid;
+  display: none;
 }
 
 /* 2A:2F — サムネが G–L 側へはみ出すので overflow visible + 隣セルより手前 */
@@ -608,11 +608,14 @@ a:hover {
 }
 
 /* 3D:3L — 記事本文（text / リッチテキスト）。データ3行目は minmax(56px, max-content) で高さ自動 */
+/* .dgCell の text-transform: uppercase を継承させない（本文はマークダウンどおりの表記） */
 #newsDetailGrid .newsDetailMerge--3d3l.dgMerge {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   min-height: 0;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 #newsDetailGrid .newsDetailMerge--3d3l .newsDetailArticleBody.dgMergeContent {
@@ -637,6 +640,8 @@ a:hover {
   font-size: var(--fs-2);
   line-height: var(--lh-base);
   color: var(--c-ink);
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 #newsDetailGrid .newsDetailArticleBody__rich p {
@@ -702,8 +707,22 @@ a:hover {
   min-height: 0;
 }
 
+/* 同カテゴリの他記事がないときは 4 行目を潰して空白にする（JS が grid 行高 0 + 本クラスを付与） */
+#newsDetailGrid .newsDetailMerge--4d4l.newsDetailMerge--relatedEmpty {
+  min-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+#newsDetailGrid .newsDetailMerge--relatedEmpty .newsDetailRelatedHost.dgMergeContent {
+  --merge-pad: 0;
+  padding: 0;
+  min-height: 0;
+}
+
 #newsDetailGrid .newsDetailMerge--4d4l .newsDetailRelatedHost.dgMergeContent {
   --merge-pad: 20px;
+  padding: 30px 20px;
   flex: 0 0 auto;
   width: 100%;
   min-width: 0;
@@ -743,6 +762,7 @@ a:hover {
   align-items: stretch;
   justify-content: flex-start;
   box-sizing: border-box;
+  flex: 0 0 auto;
 }
 
 #newsDetailGrid .newsDetailRelatedHost .newsGridRow7Card__mediaHost {
@@ -825,16 +845,15 @@ a:hover {
 }
 
 #newsDetailGrid .newsDetailRelatedHost .newsGridLatestCardInner {
-  width: 93%;
+  width: 100%;
   max-width: 100%;
-  max-height: 100%;
+  max-height: none;
   min-height: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: stretch;
   box-sizing: border-box;
-  transform: scale(0.82);
-  transform-origin: center center;
+  transform: none;
 }
 
 #newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__link {
@@ -846,28 +865,27 @@ a:hover {
 #newsDetailGrid .newsDetailRelatedHost .newsGridLatestCardInner--repeater {
   width: 100%;
   max-width: 100%;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   min-height: 0;
   align-items: stretch;
   justify-content: flex-start;
-  transform: scale(0.78);
-  transform-origin: center top;
+  transform: none;
 }
 
 #newsDetailGrid .newsDetailRelatedHost .newsGridLatestCardSlide.dgCarousel26Slide {
   width: 100%;
   height: auto;
-  max-height: 100%;
+  max-height: none;
   min-height: 0;
   overflow: hidden;
-  flex: 1 1 auto;
-  flex-shrink: 1;
+  flex: 0 0 auto;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
   border: none;
-  border-bottom: var(--border);
+  border-bottom: none;
   background: var(--c-bg);
   text-transform: none;
 }
@@ -876,11 +894,11 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 0;
-  padding: 0 0 12px;
+  padding: 0;
   margin: 0;
   width: 100%;
   box-sizing: border-box;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   min-height: 0;
 }
 
@@ -895,7 +913,7 @@ a:hover {
 }
 
 #newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__article .latestNewsCard__date {
-  margin-top: auto;
+  margin-top: 6px;
 }
 
 #newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__media {
@@ -925,36 +943,31 @@ a:hover {
 }
 
 #newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__article .latestNewsCard__title {
-  font-size: calc(24px * 1.5 * 0.7 * 0.7 * 0.7 * 2);
+  font-size: calc(24px * 0.72);
   line-height: 1.2;
 }
 
 #newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__article .latestNewsCard__date {
-  font-size: calc(14px * 1.5 * 0.9);
+  font-size: 14px;
   line-height: 1.2;
 }
 
-/* 行5: 左は行番号列（5A:5C の左）、右は 5J:5L 内 — 投稿日前後の記事へ */
-#newsDetailGrid .newsDetailRowHead--navRow.dgRow {
+/* 行5: 5A:5C に前へ、5J:5L に次へ */
+#newsDetailGrid .newsDetailMerge--5a5c.dgMerge {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 4px 0;
+  justify-content: flex-start;
+}
+
+#newsDetailGrid .newsDetailMerge--5a5c .newsDetailNavPrevHost {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 8px;
   box-sizing: border-box;
-}
-
-#newsDetailGrid .newsDetailRowHead__num {
-  line-height: 1;
-  font-size: var(--fs-0);
-}
-
-#newsDetailGrid .newsDetailNavPrevHost {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
 }
 
 #newsDetailGrid .newsDetailMerge--5j5l.dgMerge {

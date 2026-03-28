@@ -73,8 +73,11 @@
       rowHeights.push(`${BASE_ROW_PX}px`);
     }
   }
-  /** grid 行インデックス: 0=見出し, 1=データ1行目, 2=データ2行目 */
+  /** grid 行インデックス: 0=見出し, 1=データ1行目, …, 4=関連記事行(4D:4L) */
   const DATA_ROW2_TEMPLATE_INDEX = 2;
+  const DATA_ROW4_TEMPLATE_INDEX = 4;
+  const RELATED_ROW_HEIGHT_DEFAULT = `minmax(${BASE_ROW_PX}px, max-content)`;
+  const RELATED_ROW_HEIGHT_EMPTY = "0px";
 
   /** ダミー本文（約500字・リッチテキスト例）。本番は CMS 等から差し替え */
   const NEWS_DETAIL_BODY_DUMMY_HTML = `
@@ -122,21 +125,10 @@
   }
 
   for (let r = 1; r <= ROWS; r++) {
-    const el = makeCell("dgCell dgHead dgRow", "");
+    const el = makeCell("dgCell dgHead dgRow", String(r));
     el.dataset.dgRow = String(r);
     el.style.gridRow = String(1 + r);
     el.style.gridColumn = "1";
-    if (r === 5) {
-      el.classList.add("newsDetailRowHead--navRow");
-      const num = document.createElement("span");
-      num.className = "newsDetailRowHead__num";
-      num.textContent = String(r);
-      const prevHost = document.createElement("div");
-      prevHost.className = "newsDetailNavPrevHost";
-      el.append(num, prevHost);
-    } else {
-      el.textContent = String(r);
-    }
     frag.appendChild(el);
   }
 
@@ -227,6 +219,20 @@
       dual.append(col1, col2);
       wrap.appendChild(dual);
       el.appendChild(wrap);
+    }
+
+    if (spec.from === "5A" && spec.to === "5C") {
+      el.classList.add("newsDetailMerge--5a5c");
+      const prevHost = document.createElement("div");
+      prevHost.className = "newsDetailNavPrevHost";
+      el.appendChild(prevHost);
+    }
+
+    if (spec.from === "5J" && spec.to === "5L") {
+      el.classList.add("newsDetailMerge--5j5l");
+      const nextHost = document.createElement("div");
+      nextHost.className = "newsDetailNavNextHost";
+      el.appendChild(nextHost);
     }
 
     frag.appendChild(el);
@@ -468,22 +474,27 @@
     );
     const picked = notCurrent.slice(0, 2);
 
-    while (picked.length < 2) {
-      const n = picked.length + 1;
-      picked.push({
-        title_ja: `関連記事（ダミー） ${n}`,
-        title_en: `Related article (dummy) ${n}`,
-        date: "2025/06/15",
-        thumbnail_ja: "/public/images/sample-news.png",
-        thumbnail_en: "/public/images/sample-news.png",
-        url: "#",
-        category: currentCat,
-      });
+    const merge4 = host.closest(".newsDetailMerge--4d4l");
+    if (picked.length === 0) {
+      cols[0].replaceChildren();
+      cols[1].replaceChildren();
+      if (merge4) merge4.classList.add("newsDetailMerge--relatedEmpty");
+      rowHeights[DATA_ROW4_TEMPLATE_INDEX] = RELATED_ROW_HEIGHT_EMPTY;
+      applyGridTemplateRows();
+      return;
     }
+
+    if (merge4) merge4.classList.remove("newsDetailMerge--relatedEmpty");
+    rowHeights[DATA_ROW4_TEMPLATE_INDEX] = RELATED_ROW_HEIGHT_DEFAULT;
+    applyGridTemplateRows();
 
     const cardEntries = picked.map(parseRawToCardEntry);
     cols[0].replaceChildren(createRelatedRepeaterCard(cardEntries[0]));
-    cols[1].replaceChildren(createRelatedRepeaterCard(cardEntries[1]));
+    if (cardEntries[1]) {
+      cols[1].replaceChildren(createRelatedRepeaterCard(cardEntries[1]));
+    } else {
+      cols[1].replaceChildren();
+    }
   };
 
   const wireNewsArticleNav = () => {
