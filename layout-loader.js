@@ -31,8 +31,8 @@
     const scrambleLine = (el, finalText) =>
       new Promise((resolve) => {
         const start = performance.now();
-        const durationMs = 720;
-        const frameMs = 28;
+        const durationMs = 400;
+        const frameMs = 16;
         const len = finalText.length;
         const tick = (now) => {
           const t = Math.min(1, (now - start) / durationMs);

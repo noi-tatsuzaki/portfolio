@@ -184,14 +184,27 @@
     return str.startsWith("/") ? str.slice(1) : str;
   };
 
+  /** YYYY/MM/DD, YYYY-MM-DD, or ISO prefix — for stable sort when Jekyll cannot sort CMS dates. */
+  const newsDateSortKey = (raw) => {
+    const s = String(raw ?? "").trim();
+    let m = s.match(/^(\d{4})\/(\d{2})\/(\d{2})/);
+    if (m) return Number(`${m[1]}${m[2]}${m[3]}`);
+    m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return Number(`${m[1]}${m[2]}${m[3]}`);
+    return 0;
+  };
+
   const loadNewsEntries = async () => {
     const jsonEl = document.getElementById("latest-news-data");
     if (!jsonEl) return [];
     try {
       const parsed = JSON.parse(jsonEl.textContent || "[]");
       if (!Array.isArray(parsed)) return [];
+      const sorted = [...parsed].sort(
+        (a, b) => newsDateSortKey(b?.date) - newsDateSortKey(a?.date)
+      );
       const lang = document.documentElement.lang === "ja" ? "ja" : "en";
-      return parsed.slice(0, 10).map((item) => {
+      return sorted.slice(0, 10).map((item) => {
         const title =
           lang === "ja"
             ? item?.title_ja || item?.title_en || item?.title
@@ -214,6 +227,10 @@
   };
 
   const newsEntries = await loadNewsEntries();
+
+  const homeLatestNewsCornerArrowSrc = esc(
+    resolveUrl(normalizeAssetPath("public/images/corner-accent-arrow.png"))
+  );
 
   /**
    * Home grid only (#debugGrid): row heights + hidden axis row.
@@ -533,11 +550,11 @@
       html: `<div class="dgCarousel swiper js-carousel26" aria-label="Row 26 Carousel"><div class="swiper-wrapper">${newsEntries
         .map(
           (n) =>
-            `<div class="swiper-slide dgCarousel26Slide"><article class="latestNewsCard"><img class="latestNewsCard__thumbnail" src="${esc(
+            `<div class="swiper-slide dgCarousel26Slide"><article class="latestNewsCard"><div class="homeLatestCard__mediaHost"><div class="latestNewsCard__media"><img class="latestNewsCard__thumbnail" src="${esc(
               n.thumbnail
             )}" alt="${esc(
               n.title
-            )}" /><h3 class="latestNewsCard__title">${esc(
+            )}" /><div class="homeLatestCard__cornerAccent" aria-hidden="true"><img class="homeLatestCard__cornerAccentArrow" src="${homeLatestNewsCornerArrowSrc}" alt="" aria-hidden="true" /></div></div></div><h3 class="latestNewsCard__title">${esc(
               n.title
             )}</h3><time class="latestNewsCard__date">${esc(
               n.date
@@ -1079,6 +1096,20 @@
     });
   };
 
+  /** LATEST NEWS 行の白「View all」ボタンと隣の黒矢印ボタン → News ページ */
+  const initLatestNewsViewAllNav = () => {
+    const cluster = document.querySelector(".dgMergeContent--viewAll .dgViewAllCluster");
+    if (!cluster) return;
+    const base = document.body?.getAttribute("data-base-path")?.trim() || ".";
+    const rel = [base, "news/index.html"].join("/").replace(/\/+/g, "/");
+    const href = new URL(rel, document.baseURI).href;
+    const go = () => {
+      window.location.assign(href);
+    };
+    cluster.querySelector(".dgViewAllBox")?.addEventListener("click", go);
+    cluster.querySelector(".dgBlackCornerSquare--inline")?.addEventListener("click", go);
+  };
+
   const fitWhiteMetaLine = () => {
     document.querySelectorAll('[data-fit="white-meta"]').forEach((el) => {
       const box = el.closest(".dgWhiteCornerRect");
@@ -1108,6 +1139,7 @@
   initCarousel12();
   initCarousel17();
   initCarousel26();
+  initLatestNewsViewAllNav();
   fitWhiteMetaLine();
   window.addEventListener("layout:loaded", () => {
     initScrambleOnVisible();

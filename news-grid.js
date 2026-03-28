@@ -74,6 +74,16 @@
     return resolveUrl(normalizeAssetPath(s)) || fallbackThumb;
   };
 
+  /** YYYY/MM/DD, YYYY-MM-DD, or ISO prefix — matches main.js (Jekyll sort: date removed for CMS safety). */
+  const newsDateSortKey = (raw) => {
+    const s = String(raw ?? "").trim();
+    let m = s.match(/^(\d{4})\/(\d{2})\/(\d{2})/);
+    if (m) return Number(`${m[1]}${m[2]}${m[3]}`);
+    m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return Number(`${m[1]}${m[2]}${m[3]}`);
+    return 0;
+  };
+
   const parseLatestNewsItem = (item, fallback = latestNewsFallback) => {
     if (!item || typeof item !== "object") return { ...fallback };
     const titleJa = String(item.title_ja ?? item.title ?? "").trim();
@@ -117,7 +127,10 @@
     try {
       const arr = JSON.parse(jsonEl.textContent || "[]");
       if (!Array.isArray(arr) || arr.length === 0) return [latestNewsFallback];
-      return arr.map((item) => parseLatestNewsItem(item));
+      const sorted = [...arr].sort(
+        (a, b) => newsDateSortKey(b?.date) - newsDateSortKey(a?.date)
+      );
+      return sorted.map((item) => parseLatestNewsItem(item));
     } catch {
       return [latestNewsFallback];
     }

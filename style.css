@@ -138,7 +138,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 12px;
+  padding: 8px 18px;
   font-family: var(--font-sub-title);
   font-weight: 400;
   font-size: var(--fs-1);
@@ -151,7 +151,8 @@ body {
 
 .siteHeaderNewsLink__corners {
   position: absolute;
-  inset: 0;
+  /* 文字から離して L を外周に寄せる */
+  inset: -10px;
   pointer-events: none;
   opacity: 0;
   transform: scale(0.88);
@@ -159,11 +160,12 @@ body {
   transition:
     opacity 0.42s ease,
     transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  /* 縦脚 12px→18px（1.5倍）、横脚も同倍でバランス */
   background:
-    linear-gradient(var(--c-accent), var(--c-accent)) left 3px top 3px / 12px 2px no-repeat,
-    linear-gradient(var(--c-accent), var(--c-accent)) left 3px top 3px / 2px 12px no-repeat,
-    linear-gradient(var(--c-accent), var(--c-accent)) right 3px bottom 3px / 12px 2px no-repeat,
-    linear-gradient(var(--c-accent), var(--c-accent)) right 3px bottom 3px / 2px 12px no-repeat;
+    linear-gradient(var(--c-accent), var(--c-accent)) left 6px top 6px / 18px 2px no-repeat,
+    linear-gradient(var(--c-accent), var(--c-accent)) left 6px top 6px / 2px 18px no-repeat,
+    linear-gradient(var(--c-accent), var(--c-accent)) right 6px bottom 6px / 18px 2px no-repeat,
+    linear-gradient(var(--c-accent), var(--c-accent)) right 6px bottom 6px / 2px 18px no-repeat;
 }
 
 .siteHeaderNewsLink:hover .siteHeaderNewsLink__corners,
@@ -456,7 +458,7 @@ a:hover {
 /* Row 3, G–L: photo above cell borders; H-center = I|J boundary (geometric center of span). */
 #newsGrid .newsGridPhotoLayer {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
   overflow: hidden;
   z-index: 3;
@@ -465,13 +467,16 @@ a:hover {
   cursor: default;
 }
 
-/* TL/TR/BL 5px round; BR 20px chamfer; scale on hover moves border + clip with image */
+/* 16:9 固定（セル内に収まるよう max-height で縮小） */
 #newsGrid .newsGridPhotoLayer__frame {
   box-sizing: border-box;
   position: relative;
-  height: 100%;
-  width: fit-content;
+  width: 100%;
   max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  flex: 0 1 auto;
   border: var(--border);
   border-bottom-right-radius: 0;
   border-top-left-radius: 5px;
@@ -537,8 +542,10 @@ a:hover {
 }
 
 #newsGrid .newsGridPhotoLayer__img {
+  width: 100%;
   height: 100%;
-  width: auto;
+  object-fit: cover;
+  object-position: center;
   display: block;
   flex-shrink: 0;
 }
@@ -1403,8 +1410,12 @@ a:hover {
 
 .latestNewsCard__thumbnail {
   width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
   border: 1px solid #606060;
   display: block;
+  flex-shrink: 0;
 }
 
 .latestNewsCard__date {
@@ -1423,6 +1434,92 @@ a:hover {
   line-height: 1.2;
   color: #000;
   text-transform: none;
+}
+
+/* Home LATEST NEWS: 記事ボックス（.latestNewsCard）ホバーで 16:9 メディア縮小 + 左下青四角＋矢印 */
+#debugGrid .homeLatestCard__mediaHost {
+  position: relative;
+  flex-shrink: 0;
+  align-self: stretch;
+  overflow: hidden;
+  width: calc(100% - 4px);
+  max-width: calc(100% - 4px);
+  margin-left: 2px;
+  margin-right: 2px;
+  box-sizing: border-box;
+}
+
+#debugGrid .latestNewsCard__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid #606060;
+  box-sizing: border-box;
+  overflow: hidden;
+  transform: scale(1);
+  transform-origin: center center;
+  transition: transform 0.35s ease;
+}
+
+#debugGrid .latestNewsCard:hover .latestNewsCard__media {
+  transform: scale(0.92);
+}
+
+#debugGrid .latestNewsCard__media .latestNewsCard__thumbnail {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: unset;
+  object-fit: cover;
+  object-position: center;
+  border: none;
+  display: block;
+}
+
+#debugGrid .homeLatestCard__cornerAccent {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  height: 25%;
+  aspect-ratio: 1;
+  width: auto;
+  box-sizing: border-box;
+  background: var(--c-accent);
+  border: none;
+  border-top: var(--border);
+  border-right: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transform-origin: left bottom;
+  transform: scale(0);
+  transition: transform 0.5s cubic-bezier(0.32, 0.72, 0.28, 1);
+}
+
+#debugGrid .homeLatestCard__cornerAccentArrow {
+  width: 52%;
+  height: 52%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+  pointer-events: none;
+  display: block;
+}
+
+#debugGrid .latestNewsCard:hover .homeLatestCard__cornerAccent {
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #debugGrid .latestNewsCard__media {
+    transition: none;
+  }
+
+  #debugGrid .homeLatestCard__cornerAccent {
+    transition: none;
+  }
 }
 
 /* =========================
