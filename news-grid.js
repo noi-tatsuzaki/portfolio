@@ -158,7 +158,7 @@
   const hRow2 = rowHeightPx(2);
   const hRow3 = rowHeightPx(3);
   const articleTopPct = (hRow2 / (hRow2 + hRow3)) * 100;
-  const latestArticleTitleHtml = `<div class="dgMergeContent dgMergeContent--articleTitleHost" style="--article-top:${articleTopPct}%"><div class="dgArticleTitleBox"><div class="dgArticleTitleText">Latest Article Title</div></div></div>`;
+  const latestArticleTitleHtml = `<div class="dgMergeContent dgMergeContent--articleTitleHost" style="--article-top:${articleTopPct}%"><div class="dgArticleTitleBox"><a class="dgArticleTitleLink" href="#"><div class="dgArticleTitleText">Latest Article Title</div></a></div></div>`;
 
   const newsMetaRowHtml = `<div class="dgMergeContent dgMergeContent--newsMeta"><span class="dgNewsMeta__cat">Category</span><span class="dgNewsMeta__date">YYYY/MM/DD</span></div>`;
 
@@ -223,7 +223,7 @@
         imgEl.alt = hero.title;
       }
     } else {
-      if (titleEl) titleEl.textContent = "No matching articles";
+      if (titleEl) titleEl.textContent = "No articles yet";
       if (titleLink) {
         titleLink.href = "#";
         titleLink.removeAttribute("aria-label");
@@ -473,6 +473,22 @@
   const ROW7_EDGE_PAD_TOP = 60;
   const ROW7_EDGE_PAD_BOTTOM = 0;
 
+  /** リピーターが空のときも、カード1段（3列×1行）分の高さを使う */
+  const measureRow7RepeaterOneRowHeightPx = (repeaterEl) => {
+    const probeEntry = newsViewState.allArticles[0] || latestNewsFallback;
+    const scratch = document.createElement("div");
+    scratch.className = repeaterEl.className;
+    const w = Math.max(1, Math.ceil(repeaterEl.getBoundingClientRect().width));
+    scratch.style.cssText = `position:absolute;left:-10000px;top:0;width:${w}px;visibility:hidden;pointer-events:none;box-sizing:border-box;`;
+    for (let i = 0; i < 3; i++) {
+      scratch.appendChild(createRow7RepeaterCard(probeEntry));
+    }
+    document.body.appendChild(scratch);
+    const h = Math.ceil(scratch.offsetHeight);
+    document.body.removeChild(scratch);
+    return h;
+  };
+
   const layoutNewsRow7 = () => {
     const repeater = root.querySelector(".newsGridRow7Repeater");
     if (!repeater) return;
@@ -482,7 +498,13 @@
     applyGridTemplateRows();
     void root.offsetHeight;
 
-    const contentH = Math.ceil(repeater.offsetHeight);
+    let contentH;
+    if (repeater.children.length === 0) {
+      contentH = measureRow7RepeaterOneRowHeightPx(repeater);
+    } else {
+      contentH = Math.ceil(repeater.offsetHeight);
+    }
+
     const total = Math.max(row7Min, contentH + ROW7_EDGE_PAD_TOP + ROW7_EDGE_PAD_BOTTOM);
     rowHeights[NEWS_DATA_ROW_7] = `${total}px`;
     applyGridTemplateRows();
@@ -696,16 +718,16 @@
     el.style.fontSize = `${best}px`;
   };
 
-  /** 最新1件→3行目ヒーロー、残り→7行目リピーター（カテゴリ・検索後の一覧） */
+  /** 3行目 LATEST＝常に全体で最新1件。7行目＝検索・カテゴリ適用後（ヒーローと同一記事は重複しない） */
   function applyNewsView() {
-    const filtered = filterNewsArticles(
-      newsViewState.allArticles,
-      newsViewState.selectedCategory,
-      newsViewState.searchQuery
-    );
-    const hero = filtered[0] ?? null;
-    const rest = filtered.slice(1);
-    updateNewsHeroRow(hero);
+    const all = newsViewState.allArticles;
+    const globalLatest = all.length ? all[0] : null;
+    updateNewsHeroRow(globalLatest);
+
+    const filtered = filterNewsArticles(all, newsViewState.selectedCategory, newsViewState.searchQuery);
+    const heroUrl = String(globalLatest?.url ?? "");
+    const rest = heroUrl ? filtered.filter((e) => String(e.url ?? "") !== heroUrl) : filtered.slice();
+
     newsRepeaterState.items = rest;
     newsRepeaterState.page = 1;
     renderNewsRepeaterView();
