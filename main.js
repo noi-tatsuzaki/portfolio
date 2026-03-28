@@ -261,7 +261,7 @@
     resolveUrl(normalizeAssetPath("public/images/home-carousel-arrow.png"))
   );
 
-  /** カルーセル上段: prev/next（各 25×50px） */
+  /** カルーセル上に重ねる prev/next（各 25×50px）。DOM 後ろ＝手前に描画 */
   const makeHomeCarouselNav = (rowNum, variant) =>
     `<div class="dgCarouselNav dgCarouselNav--${variant}" role="group" aria-label="Carousel navigation"><button type="button" class="dgCarouselNavBtn dgCarouselNavBtn--prev js-carousel${rowNum}-nav-prev" aria-label="Previous slide"><img class="dgCarouselNavBtn__icon" src="${homeCarouselArrowSrc}" width="14" height="14" alt="" aria-hidden="true" /></button><button type="button" class="dgCarouselNavBtn dgCarouselNavBtn--next js-carousel${rowNum}-nav-next" aria-label="Next slide"><img class="dgCarouselNavBtn__icon" src="${homeCarouselArrowSrc}" width="14" height="14" alt="" aria-hidden="true" /></button></div>`;
 
@@ -278,10 +278,9 @@
     [7, 2],
     [8, 2],
     [10, 4],
-    /* カルーセル上ナビ 50px 分、スライド領域の実効高さを維持 */
-    [12, 6 + 50 / BASE_ROW_PX],
+    [12, 6],
     [15, 4],
-    [17, 6 + 50 / BASE_ROW_PX],
+    [17, 6],
     [19, 2],
     [20, 5],
     [21, 1.5],
@@ -549,10 +548,7 @@
       from: "12A",
       to: "12L",
       interactive: true,
-      html: `<div class="dgCarouselHost dgCarouselHost--works">${makeHomeCarouselNav(
-        12,
-        "works"
-      )}<div class="dgCarouselMain"><div class="dgCarousel swiper js-carousel12" aria-label="Carousel"><div class="swiper-wrapper">${Array
+      html: `<div class="dgCarouselHost dgCarouselHost--works"><div class="dgCarouselMain"><div class="dgCarousel swiper js-carousel12" aria-label="Carousel"><div class="swiper-wrapper">${Array
         .from({ length: 6 })
         .map(
           () =>
@@ -562,16 +558,13 @@
               C.carousel.worksCaption
             )}</div></div></div>`
         )
-        .join("")}</div></div></div></div>`,
+        .join("")}</div></div></div>${makeHomeCarouselNav(12, "works")}</div>`,
     },
     {
       from: "17A",
       to: "17L",
       interactive: true,
-      html: `<div class="dgCarouselHost dgCarouselHost--projects">${makeHomeCarouselNav(
-        17,
-        "projects"
-      )}<div class="dgCarouselMain"><div class="dgCarousel swiper js-carousel17" aria-label="Carousel"><div class="swiper-wrapper">${Array
+      html: `<div class="dgCarouselHost dgCarouselHost--projects"><div class="dgCarouselMain"><div class="dgCarousel swiper js-carousel17" aria-label="Carousel"><div class="swiper-wrapper">${Array
         .from({ length: 6 })
         .map(
           () =>
@@ -581,17 +574,14 @@
               C.carousel.projectsCaption
             )}</div></div></div>`
         )
-        .join("")}</div></div></div></div>`,
+        .join("")}</div></div></div>${makeHomeCarouselNav(17, "projects")}</div>`,
     },
     {
       from: "26A",
       to: "26L",
       interactive: true,
       overlayClass: "dgOverlay--latestNews26",
-      html: `<div class="dgCarouselHost dgCarouselHost--news">${makeHomeCarouselNav(
-        26,
-        "news"
-      )}<div class="dgCarouselMain"><div class="dgCarousel swiper js-carousel26" aria-label="Row 26 Carousel"><div class="swiper-wrapper">${newsEntries
+      html: `<div class="dgCarouselHost dgCarouselHost--news"><div class="dgCarouselMain"><div class="dgCarousel swiper js-carousel26" aria-label="Row 26 Carousel"><div class="swiper-wrapper">${newsEntries
         .map(
           (n) =>
             `<div class="swiper-slide dgCarousel26Slide"><a class="homeLatestNewsCardLink" href="${esc(
@@ -606,7 +596,7 @@
               n.date
             )}</time></article></a></div>`
         )
-        .join("")}</div></div></div></div>`,
+        .join("")}</div></div></div>${makeHomeCarouselNav(26, "news")}</div>`,
     },
     {
       from: "10A",
@@ -1107,6 +1097,20 @@
     return maxH;
   };
 
+  /** LATEST NEWS: ナビをサムネ（メディア枠）の縦中央に（カルーセル上に重ね表示） */
+  const positionHomeNewsCarouselNav = () => {
+    const host = root.querySelector(".dgCarouselHost--news");
+    if (!host) return;
+    const nav = host.querySelector(".dgCarouselNav--news");
+    const media = host.querySelector(".homeLatestCard__mediaHost");
+    if (!nav || !media) return;
+    const hostRect = host.getBoundingClientRect();
+    const mediaRect = media.getBoundingClientRect();
+    const center = mediaRect.top + mediaRect.height / 2 - hostRect.top;
+    nav.style.top = `${Math.round(center)}px`;
+    nav.style.transform = "translateY(-50%)";
+  };
+
   const layoutLatestNewsRow26FromContent = () => {
     const carousel = root.querySelector(".js-carousel26");
     if (!carousel) return;
@@ -1123,6 +1127,7 @@
     }
     const sw = carousel.swiper;
     if (sw && typeof sw.update === "function") sw.update();
+    requestAnimationFrame(() => positionHomeNewsCarouselNav());
   };
 
   const wireHomeLatestNewsRowImages = () => {
@@ -1236,7 +1241,10 @@
     requestAnimationFrame(() => {
       layoutLatestNewsRow26FromContent();
       wireHomeLatestNewsRowImages();
-      requestAnimationFrame(() => layoutLatestNewsRow26FromContent());
+      requestAnimationFrame(() => {
+        layoutLatestNewsRow26FromContent();
+        positionHomeNewsCarouselNav();
+      });
     });
   };
 
@@ -1292,7 +1300,10 @@
   }
   window.addEventListener("layout:loaded", () => {
     initScrambleOnVisible();
-    requestAnimationFrame(() => layoutLatestNewsRow26FromContent());
+    requestAnimationFrame(() => {
+      layoutLatestNewsRow26FromContent();
+      positionHomeNewsCarouselNav();
+    });
   });
   window.addEventListener(
     "resize",
@@ -1302,6 +1313,7 @@
       fitSyncedText("experience");
       fitWhiteMetaLine();
       layoutLatestNewsRow26FromContent();
+      positionHomeNewsCarouselNav();
     },
     { passive: true }
   );
