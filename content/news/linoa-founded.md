@@ -1,6 +1,6 @@
 ---
 title: "LINOA Co., Ltd. Founded"
-date: 2026-03-26
+date: "2026-03-26"
 category: "announcement"
 thumbnail: "/public/uploads/linoa.jpg"
 ---

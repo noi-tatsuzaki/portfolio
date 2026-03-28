@@ -1,6 +1,6 @@
 ---
 title: "Joined and Led ADvance Lab"
-date: 2026-03-26
+date: "2026-03-26"
 category: "activity"
 thumbnail: "/public/uploads/advance-lab.jpg"
 ---

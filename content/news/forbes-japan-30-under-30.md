@@ -1,6 +1,6 @@
 ---
 title: "Selected for Forbes JAPAN 30 UNDER 30"
-date: 2026-03-26
+date: "2026-03-26"
 category: "achievement"
 thumbnail: "/public/uploads/forbes.jpg"
 ---

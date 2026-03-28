@@ -1,6 +1,6 @@
 ---
 title: Founded ADvance Lab Co., Ltd.
-date: 2024-06-14T12:00:00.000-04:00
+date: "2024-06-14"
 category: announcement
 thumbnail: https://static.wixstatic.com/media/43bae8_e771c6c43f684ad1bd7b566a2b4fbd17~mv2.jpg/v1/fill/w_678,h_508,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Image-empty-state.jpg
 summary: testtest
