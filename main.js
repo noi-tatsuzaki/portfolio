@@ -204,11 +204,10 @@
 
   const newsEntries = await loadNewsEntries();
 
-  // Row height rules (Excel-like row numbers):
-  // - Row 1: base * 5
-  // - Row 2: base * 2
-  // - Row 4: base * 2.5
-  // - Others: base
+  /**
+   * Home grid only (#debugGrid): row heights + hidden axis row.
+   * Edit here for home. News uses news-grid.js separately.
+   */
   const multiplierByRow = new Map([
     [1, 5],
     [2, 2],
@@ -229,7 +228,7 @@
     [26, 7],
   ]);
 
-  const rowHeights = ["0px"]; // hide ABC... header row
+  const rowHeights = ["0px"]; /* collapse A–L header row (not shown on home) */
   for (let r = 1; r <= ROWS; r++) {
     const mul = multiplierByRow.get(r) ?? 1;
     rowHeights.push(`${BASE_ROW_PX * mul}px`);
@@ -469,7 +468,7 @@
       interactive: true,
       html: `<div class="dgMergeContent dgMergeContent--23"><div class="dgPortraitStack"><div class="rect dgInsetRect"></div><img class="dgPortraitImg" src="${esc(
         C.images.portrait
-      )}" width="160" height="160" alt="Portrait" /><div class="dgImageCorners dgImageCorners--portrait"></div><div class="dgPortraitNameWrap"><div class="dgPortraitName" data-fit="portrait-name"><span>${esc(
+      )}" width="180" height="180" alt="Portrait" /><div class="dgImageCorners dgImageCorners--portrait"></div><div class="dgPortraitNameWrap"><div class="dgPortraitName" data-fit="portrait-name"><span>${esc(
         C.profile.nameLines[0]
       )}</span><span>${esc(
         C.profile.nameLines[1]
