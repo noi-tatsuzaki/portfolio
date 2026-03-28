@@ -34,13 +34,16 @@
   };
 
   const fallbackThumb = [basePath, "public/images/sample-news.png"].filter(Boolean).join("/").replace(/\/+/g, "/");
-  const newsPageLang = document.documentElement.lang === "en" ? "en" : "ja";
+
+  /** 初回だけでなく参照のたびに読む（head の prefetch 完了タイミング差による取り違え防止） */
+  const getNewsPageLang = () =>
+    document.documentElement.getAttribute("lang") === "en" ? "en" : "ja";
 
   const pickLocalized = (ja, en, legacy) => {
     const j = String(ja ?? "").trim();
     const e = String(en ?? "").trim();
     const l = String(legacy ?? "").trim();
-    if (newsPageLang === "en") return e || j || l || "";
+    if (getNewsPageLang() === "en") return e || j || l || "";
     return j || e || l || "";
   };
 
@@ -105,7 +108,7 @@
         url = "#";
       }
     }
-    if (newsPageLang === "ja" && url !== "#") {
+    if (getNewsPageLang() === "ja" && url !== "#") {
       try {
         const u = new URL(url, document.baseURI);
         if (/\/content\/news\//i.test(u.pathname)) {
@@ -121,7 +124,10 @@
       date: item.date || fallback.date,
       thumbnail_ja: thumbJaResolved,
       thumbnail_en: thumbEnResolved,
-      thumbnail: newsPageLang === "en" ? thumbEnResolved || thumbJaResolved : thumbJaResolved || thumbEnResolved,
+      thumbnail:
+        getNewsPageLang() === "en"
+          ? thumbEnResolved || thumbJaResolved
+          : thumbJaResolved || thumbEnResolved,
       category,
       body_ja: bodyJa,
       body_en: bodyEn,

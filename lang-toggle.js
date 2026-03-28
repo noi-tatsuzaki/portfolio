@@ -7,8 +7,14 @@
   const pathIsJaSection = () => {
     const base = siteBaseFromBody();
     const path = (location.pathname || "").replace(/\/+$/, "") || "/";
-    const jaP = base ? `${base}/ja` : "/ja";
-    return path === jaP || path.startsWith(`${jaP}/`);
+    const jaPrefix = base ? `${base}/ja` : "/ja";
+    return (
+      path === jaPrefix ||
+      path.startsWith(`${jaPrefix}/`) ||
+      path === "/ja" ||
+      path.startsWith("/ja/") ||
+      `${path}/`.includes("/ja/")
+    );
   };
 
   const currentLang = () =>

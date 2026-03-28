@@ -2,19 +2,32 @@
   (function () {
     var BASE = {{ site.baseurl | jsonify }};
     try {
-      var path = location.pathname.replace(/\/+$/, "") || "/";
+      var path = (location.pathname || "").replace(/\/+$/, "") || "/";
       var base = (BASE || "").replace(/\/$/, "");
       var jaPrefix = base ? base + "/ja" : "/ja";
-      if (path === jaPrefix || path.indexOf(jaPrefix + "/") === 0) {
+      /** URL パス上で /ja をロケールセグメントとして含む（baseurl と実 URL がずれても拾う） */
+      var pathHasJaLocale =
+        path === jaPrefix ||
+        path.indexOf(jaPrefix + "/") === 0 ||
+        path === "/ja" ||
+        path.indexOf("/ja/") === 0 ||
+        (path + "/").indexOf("/ja/") !== -1;
+      if (pathHasJaLocale) {
         document.documentElement.setAttribute("lang", "ja");
         return;
       }
       var sp = new URLSearchParams(location.search || "");
       if (sp.get("lang") === "ja") {
         document.documentElement.setAttribute("lang", "ja");
-      } else {
-        document.documentElement.setAttribute("lang", "en");
+        return;
       }
+      var docLang = (document.documentElement.getAttribute("lang") || "")
+        .trim()
+        .toLowerCase();
+      if (docLang === "ja") {
+        return;
+      }
+      document.documentElement.setAttribute("lang", "en");
     } catch (e) {}
   })();
 </script>

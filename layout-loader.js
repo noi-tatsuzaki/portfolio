@@ -83,7 +83,11 @@
     const pathNorm = (location.pathname || "").replace(/\/+$/, "") || "/";
     const jaPrefix = siteBaseurl ? `${siteBaseurl}/ja` : "/ja";
     const isJaSection =
-      pathNorm === jaPrefix || pathNorm.startsWith(`${jaPrefix}/`);
+      pathNorm === jaPrefix ||
+      pathNorm.startsWith(`${jaPrefix}/`) ||
+      pathNorm === "/ja" ||
+      pathNorm.startsWith("/ja/") ||
+      `${pathNorm}/`.includes("/ja/");
 
     document.querySelectorAll(".siteHeaderHomeLink").forEach((el) => {
       el.setAttribute(
