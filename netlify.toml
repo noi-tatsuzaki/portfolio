@@ -1,0 +1,6 @@
+[build]
+  command = "bundle exec jekyll build --config _config.yml,_config_netlify.yml"
+  publish = "_site"
+
+# Netlify ダッシュボードで Build command を上書きしている場合は削除するか、
+# 次の 1 行と同じにしてください（UI の設定がファイルより優先されることがあります）。

@@ -1,0 +1,3 @@
+# Netlify ではサイトがサブドメイン直下に配信されるため baseurl を空にする
+# ビルド: jekyll build --config _config.yml,_config_netlify.yml
+baseurl: ""
