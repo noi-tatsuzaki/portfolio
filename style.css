@@ -522,15 +522,20 @@ a:hover {
   z-index: 3;
   pointer-events: auto;
   min-width: 0;
+  min-height: 0;
+  height: 100%;
+  align-self: stretch;
+  box-sizing: border-box;
   cursor: default;
 }
 
-/* 16:9 固定（幅基準で高さを決める。はみ出しは .newsGridPhotoLayer の overflow でクリップ） */
+/* 16:9 のまま 3 行目セル高に収める（max-height で高さを抑え aspect-ratio が幅を合わせる） */
 #newsGrid .newsGridPhotoLayer__frame {
   box-sizing: border-box;
   position: relative;
   width: 100%;
   max-width: 100%;
+  max-height: 100%;
   aspect-ratio: 16 / 9;
   height: auto;
   flex: 0 0 auto;
@@ -606,6 +611,18 @@ a:hover {
   display: block;
   flex-shrink: 0;
   align-self: stretch;
+}
+
+@supports (width: min(1px, 1cqh)) {
+  #newsGrid .newsGridPhotoLayer {
+    container-type: size;
+    container-name: news-hero-photo;
+  }
+
+  /* 行の高さを超えない最大幅＝(セル高)×16/9。これで枠の高さがちょうどセルに収まる */
+  #newsGrid .newsGridPhotoLayer__frame {
+    width: min(100%, calc(100cqh * 16 / 9));
+  }
 }
 
 /* 7A:7L リピーターはオーバーレイ（下層の縦罫線の上に表示） */
