@@ -44,7 +44,6 @@
   const COLS = 12;
   const ROWS = 5;
   const BASE_ROW_PX = 56;
-  const HEADER_ROW_PX = 28;
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").slice(0, COLS);
 
   const mergeSpecs = [
@@ -64,7 +63,8 @@
     { from: "5J", to: "5L" },
   ];
 
-  const rowHeights = [`${HEADER_ROW_PX}px`];
+  /** 軸行は CSS で非表示のため高さ 0（ニュース一覧 #newsGrid と同様） */
+  const rowHeights = ["0px"];
   for (let r = 1; r <= ROWS; r++) {
     /** データ3・4行目は本文・関連記事の内容高さに合わせる */
     if (r === 3 || r === 4) {
