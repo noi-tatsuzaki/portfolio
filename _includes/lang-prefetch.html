@@ -1,0 +1,9 @@
+<script>
+  (function () {
+    try {
+      var k = "portfolio-lang";
+      var v = localStorage.getItem(k);
+      if (v === "en" || v === "ja") document.documentElement.setAttribute("lang", v);
+    } catch (e) {}
+  })();
+</script>

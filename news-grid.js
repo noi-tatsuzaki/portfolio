@@ -151,7 +151,7 @@
       case 4:
         return BASE_ROW_PX * 0.8;
       case 3:
-        return BASE_ROW_PX * 5 * 0.95 * 0.87;
+        return BASE_ROW_PX * 5 * 0.95;
       case 6:
         return BASE_ROW_PX * 1.3;
       case 7:

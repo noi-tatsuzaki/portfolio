@@ -1,11 +1,21 @@
 <header class="siteHeader" aria-label="Header">
   <div class="siteHeader__inner">
     <a href="/" class="siteHeaderHomeLink" aria-label="Go to home">NOI TATSUZAKI</a>
-    <nav class="siteHeaderNav" aria-label="Section">
-      <a class="siteHeaderNewsLink" href="news/index.html">
-        <span class="siteHeaderNewsLink__corners" aria-hidden="true"></span>
-        <span class="siteHeaderNewsLink__text">NEWS</span>
-      </a>
-    </nav>
+    <div class="siteHeader__rightCluster">
+      <nav class="siteHeaderNav" aria-label="Section">
+        <a class="siteHeaderNewsLink" href="news/index.html">
+          <span class="siteHeaderNewsLink__corners" aria-hidden="true"></span>
+          <span class="siteHeaderNewsLink__text">NEWS</span>
+        </a>
+      </nav>
+      <div class="siteHeader__lang" role="group" aria-label="Language">
+        <button type="button" class="siteHeaderLangBtn" data-lang="en" aria-pressed="true">
+          EN
+        </button>
+        <button type="button" class="siteHeaderLangBtn" data-lang="ja" aria-pressed="false">
+          JA
+        </button>
+      </div>
+    </div>
   </div>
 </header>

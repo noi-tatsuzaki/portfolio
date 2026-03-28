@@ -1,7 +1,7 @@
 (() => {
   const base = document.body?.dataset?.basePath || ".";
   const FALLBACK_HEADER =
-    '<header class="siteHeader" aria-label="Header"><div class="siteHeader__inner"><a href="/" class="siteHeaderHomeLink" aria-label="Go to home">NOI TATSUZAKI</a><nav class="siteHeaderNav" aria-label="Section"><a class="siteHeaderNewsLink" href="news/index.html"><span class="siteHeaderNewsLink__corners" aria-hidden="true"></span><span class="siteHeaderNewsLink__text">NEWS</span></a></nav></div></header>';
+    '<header class="siteHeader" aria-label="Header"><div class="siteHeader__inner"><a href="/" class="siteHeaderHomeLink" aria-label="Go to home">NOI TATSUZAKI</a><div class="siteHeader__rightCluster"><nav class="siteHeaderNav" aria-label="Section"><a class="siteHeaderNewsLink" href="news/index.html"><span class="siteHeaderNewsLink__corners" aria-hidden="true"></span><span class="siteHeaderNewsLink__text">NEWS</span></a></nav><div class="siteHeader__lang" role="group" aria-label="Language"><button type="button" class="siteHeaderLangBtn" data-lang="en" aria-pressed="true">EN</button><button type="button" class="siteHeaderLangBtn" data-lang="ja" aria-pressed="false">JA</button></div></div></div></header>';
   const FALLBACK_FOOTER =
     '<footer class="siteFooter" aria-label="Footer"><div class="siteFooter__inner"><div class="siteFooterTagline" data-scramble="1"><span>LET&#39;S BUILD</span><span>THE FUTURE</span><span>TOGETHER.</span></div><div class="siteFooterCopyright">🄫 2026 NOI TATSUZAKI. All rights reserved.</div></div></footer>';
 
@@ -91,6 +91,14 @@
         link.setAttribute("aria-current", "page");
         link.classList.add("siteHeaderNewsLink--current");
       }
+    });
+
+    const headerLang =
+      document.documentElement.getAttribute("lang") === "ja" ? "ja" : "en";
+    const newsNavLabel = headerLang === "ja" ? "ニュース" : "NEWS";
+    document.querySelectorAll(".siteHeaderNewsLink__text").forEach((textEl) => {
+      textEl.textContent = newsNavLabel;
+      textEl.dataset.scrambleFinal = newsNavLabel;
     });
 
     initSiteHeaderNewsScramble();
