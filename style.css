@@ -514,9 +514,10 @@ a:hover {
 }
 
 /* News article detail: 軸ラベルは非表示（ホーム・ニュース一覧と同様） */
+/* border-top なし — 固定ヘッダーの border-bottom と二重になるのを避ける */
 #newsDetailGrid.debugGrid {
   --row-header-w: 0px;
-  border-top: var(--border);
+  border-top: none;
 }
 
 #newsDetailGrid.debugGrid > .dgHead {
@@ -952,7 +953,7 @@ a:hover {
   line-height: 1.2;
 }
 
-/* 行5: 5A:5C に前へ、5J:5L に次へ */
+/* 行5: 5A:5C＝新しい記事、5J:5L＝過去の記事 */
 #newsDetailGrid .newsDetailMerge--5a5c.dgMerge {
   display: flex;
   align-items: center;

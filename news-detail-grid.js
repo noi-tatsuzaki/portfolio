@@ -316,6 +316,16 @@
     return row ? row.label : slug || "—";
   };
 
+  /** 本文内リンクは別タブ（javascript: 等は除外） */
+  const wireArticleBodyLinksNewTab = () => {
+    root.querySelectorAll(".newsDetailArticleBody__rich a[href]").forEach((a) => {
+      const href = (a.getAttribute("href") || "").trim();
+      if (!href || /^javascript:/i.test(href)) return;
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener noreferrer");
+    });
+  };
+
   const hydrateNewsArticleFromPageData = () => {
     const el = document.getElementById("news-article-page-data");
     if (!el) return;
@@ -367,6 +377,7 @@
   };
 
   hydrateNewsArticleFromPageData();
+  wireArticleBodyLinksNewTab();
 
   const parseRawToCardEntry = (item) => {
     const lang = document.documentElement.lang === "ja" ? "ja" : "en";
@@ -518,10 +529,10 @@
     );
     const idx = sorted.findIndex((e) => pathMatchesArticle(e?.url, location.pathname));
     const lang = document.documentElement.lang === "ja" ? "ja" : "en";
-    const labelPrev =
-      lang === "ja" ? "投稿日が一つ前の記事へ" : "Go to the previous article by date";
-    const labelNext =
-      lang === "ja" ? "投稿日が一つ後の記事へ" : "Go to the next article by date";
+    const labelNewer =
+      lang === "ja" ? "より新しい記事へ" : "Go to the newer article";
+    const labelOlder =
+      lang === "ja" ? "より過去の記事へ" : "Go to the older article";
 
     const older = idx >= 0 && idx < sorted.length - 1 ? sorted[idx + 1] : null;
     const newer = idx > 0 ? sorted[idx - 1] : null;
@@ -548,16 +559,17 @@
 
     prevHost.replaceChildren();
     nextHost.replaceChildren();
-    const prevHref =
-      older?.url && String(older.url).trim()
-        ? resolveArticleUrl(older.url)
-        : "";
-    const nextHref =
+    const newerHref =
       newer?.url && String(newer.url).trim()
         ? resolveArticleUrl(newer.url)
         : "";
-    prevHost.appendChild(makeControl(prevHref, labelPrev, true));
-    nextHost.appendChild(makeControl(nextHref, labelNext, false));
+    const olderHref =
+      older?.url && String(older.url).trim()
+        ? resolveArticleUrl(older.url)
+        : "";
+    /* 左＝新しい記事、右＝過去の記事（一覧は新しい順） */
+    prevHost.appendChild(makeControl(newerHref, labelNewer, true));
+    nextHost.appendChild(makeControl(olderHref, labelOlder, false));
   };
 
   wireNewsArticleNav();
