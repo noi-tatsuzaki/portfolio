@@ -261,7 +261,7 @@
     resolveUrl(normalizeAssetPath("public/images/home-carousel-arrow.png"))
   );
 
-  /** A列左罫線を挟む prev/next（各 25×50px） */
+  /** カルーセル上段: prev/next（各 25×50px） */
   const makeHomeCarouselNav = (rowNum, variant) =>
     `<div class="dgCarouselNav dgCarouselNav--${variant}" role="group" aria-label="Carousel navigation"><button type="button" class="dgCarouselNavBtn dgCarouselNavBtn--prev js-carousel${rowNum}-nav-prev" aria-label="Previous slide"><img class="dgCarouselNavBtn__icon" src="${homeCarouselArrowSrc}" width="14" height="14" alt="" aria-hidden="true" /></button><button type="button" class="dgCarouselNavBtn dgCarouselNavBtn--next js-carousel${rowNum}-nav-next" aria-label="Next slide"><img class="dgCarouselNavBtn__icon" src="${homeCarouselArrowSrc}" width="14" height="14" alt="" aria-hidden="true" /></button></div>`;
 
@@ -278,9 +278,10 @@
     [7, 2],
     [8, 2],
     [10, 4],
-    [12, 6],
+    /* カルーセル上ナビ 50px 分、スライド領域の実効高さを維持 */
+    [12, 6 + 50 / BASE_ROW_PX],
     [15, 4],
-    [17, 6],
+    [17, 6 + 50 / BASE_ROW_PX],
     [19, 2],
     [20, 5],
     [21, 1.5],
@@ -1082,6 +1083,8 @@
   initHeroScrambleOnVisible();
 
   const HOME_LATEST_NEWS_ROW = 26;
+  /** カルーセル上の prev/next 行（.dgCarouselNav と同じ高さ） */
+  const HOME_CAROUSEL_NAV_ROW_PX = 50;
 
   const measureLatestNewsCarouselMaxCardHeight = (carousel) => {
     const slides = carousel.querySelectorAll(".swiper-slide");
@@ -1104,20 +1107,6 @@
     return maxH;
   };
 
-  /** LATEST NEWS: ナビをサムネ（メディア枠）の縦中央に */
-  const positionHomeNewsCarouselNav = () => {
-    const host = root.querySelector(".dgCarouselHost--news");
-    if (!host) return;
-    const nav = host.querySelector(".dgCarouselNav--news");
-    const media = host.querySelector(".homeLatestCard__mediaHost");
-    if (!nav || !media) return;
-    const hostRect = host.getBoundingClientRect();
-    const mediaRect = media.getBoundingClientRect();
-    const center = mediaRect.top + mediaRect.height / 2 - hostRect.top;
-    nav.style.top = `${Math.round(center)}px`;
-    nav.style.transform = "translateY(-50%)";
-  };
-
   const layoutLatestNewsRow26FromContent = () => {
     const carousel = root.querySelector(".js-carousel26");
     if (!carousel) return;
@@ -1126,7 +1115,7 @@
 
     const minH = Math.round(BASE_ROW_PX * (multiplierByRow.get(HOME_LATEST_NEWS_ROW) ?? 7));
     const pad = 28;
-    const target = Math.max(minH, maxH + pad);
+    const target = Math.max(minH, maxH + pad + HOME_CAROUSEL_NAV_ROW_PX);
     const prev = parseInt(String(rowHeights[HOME_LATEST_NEWS_ROW]).replace(/px/g, ""), 10);
     if (Number.isNaN(prev) || Math.abs(prev - target) > 1) {
       rowHeights[HOME_LATEST_NEWS_ROW] = `${target}px`;
@@ -1134,7 +1123,6 @@
     }
     const sw = carousel.swiper;
     if (sw && typeof sw.update === "function") sw.update();
-    requestAnimationFrame(() => positionHomeNewsCarouselNav());
   };
 
   const wireHomeLatestNewsRowImages = () => {
@@ -1248,10 +1236,7 @@
     requestAnimationFrame(() => {
       layoutLatestNewsRow26FromContent();
       wireHomeLatestNewsRowImages();
-      requestAnimationFrame(() => {
-        layoutLatestNewsRow26FromContent();
-        positionHomeNewsCarouselNav();
-      });
+      requestAnimationFrame(() => layoutLatestNewsRow26FromContent());
     });
   };
 
@@ -1307,10 +1292,7 @@
   }
   window.addEventListener("layout:loaded", () => {
     initScrambleOnVisible();
-    requestAnimationFrame(() => {
-      layoutLatestNewsRow26FromContent();
-      positionHomeNewsCarouselNav();
-    });
+    requestAnimationFrame(() => layoutLatestNewsRow26FromContent());
   });
   window.addEventListener(
     "resize",
@@ -1320,7 +1302,6 @@
       fitSyncedText("experience");
       fitWhiteMetaLine();
       layoutLatestNewsRow26FromContent();
-      positionHomeNewsCarouselNav();
     },
     { passive: true }
   );
