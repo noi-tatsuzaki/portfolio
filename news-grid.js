@@ -7,6 +7,18 @@
   if (!root) return;
 
   const basePath = document.body?.getAttribute("data-base-path")?.trim() ?? "";
+  const siteBaseurl = document.body?.getAttribute("data-site-baseurl")?.trim() ?? "";
+
+  /** Leading-slash paths are host-root; on GitHub Project Pages they need site.baseurl prefix. */
+  const rootAbsolutePath = (path) => {
+    const s = String(path || "").trim();
+    if (!s || /^(https?:)?\/\//i.test(s)) return s;
+    if (!s.startsWith("/")) return s;
+    const base = siteBaseurl.replace(/\/$/, "");
+    if (!base) return s;
+    if (s === base || s.startsWith(`${base}/`)) return s;
+    return `${base}${s}`;
+  };
 
   const resolveUrl = (p) => {
     const str = String(p || "").trim();
@@ -38,7 +50,7 @@
     if (rawThumb) {
       const s = String(rawThumb).trim();
       if (/^(https?:)?\/\//i.test(s)) thumb = s;
-      else if (s.startsWith("/")) thumb = new URL(s, document.baseURI).toString();
+      else if (s.startsWith("/")) thumb = new URL(rootAbsolutePath(s), document.baseURI).toString();
       else thumb = resolveUrl(normalizeAssetPath(s)) || fallbackThumb;
     }
     const catRaw = String(item.category ?? fallback.category ?? "announcement")
@@ -48,7 +60,7 @@
     let url = String(item.url ?? fallback.url ?? "#").trim() || "#";
     if (url.startsWith("/")) {
       try {
-        url = new URL(url, document.baseURI).toString();
+        url = new URL(rootAbsolutePath(url), document.baseURI).toString();
       } catch {
         url = "#";
       }
@@ -321,9 +333,8 @@
     const el = makeCell(`dgCell dgMerge ${spec.cls}`.trim(), "");
     if (spec.html) {
       el.innerHTML = spec.html;
-    } else {
-      el.textContent = `${spec.from}:${spec.to}`;
     }
+    /* 空マージは座標テキストを出さない（CSS未適用時のゴースト表示を防ぐ） */
     el.style.gridRow = `${1 + r1} / ${1 + r2 + 1}`;
     el.style.gridColumn = `${1 + c1} / ${1 + c2 + 1}`;
     if (r2 === ROWS) el.classList.add("dgNoBottomEdge");

@@ -3,3 +3,7 @@ description: Portfolio site
 
 # Keep GitHub Pages compatibility and simple defaults.
 markdown: kramdown
+
+# GitHub Project Page: site lives at https://USER.github.io/REPO/ — set baseurl to "/REPO".
+# User/org site at https://USER.github.io/ (root): use baseurl: ""
+baseurl: "/portfolio"

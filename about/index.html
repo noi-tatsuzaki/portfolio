@@ -1,25 +1,27 @@
+---
+---
 <!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About | Noi Tatsuzaki</title>
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="{{ '/style.css' | relative_url }}" />
   </head>
-  <body data-base-path="..">
+  <body data-base-path=".." data-site-baseurl="{{ site.baseurl }}">
     <div id="site-header-placeholder"></div>
     <main class="page">
       <h1>About</h1>
       <nav>
-        <a href="/">Home</a> /
-        <a href="/works/">Works</a> /
-        <a href="/experience/">Experience</a> /
-        <a href="/awards-media/">Awards &amp; Media</a> /
-        <a href="/news/">News</a> /
-        <a href="/contact/">Contact</a>
+        <a href="{{ '/' | relative_url }}">Home</a> /
+        <a href="{{ '/works/' | relative_url }}">Works</a> /
+        <a href="{{ '/experience/' | relative_url }}">Experience</a> /
+        <a href="{{ '/awards-media/' | relative_url }}">Awards &amp; Media</a> /
+        <a href="{{ '/news/' | relative_url }}">News</a> /
+        <a href="{{ '/contact/' | relative_url }}">Contact</a>
       </nav>
     </main>
     <div id="site-footer-placeholder"></div>
-    <script src="../layout-loader.js" defer></script>
+    <script src="{{ '/layout-loader.js' | relative_url }}" defer></script>
   </body>
 </html>
