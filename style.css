@@ -694,6 +694,246 @@ a:hover {
   margin-top: 0;
 }
 
+/* 4D:4L — 関連記事（一覧リピーターと同一カード DOM、#newsDetailGrid 内でスコープ） */
+#newsDetailGrid .newsDetailMerge--4d4l.dgMerge {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+}
+
+#newsDetailGrid .newsDetailMerge--4d4l .newsDetailRelatedHost.dgMergeContent {
+  --merge-pad: 20px;
+  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  max-height: none;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+#newsDetailGrid .newsDetailRelatedDualGrid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+#newsDetailGrid .newsDetailRelatedCol {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridRow7RepeaterItem {
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridRow7Card__mediaHost {
+  position: relative;
+  flex-shrink: 0;
+  align-self: stretch;
+  overflow: hidden;
+  width: calc(100% - 4px);
+  max-width: calc(100% - 4px);
+  margin-left: 2px;
+  margin-right: 2px;
+  box-sizing: border-box;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__media {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  flex-shrink: 0;
+  transform: scale(1);
+  transform-origin: center center;
+  transition: transform 0.35s ease;
+}
+
+#newsDetailGrid
+  .newsDetailRelatedHost
+  .newsGridRow7RepeaterItem:hover
+  .newsGridLatestCard__media {
+  transform: scale(0.92);
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridRow7Card__cornerAccent {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  height: 25%;
+  aspect-ratio: 1;
+  width: auto;
+  box-sizing: border-box;
+  background: var(--c-accent);
+  border: none;
+  border-top: var(--border);
+  border-right: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transform-origin: left bottom;
+  transform: scale(0);
+  transition: transform 0.5s cubic-bezier(0.32, 0.72, 0.28, 1);
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridRow7Card__cornerAccentArrow {
+  width: 52%;
+  height: 52%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+  pointer-events: none;
+  display: block;
+}
+
+#newsDetailGrid
+  .newsDetailRelatedHost
+  .newsGridRow7RepeaterItem:hover
+  .newsGridRow7Card__cornerAccent {
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__media {
+    transition: none;
+  }
+
+  #newsDetailGrid .newsDetailRelatedHost .newsGridRow7Card__cornerAccent {
+    transition: none;
+  }
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCardInner {
+  width: 93%;
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  transform: scale(0.82);
+  transform-origin: center center;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__link {
+  display: contents;
+  color: inherit;
+  text-decoration: none;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCardInner--repeater {
+  width: 100%;
+  max-width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+  justify-content: flex-start;
+  transform: scale(0.78);
+  transform-origin: center top;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCardSlide.dgCarousel26Slide {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  flex: 1 1 auto;
+  flex-shrink: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  border: none;
+  border-bottom: var(--border);
+  background: var(--c-bg);
+  text-transform: none;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__article {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 0 12px;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__article .latestNewsCard__title,
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__article .latestNewsCard__date {
+  padding: 0 3px;
+  box-sizing: border-box;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__article .latestNewsCard__title {
+  margin-top: 6px;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__article .latestNewsCard__date {
+  margin-top: auto;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__media {
+  position: relative;
+  width: 100%;
+  height: auto;
+  flex-shrink: 0;
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--c-border);
+  box-sizing: border-box;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 0;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
+  overflow: hidden;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__media .latestNewsCard__thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border: none;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__article .latestNewsCard__title {
+  font-size: calc(24px * 1.5 * 0.7 * 0.7 * 0.7 * 2);
+  line-height: 1.2;
+}
+
+#newsDetailGrid .newsDetailRelatedHost .newsGridLatestCard__article .latestNewsCard__date {
+  font-size: calc(14px * 1.5 * 0.9);
+  line-height: 1.2;
+}
+
 /* 行5: 左は行番号列（5A:5C の左）、右は 5J:5L 内 — 投稿日前後の記事へ */
 #newsDetailGrid .newsDetailRowHead--navRow.dgRow {
   display: flex;
@@ -845,7 +1085,20 @@ a:hover {
   height: 100%;
   align-self: stretch;
   box-sizing: border-box;
-  cursor: default;
+}
+
+#newsGrid .newsGridPhotoLayer__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  box-sizing: border-box;
 }
 
 /* 16:9 のまま 3 行目セル高に収める（max-height で高さを抑え aspect-ratio が幅を合わせる） */
@@ -908,11 +1161,11 @@ a:hover {
   display: block;
 }
 
-#newsGrid .newsGridPhotoLayer:hover .newsGridPhotoLayer__cornerAccent {
+#newsGrid .newsGridPhotoLayer__link:hover .newsGridPhotoLayer__cornerAccent {
   transform: scale(1);
 }
 
-#newsGrid .newsGridPhotoLayer:hover .newsGridPhotoLayer__frame {
+#newsGrid .newsGridPhotoLayer__link:hover .newsGridPhotoLayer__frame {
   transform: scale(0.92);
 }
 
@@ -1435,7 +1688,7 @@ a:hover {
 #newsGrid:has(
     .dgArticleTitleBox:hover,
     .dgArticleTitleLink:hover,
-    .newsGridPhotoLayer:hover
+    .newsGridPhotoLayer__link:hover
   )
   .dgImageCorners--inward {
   --dg-inward-l-color: var(--c-accent);
@@ -1788,6 +2041,17 @@ a:hover {
   align-self: flex-start;
 }
 
+#debugGrid .homeLatestNewsCardLink {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  min-height: 0;
+  text-decoration: none;
+  color: inherit;
+  box-sizing: border-box;
+}
+
 #debugGrid .js-carousel26 .latestNewsCard {
   height: auto;
   min-height: 0;
@@ -1946,7 +2210,7 @@ a:hover {
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
 }
 
-#debugGrid .latestNewsCard:hover .latestNewsCard__media {
+#debugGrid .homeLatestNewsCardLink:hover .latestNewsCard__media {
   transform: scale(0.92);
 }
 
@@ -1993,7 +2257,7 @@ a:hover {
   display: block;
 }
 
-#debugGrid .latestNewsCard:hover .homeLatestCard__cornerAccent {
+#debugGrid .homeLatestNewsCardLink:hover .homeLatestCard__cornerAccent {
   transform: scale(1);
 }
 

@@ -161,7 +161,7 @@
       intro.className = "newsDetailIntro";
       const backLink = document.createElement("a");
       backLink.className = "newsDetailBackLink";
-      backLink.href = "../index.html";
+      backLink.href = asset("news/index.html");
       backLink.setAttribute("aria-label", "Back to all articles");
       const img = document.createElement("img");
       img.className = "newsDetailBackLink__arrow";
@@ -295,14 +295,79 @@
     return resolveUrl(normalizeAssetPath(s)) || thumbSrc;
   };
 
+  const NEWS_CATEGORY_LABELS = [
+    { slug: "all", label: "All" },
+    { slug: "announcement", label: "Announcement" },
+    { slug: "achievement", label: "Achievement" },
+    { slug: "activity", label: "Activity" },
+    { slug: "media", label: "Media" },
+    { slug: "interview", label: "Interview" },
+  ];
+
+  const getNewsCategoryLabel = (slug) => {
+    const s = String(slug || "").toLowerCase();
+    const row = NEWS_CATEGORY_LABELS.find((x) => x.slug === s);
+    return row ? row.label : slug || "—";
+  };
+
+  const hydrateNewsArticleFromPageData = () => {
+    const el = document.getElementById("news-article-page-data");
+    if (!el) return;
+    let data;
+    try {
+      data = JSON.parse(el.textContent || "{}");
+    } catch {
+      return;
+    }
+    if (!data || typeof data !== "object") return;
+
+    const lang = document.documentElement.lang === "ja" ? "ja" : "en";
+    const titleJa = String(data.title_ja ?? "").trim();
+    const titleEn = String(data.title_en ?? "").trim();
+    const title =
+      lang === "ja" ? titleJa || titleEn || "—" : titleEn || titleJa || "—";
+
+    const thumbRaw =
+      lang === "ja"
+        ? data.thumbnail_ja ?? data.thumbnail_en
+        : data.thumbnail_en ?? data.thumbnail_ja;
+
+    const titleHeading = root.querySelector(".newsDetailArticleTitle");
+    if (titleHeading) titleHeading.textContent = title;
+
+    const backLink = root.querySelector(".newsDetailBackLink");
+    if (backLink) backLink.href = asset("news/index.html");
+
+    const catEl = root.querySelector(".dgNewsMeta__cat");
+    if (catEl) catEl.textContent = getNewsCategoryLabel(data.category);
+
+    const dateEl = root.querySelector(".dgNewsMeta__date");
+    if (dateEl) dateEl.textContent = formatDateSlash(data.date) || "—";
+
+    const rich = root.querySelector(".newsDetailArticleBody__rich");
+    if (rich) {
+      const html =
+        lang === "ja"
+          ? String(data.body_html_ja ?? "").trim()
+          : String(data.body_html_en ?? "").trim();
+      rich.innerHTML = html || NEWS_DETAIL_BODY_DUMMY_HTML;
+    }
+
+    const thumbImg = root.querySelector(".newsDetailThumb");
+    if (thumbImg) {
+      thumbImg.src = resolveThumbString(thumbRaw);
+      thumbImg.alt = title;
+    }
+  };
+
+  hydrateNewsArticleFromPageData();
+
   const parseRawToCardEntry = (item) => {
     const lang = document.documentElement.lang === "ja" ? "ja" : "en";
     const titleJa = String(item?.title_ja ?? item?.title ?? "").trim();
     const titleEn = String(item?.title_en ?? item?.title ?? "").trim();
     const title =
-      lang === "ja"
-        ? titleJa || titleEn || "—"
-        : titleEn || titleJa || "—";
+      lang === "ja" ? titleJa || titleEn || "—" : titleEn || titleJa || "—";
     const thumbRaw =
       lang === "ja"
         ? item?.thumbnail_ja ?? item?.thumbnail_en ?? item?.thumbnail
@@ -323,7 +388,7 @@
     };
   };
 
-  /** news 一覧 7 行リピーターと同一 DOM（createRow7RepeaterCard 相当） */
+  /** news 一覧 7 行リピーターと同一 DOM（news-grid createRow7RepeaterCard 相当） */
   const createRelatedRepeaterCard = (entry) => {
     const item = document.createElement("div");
     item.className = "newsGridRow7RepeaterItem";
@@ -403,7 +468,6 @@
     );
     const picked = notCurrent.slice(0, 2);
 
-    const lang = document.documentElement.lang === "ja" ? "ja" : "en";
     while (picked.length < 2) {
       const n = picked.length + 1;
       picked.push({
@@ -486,6 +550,7 @@
   };
 
   wireNewsArticleNav();
+  wireRelatedArticles();
 
   /**
    * scrollHeight / ResizeObserver はセルが伸びるたびに再計測が連鎖するため、

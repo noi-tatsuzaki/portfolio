@@ -112,6 +112,17 @@
   };
   const C = await loadContent();
 
+  const siteBaseurl = document.body?.getAttribute("data-site-baseurl")?.trim() ?? "";
+  const rootAbsolutePath = (path) => {
+    const s = String(path || "").trim();
+    if (!s || /^(https?:)?\/\//i.test(s)) return s;
+    if (!s.startsWith("/")) return s;
+    const base = siteBaseurl.replace(/\/$/, "");
+    if (!base) return s;
+    if (s === base || s.startsWith(`${base}/`)) return s;
+    return `${base}${s}`;
+  };
+
   const esc = (s) =>
     String(s)
       .replace(/&/g, "&amp;")
@@ -213,12 +224,22 @@
           lang === "ja"
             ? item?.thumbnail_ja || item?.thumbnail_en || item?.thumbnail
             : item?.thumbnail_en || item?.thumbnail_ja || item?.thumbnail;
+        let url = String(item?.url ?? "").trim();
+        if (url && url.startsWith("/")) {
+          try {
+            url = new URL(rootAbsolutePath(url), document.baseURI).toString();
+          } catch {
+            url = "#";
+          }
+        }
+        if (!url) url = "#";
         return {
           title: title || C.carousel.newsTitle,
           date: formatDateYmdSlash(item?.date || C.carousel.newsDate),
           thumbnail: resolveUrl(
             normalizeAssetPath(thumbRaw || C.images.newsCard)
           ),
+          url,
         };
       });
     } catch (_) {
@@ -551,7 +572,9 @@
       html: `<div class="dgCarousel swiper js-carousel26" aria-label="Row 26 Carousel"><div class="swiper-wrapper">${newsEntries
         .map(
           (n) =>
-            `<div class="swiper-slide dgCarousel26Slide"><article class="latestNewsCard"><div class="homeLatestCard__mediaHost"><div class="latestNewsCard__media"><img class="latestNewsCard__thumbnail" src="${esc(
+            `<div class="swiper-slide dgCarousel26Slide"><a class="homeLatestNewsCardLink" href="${esc(
+              n.url
+            )}" aria-label="${esc(n.title)}"><article class="latestNewsCard"><div class="homeLatestCard__mediaHost"><div class="latestNewsCard__media"><img class="latestNewsCard__thumbnail" src="${esc(
               n.thumbnail
             )}" alt="${esc(
               n.title
@@ -559,7 +582,7 @@
               n.title
             )}</h3><time class="latestNewsCard__date">${esc(
               n.date
-            )}</time></article></div>`
+            )}</time></article></a></div>`
         )
         .join("")}</div></div>`,
     },

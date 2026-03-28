@@ -7,3 +7,10 @@ markdown: kramdown
 # GitHub Project Page: site lives at https://USER.github.io/REPO/ — set baseurl to "/REPO".
 # User/org site at https://USER.github.io/ (root): use baseurl: ""
 baseurl: "/portfolio"
+
+defaults:
+  - scope:
+      path: "content/news"
+    values:
+      layout: news-article
+      permalink: /content/news/:basename/

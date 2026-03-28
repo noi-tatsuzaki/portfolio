@@ -264,6 +264,7 @@
   const updateNewsHeroRow = (hero) => {
     const titleEl = root.querySelector(".dgArticleTitleText");
     const titleLink = root.querySelector(".dgArticleTitleLink");
+    const photoLink = root.querySelector(".newsGridPhotoLayer__link");
     const catEl = root.querySelector(".dgNewsMeta__cat");
     const dateEl = root.querySelector(".dgNewsMeta__date");
     const imgEl = root.querySelector(".newsGridPhotoLayer__img");
@@ -274,6 +275,11 @@
         titleLink.href = hero.url || "#";
         titleLink.setAttribute("aria-label", hero.title);
         titleLink.style.pointerEvents = "";
+      }
+      if (photoLink) {
+        photoLink.href = hero.url || "#";
+        photoLink.setAttribute("aria-label", hero.title);
+        photoLink.style.pointerEvents = "";
       }
       if (catEl) catEl.textContent = getNewsCategoryLabel(hero.category);
       if (dateEl) dateEl.textContent = hero.date;
@@ -287,6 +293,11 @@
         titleLink.href = "#";
         titleLink.removeAttribute("aria-label");
         titleLink.style.pointerEvents = "none";
+      }
+      if (photoLink) {
+        photoLink.href = "#";
+        photoLink.removeAttribute("aria-label");
+        photoLink.style.pointerEvents = "none";
       }
       if (catEl) catEl.textContent = "—";
       if (dateEl) dateEl.textContent = "—";
@@ -434,12 +445,14 @@
   const cornerAccentArrowSrc = [basePath, "public/images/corner-accent-arrow.png"].filter(Boolean).join("/").replace(/\/+/g, "/");
   const photoLayer = document.createElement("div");
   photoLayer.className = "newsGridPhotoLayer";
-  photoLayer.setAttribute("aria-hidden", "true");
   const refG = parseRef("3G");
   const refL = parseRef("3L");
   const r3 = refG.row;
   photoLayer.style.gridRow = `${1 + r3} / ${1 + r3 + 1}`;
   photoLayer.style.gridColumn = `${1 + refG.col} / ${1 + refL.col + 1}`;
+  const photoLink = document.createElement("a");
+  photoLink.className = "newsGridPhotoLayer__link";
+  photoLink.href = "#";
   const newsPhotoFrame = document.createElement("div");
   newsPhotoFrame.className = "newsGridPhotoLayer__frame";
   const newsPhotoImg = document.createElement("img");
@@ -457,7 +470,8 @@
   newsPhotoCornerArrow.setAttribute("aria-hidden", "true");
   newsPhotoCornerAccent.appendChild(newsPhotoCornerArrow);
   newsPhotoFrame.appendChild(newsPhotoCornerAccent);
-  photoLayer.appendChild(newsPhotoFrame);
+  photoLink.appendChild(newsPhotoFrame);
+  photoLayer.appendChild(photoLink);
   root.appendChild(photoLayer);
 
   /** 3×5 グリッド＝1ページあたり最大15件。16件以上でページネーションと連動 */
