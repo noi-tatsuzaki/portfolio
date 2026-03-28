@@ -3,6 +3,7 @@ title_ja: 株式会社ADvance Lab（現・株式会社LINOA）設立および代
 title_en: Establishment of ADvance Lab Co., Ltd. (now LINOA Co., Ltd.) and
   Appointment as CEO
 date: 2024-06-17T00:00:00.000-04:00
+url_text: founded-advance-lab-co-ltd
 category: announcement
 thumbnail_ja: /public/uploads/advance-lab-co-ltd.png
 thumbnail_en: /public/uploads/advance-lab-co-ltd.png

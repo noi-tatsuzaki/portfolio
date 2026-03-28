@@ -13,12 +13,21 @@ collections:
     label: "News"
     folder: "content/news"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     identifier_field: title_ja
+    # 日付は「日付」フィールドから。ファイル名: yyyy-mm-dd-url_text.md
+    slug: "{{year}}-{{month}}-{{day}}-{{url_text}}"
+    preview_path_date_field: date
     fields:
       - { label: "タイトル（日本語）", name: "title_ja", widget: "string" }
       - { label: "Title (English)", name: "title_en", widget: "string" }
       - { label: "日付", name: "date", widget: "datetime" }
+      - label: "URL text"
+        name: "url_text"
+        widget: "string"
+        hint: "ファイル名に使います（推奨: 英小文字・数字・ハイフン）。例: linoa-founded → 2026-03-26-linoa-founded.md"
+        pattern:
+          - '^[a-z0-9]+(?:-[a-z0-9]+)*$'
+          - "英小文字・数字・ハイフンのみ（単語はハイフンでつなぐ）"
       - label: "カテゴリ"
         name: "category"
         widget: "select"

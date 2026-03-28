@@ -2,6 +2,7 @@
 title_ja: "LINOA株式会社 設立"
 title_en: "LINOA Co., Ltd. Founded"
 date: "2026-03-26"
+url_text: linoa-founded
 category: "announcement"
 thumbnail_ja: "/public/uploads/linoa.jpg"
 thumbnail_en: "/public/uploads/linoa.jpg"

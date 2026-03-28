@@ -2,6 +2,7 @@
 title_ja: "Forbes JAPAN 30 UNDER 30 選出"
 title_en: "Selected for Forbes JAPAN 30 UNDER 30"
 date: "2026-03-26"
+url_text: forbes-japan-30-under-30
 category: "achievement"
 thumbnail_ja: "/public/uploads/forbes.jpg"
 thumbnail_en: "/public/uploads/forbes.jpg"
