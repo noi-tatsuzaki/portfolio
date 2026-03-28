@@ -543,9 +543,10 @@ a:hover {
 
 /* intro: back ↔ title 14px。タイトル下〜サムネ 30px、サムネ下〜行下端 30px（padding-bottom） */
 #newsDetailGrid .dgMergeContent--newsDetailBack {
+  --news-detail-back-pad-x: 12px;
   min-height: 0;
   min-width: 0;
-  padding: 8px 12px 30px;
+  padding: 8px var(--news-detail-back-pad-x) 30px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -562,11 +563,15 @@ a:hover {
   box-sizing: border-box;
 }
 
-/* 2A:2F の幅（6 列）に対し、左 2 列分オフセットで C 左、幅 8/6 で C–J。中央は F|G 線 */
+/*
+ * 2A:2F（6 列相当）のコンテンツ幅を 100% とする。
+ * 幅 8/6・左オフセット 2/6 で幾何中心を「セル右端＝F|G 線」に置く。
+ * % はパディング内のコンテンツ幅基準のため、右パディング分を足して実際の F|G に合わせる。
+ */
 #newsDetailGrid .newsDetailThumbWrap {
   margin: 0;
   margin-top: 30px;
-  margin-left: calc(100% * 2 / 6);
+  margin-left: calc(100% * 2 / 6 + var(--news-detail-back-pad-x));
   position: relative;
   z-index: 2;
   align-self: flex-start;
@@ -654,17 +659,17 @@ a:hover {
 }
 
 #newsDetailGrid .newsDetailArticleBody__rich a {
-  color: #0066cc;
+  color: var(--c-accent);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 #newsDetailGrid .newsDetailArticleBody__rich a:visited {
-  color: #0052a3;
+  color: color-mix(in srgb, var(--c-accent) 78%, var(--c-ink));
 }
 
 #newsDetailGrid .newsDetailArticleBody__rich a:hover {
-  color: #004499;
+  color: color-mix(in srgb, var(--c-accent) 68%, var(--c-ink));
 }
 
 #newsDetailGrid .newsDetailArticleBody__rich ul,
