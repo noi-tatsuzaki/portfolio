@@ -5,8 +5,8 @@ backend:
 # Netlify 本番では false。ローカルで decap-server を使うときだけ true にする。
 local_backend: false
 
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
+media_folder: "public/uploads"
+public_folder: "/public/uploads"
 
 collections:
   - name: "news"
@@ -14,20 +14,21 @@ collections:
     folder: "content/news"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: title_ja
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Date", name: "date", widget: "datetime" }
-      - label: "Category"
+      - { label: "タイトル（日本語）", name: "title_ja", widget: "string" }
+      - { label: "Title (English)", name: "title_en", widget: "string" }
+      - { label: "日付", name: "date", widget: "datetime" }
+      - label: "カテゴリ"
         name: "category"
         widget: "select"
         options:
           - "announcement"
-          - "award"
-          - "event"
+          - "achievement"
+          - "activity"
           - "media"
-          - "project-update"
-          - "research-development"
-          - "organization"
-      - { label: "Thumbnail", name: "thumbnail", widget: "image" }
-      - { label: "Summary", name: "summary", widget: "text" }
-      - { label: "Body", name: "body", widget: "markdown" }
+          - "interview"
+      - { label: "サムネイル（日本語向け）", name: "thumbnail_ja", widget: "image" }
+      - { label: "Thumbnail (English)", name: "thumbnail_en", widget: "image" }
+      - { label: "本文（日本語）", name: "body_ja", widget: "markdown" }
+      - { label: "Body (English)", name: "body_en", widget: "markdown" }

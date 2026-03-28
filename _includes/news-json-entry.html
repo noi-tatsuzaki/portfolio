@@ -1,0 +1,18 @@
+{% assign dthumb = "/public/images/sample-news.png" %}
+{% assign tja = post.title_ja | default: post.title %}
+{% assign ten = post.title_en | default: post.title %}
+{% assign thja = post.thumbnail_ja | default: post.thumbnail | default: dthumb %}
+{% assign then = post.thumbnail_en | default: post.thumbnail | default: dthumb %}
+{% assign cja = post.body_ja | default: post.content | default: "" %}
+{% assign cen = post.body_en | default: post.content | default: "" %}
+        {
+          "title_ja": {{ tja | jsonify }},
+          "title_en": {{ ten | jsonify }},
+          "date": {{ post.date | date: "%Y/%m/%d" | jsonify }},
+          "thumbnail_ja": {% if thja contains "://" %}{{ thja | jsonify }}{% else %}{{ thja | relative_url | jsonify }}{% endif %},
+          "thumbnail_en": {% if then contains "://" %}{{ then | jsonify }}{% else %}{{ then | relative_url | jsonify }}{% endif %},
+          "category": {{ post.category | default: "announcement" | downcase | jsonify }},
+          "body_ja": {{ cja | markdownify | strip_html | jsonify }},
+          "body_en": {{ cen | markdownify | strip_html | jsonify }},
+          "url": {{ post.url | relative_url | jsonify }}
+        }

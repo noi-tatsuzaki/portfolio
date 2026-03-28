@@ -25,14 +25,7 @@
       [
       {% assign latest_news = site.pages | where_exp: "p", "p.path contains 'content/news/'" | sort: "date" | reverse %}
       {% for post in latest_news limit:60 %}
-        {
-          "title": {{ post.title | jsonify }},
-          "date": {{ post.date | date: "%Y/%m/%d" | jsonify }},
-          "thumbnail": {{ post.thumbnail | default: "/public/images/sample-news.png" | jsonify }},
-          "category": {{ post.category | default: "announcement" | downcase | jsonify }},
-          "body": {{ post.content | strip_html | jsonify }},
-          "url": {{ post.url | jsonify }}
-        }{% unless forloop.last %},{% endunless %}
+{% include news-json-entry.html post=post %}{% unless forloop.last %},{% endunless %}
       {% endfor %}
       ]
     </script>

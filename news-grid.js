@@ -34,25 +34,55 @@
   };
 
   const fallbackThumb = [basePath, "public/images/sample-news.png"].filter(Boolean).join("/").replace(/\/+/g, "/");
+  const newsPageLang = document.documentElement.lang === "en" ? "en" : "ja";
+
+  const pickLocalized = (ja, en, legacy) => {
+    const j = String(ja ?? "").trim();
+    const e = String(en ?? "").trim();
+    const l = String(legacy ?? "").trim();
+    if (newsPageLang === "en") return e || j || l || "";
+    return j || e || l || "";
+  };
+
   const latestNewsFallback = {
+    title_ja: "Latest article",
+    title_en: "Latest article",
     title: "Latest article",
     date: "2026/01/01",
+    thumbnail_ja: fallbackThumb,
+    thumbnail_en: fallbackThumb,
     thumbnail: fallbackThumb,
     category: "announcement",
+    body_ja: "",
+    body_en: "",
     body: "",
     url: "#",
   };
 
+  const resolveThumbString = (raw) => {
+    if (!raw) return fallbackThumb;
+    const s = String(raw).trim();
+    if (!s) return fallbackThumb;
+    if (/^(https?:)?\/\//i.test(s)) return s;
+    if (s.startsWith("/")) {
+      try {
+        return new URL(rootAbsolutePath(s), document.baseURI).toString();
+      } catch {
+        return fallbackThumb;
+      }
+    }
+    return resolveUrl(normalizeAssetPath(s)) || fallbackThumb;
+  };
+
   const parseLatestNewsItem = (item, fallback = latestNewsFallback) => {
     if (!item || typeof item !== "object") return { ...fallback };
-    const rawThumb = item.thumbnail;
-    let thumb = fallbackThumb;
-    if (rawThumb) {
-      const s = String(rawThumb).trim();
-      if (/^(https?:)?\/\//i.test(s)) thumb = s;
-      else if (s.startsWith("/")) thumb = new URL(rootAbsolutePath(s), document.baseURI).toString();
-      else thumb = resolveUrl(normalizeAssetPath(s)) || fallbackThumb;
-    }
+    const titleJa = String(item.title_ja ?? item.title ?? "").trim();
+    const titleEn = String(item.title_en ?? item.title ?? "").trim();
+    const thumbJaResolved = resolveThumbString(item.thumbnail_ja ?? item.thumbnail);
+    const thumbEnResolved = resolveThumbString(item.thumbnail_en ?? item.thumbnail);
+    const bodyJa = String(item.body_ja ?? item.body ?? "").trim();
+    const bodyEn = String(item.body_en ?? item.body ?? "").trim();
+
     const catRaw = String(item.category ?? fallback.category ?? "announcement")
       .toLowerCase()
       .trim();
@@ -66,11 +96,17 @@
       }
     }
     return {
-      title: item.title || fallback.title,
+      title_ja: titleJa,
+      title_en: titleEn,
+      title: pickLocalized(titleJa, titleEn, item.title),
       date: item.date || fallback.date,
-      thumbnail: thumb || fallbackThumb,
+      thumbnail_ja: thumbJaResolved,
+      thumbnail_en: thumbEnResolved,
+      thumbnail: newsPageLang === "en" ? thumbEnResolved || thumbJaResolved : thumbJaResolved || thumbEnResolved,
       category,
-      body: String(item.body ?? ""),
+      body_ja: bodyJa,
+      body_en: bodyEn,
+      body: pickLocalized(bodyJa, bodyEn, item.body),
       url,
     };
   };
@@ -181,7 +217,17 @@
   const matchesNewsSearch = (entry, query) => {
     const q = String(query || "").trim().toLowerCase();
     if (!q) return true;
-    const hay = [entry.title, entry.date, entry.category, entry.body, entry.url]
+    const hay = [
+      entry.title_ja,
+      entry.title_en,
+      entry.title,
+      entry.date,
+      entry.category,
+      entry.body_ja,
+      entry.body_en,
+      entry.body,
+      entry.url,
+    ]
       .join("\n")
       .toLowerCase();
     return hay.includes(q);

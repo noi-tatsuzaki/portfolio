@@ -121,6 +121,81 @@ body {
   align-items: center;
 }
 
+.siteHeader__inner {
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.siteHeaderNav {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* NEWS: sub-title regular; TL/BR 青 L（ホバーでふわっと、現ページは常時） */
+.siteHeaderNewsLink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  font-family: var(--font-sub-title);
+  font-weight: 400;
+  font-size: var(--fs-1);
+  letter-spacing: var(--track-tech);
+  text-transform: uppercase;
+  color: var(--c-ink);
+  text-decoration: none;
+  line-height: 1;
+}
+
+.siteHeaderNewsLink__corners {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.88);
+  transform-origin: center center;
+  transition:
+    opacity 0.42s ease,
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  background:
+    linear-gradient(var(--c-accent), var(--c-accent)) left 3px top 3px / 12px 2px no-repeat,
+    linear-gradient(var(--c-accent), var(--c-accent)) left 3px top 3px / 2px 12px no-repeat,
+    linear-gradient(var(--c-accent), var(--c-accent)) right 3px bottom 3px / 12px 2px no-repeat,
+    linear-gradient(var(--c-accent), var(--c-accent)) right 3px bottom 3px / 2px 12px no-repeat;
+}
+
+.siteHeaderNewsLink:hover .siteHeaderNewsLink__corners,
+.siteHeaderNewsLink:focus-visible .siteHeaderNewsLink__corners,
+.siteHeaderNewsLink--current .siteHeaderNewsLink__corners {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.siteHeaderNewsLink--current .siteHeaderNewsLink__corners {
+  transition: none;
+}
+
+.siteHeaderNewsLink__text {
+  position: relative;
+  z-index: 1;
+}
+
+.siteHeaderNewsLink:hover,
+.siteHeaderNewsLink:focus,
+.siteHeaderNewsLink:active,
+.siteHeaderNewsLink:visited {
+  text-decoration: none;
+  color: var(--c-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .siteHeaderNewsLink__corners {
+    transition: none;
+  }
+}
+
 .siteHeaderHomeLink {
   font-family: var(--font-name);
   font-weight: 800;
@@ -1067,6 +1142,12 @@ a:hover {
   flex: 1;
   min-width: 0;
   color: inherit;
+  text-decoration: none;
+}
+
+.dgArticleTitleLink:hover,
+.dgArticleTitleLink:active,
+.dgArticleTitleLink:visited {
   text-decoration: none;
 }
 

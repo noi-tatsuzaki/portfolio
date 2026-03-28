@@ -190,13 +190,24 @@
     try {
       const parsed = JSON.parse(jsonEl.textContent || "[]");
       if (!Array.isArray(parsed)) return [];
-      return parsed.slice(0, 10).map((item) => ({
-        title: item?.title || C.carousel.newsTitle,
-        date: formatDateYmdSlash(item?.date || C.carousel.newsDate),
-        thumbnail: resolveUrl(
-          normalizeAssetPath(item?.thumbnail || C.images.newsCard)
-        ),
-      }));
+      const lang = document.documentElement.lang === "ja" ? "ja" : "en";
+      return parsed.slice(0, 10).map((item) => {
+        const title =
+          lang === "ja"
+            ? item?.title_ja || item?.title_en || item?.title
+            : item?.title_en || item?.title_ja || item?.title;
+        const thumbRaw =
+          lang === "ja"
+            ? item?.thumbnail_ja || item?.thumbnail_en || item?.thumbnail
+            : item?.thumbnail_en || item?.thumbnail_ja || item?.thumbnail;
+        return {
+          title: title || C.carousel.newsTitle,
+          date: formatDateYmdSlash(item?.date || C.carousel.newsDate),
+          thumbnail: resolveUrl(
+            normalizeAssetPath(thumbRaw || C.images.newsCard)
+          ),
+        };
+      });
     } catch (_) {
       return [];
     }
