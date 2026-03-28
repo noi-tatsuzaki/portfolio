@@ -1453,9 +1453,14 @@ a:hover {
   border: none;
 }
 
-/* リピーター内タイトルのみ */
+/* リピーター内タイトル・日付（0.8 倍） */
 #newsGrid .newsGridRow7Repeater .newsGridLatestCard__article .latestNewsCard__title {
-  font-size: calc(24px * 1.5 * 0.7 * 0.7 * 0.7 * 2);
+  font-size: calc(24px * 1.5 * 0.7 * 0.7 * 0.7 * 2 * 0.8);
+  line-height: 1.2;
+}
+
+#newsGrid .newsGridRow7Repeater .newsGridLatestCard__article .latestNewsCard__date {
+  font-size: calc(14px * 1.5 * 0.9 * 0.8);
   line-height: 1.2;
 }
 
@@ -2077,11 +2082,14 @@ a:hover {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  gap: 14px;
+  padding-bottom: 14px;
 }
 
 #debugGrid .js-carousel26 .latestNewsCard__title {
   overflow-wrap: break-word;
   word-break: break-word;
+  font-size: calc(24px * 0.7 * 1.2);
 }
 
 .dgCarousel26Card {
@@ -2937,7 +2945,9 @@ a:hover {
 }
 
 .dgBlackCornerSquare--inline .dgBlackCornerArrow {
-  font-size: calc(var(--viewall-box-h) * 0.5);
+  width: calc(var(--viewall-box-h) * 0.48);
+  height: auto;
+  max-height: 62%;
 }
 
 .dgBlackCornerSquare:hover,
@@ -2953,11 +2963,16 @@ a:hover {
 }
 
 .dgBlackCornerArrow {
-  font-family: "Handjet", system-ui, sans-serif;
-  font-weight: 900; /* black */
-  color: #fff;
-  font-size: 24px;
-  line-height: 1;
+  display: block;
+  width: 22px;
+  height: auto;
+  max-width: 58%;
+  max-height: 58%;
+  object-fit: contain;
+  flex-shrink: 0;
+  pointer-events: none;
+  /* 黒ベタのシェブロンを、従来の白矢印と同様に見せる */
+  filter: brightness(0) invert(1);
 }
 
 /* A..E center = 4.5 columns of 5 columns => 90% */

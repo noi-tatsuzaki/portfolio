@@ -253,6 +253,10 @@
     resolveUrl(normalizeAssetPath("public/images/corner-accent-arrow.png"))
   );
 
+  const homeCornerChevronSrc = esc(
+    resolveUrl(normalizeAssetPath("public/images/home-corner-chevron.png"))
+  );
+
   /**
    * Home grid only (#debugGrid): row heights + hidden axis row.
    * Edit here for home. News uses news-grid.js separately.
@@ -486,7 +490,7 @@
       cls: "",
       html: `<div class="dgMergeContent dgMergeContent--viewAll"><div class="dgViewAllCluster"><button type="button" class="dgViewAllBox" aria-label="View all"><span class="dgViewAllText">${esc(
         C.viewAllLabel
-      )}</span></button><button type="button" class="dgBlackCornerSquare dgBlackCornerSquare--inline" aria-label="View all arrow"><span class="dgBlackCornerArrow">→</span></button></div></div>`,
+      )}</span></button><button type="button" class="dgBlackCornerSquare dgBlackCornerSquare--inline" aria-label="View all arrow"><img class="dgBlackCornerArrow" src="${homeCornerChevronSrc}" width="22" height="22" alt="" aria-hidden="true" /></button></div></div>`,
     },
     { from: "24J", to: "24L", cls: "" },
     { from: "25A", to: "27C", cls: "" },
@@ -604,7 +608,7 @@
         C.allWorks.label
       )}</div><div class="dgWhiteRectText__bottom">${esc(
         C.allWorks.count
-      )}</div></div></button><button type="button" class="dgBlackCornerSquare" aria-label="Open works"><span class="dgBlackCornerArrow">→</span></button></div>`,
+      )}</div></div></button><button type="button" class="dgBlackCornerSquare" aria-label="Open works"><img class="dgBlackCornerArrow" src="${homeCornerChevronSrc}" width="22" height="22" alt="" aria-hidden="true" /></button></div>`,
     },
     {
       from: "15A",
@@ -624,7 +628,7 @@
         C.allProjects.label
       )}</div><div class="dgWhiteRectText__bottom">${esc(
         C.allProjects.count
-      )}</div></div></button><button type="button" class="dgBlackCornerSquare" aria-label="Open projects"><span class="dgBlackCornerArrow">→</span></button></div>`,
+      )}</div></div></button><button type="button" class="dgBlackCornerSquare" aria-label="Open projects"><img class="dgBlackCornerArrow" src="${homeCornerChevronSrc}" width="22" height="22" alt="" aria-hidden="true" /></button></div>`,
     },
   ];
 
