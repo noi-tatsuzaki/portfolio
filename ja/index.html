@@ -1,0 +1,72 @@
+---
+---
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    {% include lang-prefetch.html %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noi Tatsuzaki</title>
+    <meta
+      name="description"
+      content="Building robots, systems, and future concepts driven by curiosity."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Handjet:wght@900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="{{ '/style.css' | relative_url }}" />
+  </head>
+
+  <body data-base-path=".." data-site-baseurl="{{ site.baseurl }}">
+    <div id="site-header-placeholder"></div>
+
+    <main class="page">
+      <div class="debugGrid" id="debugGrid" aria-label="Grid address map"></div>
+    </main>
+
+    <div id="site-footer-placeholder"></div>
+
+    <script id="latest-news-data" type="application/json">
+      [
+      {% assign latest_news = site.pages | where_exp: "p", "p.path contains 'content/news/'" %}
+      {% for post in latest_news limit:60 %}
+{% include news-json-entry.html post=post %}{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+      ]
+    </script>
+
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+      (function () {
+        if (!window.netlifyIdentity) return;
+        var raw = document.body.getAttribute("data-site-baseurl") || "";
+        var base = raw.replace(/\/$/, "");
+        var adminUrl = base ? base + "/admin/" : "/admin/";
+        window.netlifyIdentity.on("init", function (user) {
+          if (!user) {
+            window.netlifyIdentity.on("login", function () {
+              document.location.href = adminUrl;
+            });
+          }
+        });
+      })();
+    </script>
+    <script src="{{ '/layout-loader.js' | relative_url }}" defer></script>
+    <script src="{{ '/lang-toggle.js' | relative_url }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+    <script src="{{ '/main.js' | relative_url }}" defer></script>
+  </body>
+</html>

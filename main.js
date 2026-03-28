@@ -233,6 +233,15 @@
           }
         }
         if (!url) url = "#";
+        if (lang === "ja" && url !== "#") {
+          try {
+            const u = new URL(url, document.baseURI);
+            if (/\/content\/news\//i.test(u.pathname)) {
+              u.searchParams.set("lang", "ja");
+              url = u.href;
+            }
+          } catch (_) {}
+        }
         return {
           title: title || C.carousel.newsTitle,
           date: formatDateYmdSlash(item?.date || C.carousel.newsDate),

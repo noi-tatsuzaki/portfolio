@@ -77,16 +77,30 @@
     ]);
     const joinPath = (a, b) => [a, b].join("/").replace(/\/+/g, "/");
 
+    const siteBaseurl = (document.body?.getAttribute("data-site-baseurl") || "")
+      .trim()
+      .replace(/\/$/, "");
+    const pathNorm = (location.pathname || "").replace(/\/+$/, "") || "/";
+    const jaPrefix = siteBaseurl ? `${siteBaseurl}/ja` : "/ja";
+    const isJaSection =
+      pathNorm === jaPrefix || pathNorm.startsWith(`${jaPrefix}/`);
+
     document.querySelectorAll(".siteHeaderHomeLink").forEach((el) => {
-      el.setAttribute("href", joinPath(base, "index.html"));
+      el.setAttribute(
+        "href",
+        joinPath(base, isJaSection ? "ja/index.html" : "index.html")
+      );
     });
 
-    const path = (location.pathname || "").replace(/\/+$/, "") || "/";
+    const path = pathNorm;
     const onNewsPage =
       /\/news(\/index)?(\.html)?$/i.test(path) || /(^|\/)news$/i.test(path);
 
     document.querySelectorAll(".siteHeaderNewsLink").forEach((link) => {
-      link.setAttribute("href", joinPath(base, "news/index.html"));
+      link.setAttribute(
+        "href",
+        joinPath(base, isJaSection ? "ja/news/index.html" : "news/index.html")
+      );
       if (onNewsPage) {
         link.setAttribute("aria-current", "page");
         link.classList.add("siteHeaderNewsLink--current");

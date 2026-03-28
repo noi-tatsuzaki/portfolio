@@ -105,6 +105,15 @@
         url = "#";
       }
     }
+    if (newsPageLang === "ja" && url !== "#") {
+      try {
+        const u = new URL(url, document.baseURI);
+        if (/\/content\/news\//i.test(u.pathname)) {
+          u.searchParams.set("lang", "ja");
+          url = u.href;
+        }
+      } catch (_) {}
+    }
     return {
       title_ja: titleJa,
       title_en: titleEn,

@@ -1,9 +1,20 @@
 <script>
   (function () {
+    var BASE = {{ site.baseurl | jsonify }};
     try {
-      var k = "portfolio-lang";
-      var v = localStorage.getItem(k);
-      if (v === "en" || v === "ja") document.documentElement.setAttribute("lang", v);
+      var path = location.pathname.replace(/\/+$/, "") || "/";
+      var base = (BASE || "").replace(/\/$/, "");
+      var jaPrefix = base ? base + "/ja" : "/ja";
+      if (path === jaPrefix || path.indexOf(jaPrefix + "/") === 0) {
+        document.documentElement.setAttribute("lang", "ja");
+        return;
+      }
+      var sp = new URLSearchParams(location.search || "");
+      if (sp.get("lang") === "ja") {
+        document.documentElement.setAttribute("lang", "ja");
+      } else {
+        document.documentElement.setAttribute("lang", "en");
+      }
     } catch (e) {}
   })();
 </script>

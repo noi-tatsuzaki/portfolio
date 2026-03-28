@@ -41,6 +41,36 @@
     return str.startsWith("/") ? str.slice(1) : str;
   };
 
+  const detailLangIsJa = () => document.documentElement.lang === "ja";
+
+  /** 記事 URL に ?lang=ja（一覧・関連・前後ナビ用） */
+  const withLangJaOnArticleHref = (href) => {
+    if (!detailLangIsJa()) return href;
+    const s = String(href || "").trim();
+    if (!s || s === "#") return s;
+    try {
+      const u = new URL(s, document.baseURI);
+      if (!/\/content\/news\//i.test(u.pathname)) return s;
+      u.searchParams.set("lang", "ja");
+      return u.href;
+    } catch (_) {
+      return s;
+    }
+  };
+
+  /** resolveArticleUrl が返す pathname 用 */
+  const withLangJaOnArticlePathname = (pathname) => {
+    if (!detailLangIsJa() || !pathname) return pathname;
+    try {
+      const u = new URL(String(pathname), location.origin);
+      if (!/\/content\/news\//i.test(u.pathname)) return pathname;
+      u.searchParams.set("lang", "ja");
+      return u.pathname + u.search + u.hash;
+    } catch (_) {
+      return pathname;
+    }
+  };
+
   const COLS = 12;
   const ROWS = 5;
   const BASE_ROW_PX = 56;
@@ -352,7 +382,8 @@
     if (titleHeading) titleHeading.textContent = title;
 
     const backLink = root.querySelector(".newsDetailBackLink");
-    if (backLink) backLink.href = asset("news/index.html");
+    if (backLink)
+      backLink.href = asset(detailLangIsJa() ? "ja/news/index.html" : "news/index.html");
 
     const catEl = root.querySelector(".dgNewsMeta__cat");
     if (catEl) catEl.textContent = getNewsCategoryLabel(data.category);
@@ -561,11 +592,11 @@
     nextHost.replaceChildren();
     const newerHref =
       newer?.url && String(newer.url).trim()
-        ? resolveArticleUrl(newer.url)
+        ? withLangJaOnArticlePathname(resolveArticleUrl(newer.url))
         : "";
     const olderHref =
       older?.url && String(older.url).trim()
-        ? resolveArticleUrl(older.url)
+        ? withLangJaOnArticlePathname(resolveArticleUrl(older.url))
         : "";
     /* 左＝新しい記事、右＝過去の記事（一覧は新しい順） */
     prevHost.appendChild(makeControl(newerHref, labelNewer, true));
