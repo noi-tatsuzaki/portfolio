@@ -1,6 +1,5 @@
 backend:
-  name: github
-  repo: noi-tatsuzaki/portfolio
+  name: git-gateway
   branch: main
 
 local_backend: true
