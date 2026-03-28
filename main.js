@@ -547,6 +547,7 @@
       from: "26A",
       to: "26L",
       interactive: true,
+      overlayClass: "dgOverlay--latestNews26",
       html: `<div class="dgCarousel swiper js-carousel26" aria-label="Row 26 Carousel"><div class="swiper-wrapper">${newsEntries
         .map(
           (n) =>
@@ -649,7 +650,10 @@
     const c1 = Math.min(a.col, b.col);
     const c2 = Math.max(a.col, b.col);
 
-    const el = makeCell("dgOverlay", "");
+    const el = makeCell(
+      `dgOverlay${ov.overlayClass ? ` ${ov.overlayClass}` : ""}`.trim(),
+      ""
+    );
     el.style.gridRow = `${1 + r1} / ${1 + r2 + 1}`;
     el.style.gridColumn = `${1 + c1} / ${1 + c2 + 1}`;
     el.innerHTML = ov.html;
@@ -1032,6 +1036,63 @@
   fitSyncedText("experience");
   initScrambleOnVisible();
   initHeroScrambleOnVisible();
+
+  const HOME_LATEST_NEWS_ROW = 26;
+
+  const measureLatestNewsCarouselMaxCardHeight = (carousel) => {
+    const slides = carousel.querySelectorAll(".swiper-slide");
+    if (slides.length === 0) return 0;
+    const cw = carousel.getBoundingClientRect().width;
+    const slideW = Math.max(1, Math.floor(cw * 0.5 - 80));
+    let maxH = 0;
+    slides.forEach((slide) => {
+      const card = slide.querySelector(".latestNewsCard");
+      if (!card) return;
+      const sw = Math.max(1, Math.floor(slide.getBoundingClientRect().width));
+      const w = sw > 1 ? sw : slideW;
+      card.style.boxSizing = "border-box";
+      const prevW = card.style.width;
+      card.style.width = `${w}px`;
+      maxH = Math.max(maxH, card.scrollHeight);
+      if (prevW) card.style.width = prevW;
+      else card.style.removeProperty("width");
+    });
+    return maxH;
+  };
+
+  const layoutLatestNewsRow26FromContent = () => {
+    const carousel = root.querySelector(".js-carousel26");
+    if (!carousel) return;
+    const maxH = measureLatestNewsCarouselMaxCardHeight(carousel);
+    if (maxH <= 0) return;
+
+    const minH = Math.round(BASE_ROW_PX * (multiplierByRow.get(HOME_LATEST_NEWS_ROW) ?? 7));
+    const pad = 28;
+    const target = Math.max(minH, maxH + pad);
+    const prev = parseInt(String(rowHeights[HOME_LATEST_NEWS_ROW]).replace(/px/g, ""), 10);
+    if (Number.isNaN(prev) || Math.abs(prev - target) > 1) {
+      rowHeights[HOME_LATEST_NEWS_ROW] = `${target}px`;
+      root.style.gridTemplateRows = rowHeights.join(" ");
+    }
+    const sw = carousel.swiper;
+    if (sw && typeof sw.update === "function") sw.update();
+  };
+
+  const wireHomeLatestNewsRowImages = () => {
+    const carousel = root.querySelector(".js-carousel26");
+    if (!carousel) return;
+    carousel.querySelectorAll(".latestNewsCard__thumbnail").forEach((img) => {
+      if (img.complete) return;
+      img.addEventListener(
+        "load",
+        () => {
+          layoutLatestNewsRow26FromContent();
+        },
+        { once: true }
+      );
+    });
+  };
+
   const initCarousel12 = () => {
     const el = document.querySelector(".js-carousel12");
     if (!el) return;
@@ -1094,6 +1155,12 @@
       speed: 500,
       grabCursor: true,
     });
+
+    requestAnimationFrame(() => {
+      layoutLatestNewsRow26FromContent();
+      wireHomeLatestNewsRowImages();
+      requestAnimationFrame(() => layoutLatestNewsRow26FromContent());
+    });
   };
 
   /** LATEST NEWS 行の白「View all」ボタンと隣の黒矢印ボタン → News ページ */
@@ -1141,8 +1208,14 @@
   initCarousel26();
   initLatestNewsViewAllNav();
   fitWhiteMetaLine();
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => {
+      layoutLatestNewsRow26FromContent();
+    });
+  }
   window.addEventListener("layout:loaded", () => {
     initScrambleOnVisible();
+    requestAnimationFrame(() => layoutLatestNewsRow26FromContent());
   });
   window.addEventListener(
     "resize",
@@ -1151,6 +1224,7 @@
       fitSyncedText("featured");
       fitSyncedText("experience");
       fitWhiteMetaLine();
+      layoutLatestNewsRow26FromContent();
     },
     { passive: true }
   );

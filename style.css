@@ -572,22 +572,37 @@ a:hover {
 }
 
 #newsGrid .newsGridRow7Repeater {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 14px 12px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
   width: 100%;
   min-width: 0;
   min-height: 0;
-  align-content: start;
+  box-sizing: border-box;
+}
+
+/* 行優先インデックスで同じ縦列のカードをまとめ、列ごとに最大高さで揃える（JS が min-height 設定） */
+#newsGrid .newsGridRow7Column {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
   box-sizing: border-box;
 }
 
 #newsGrid .newsGridRow7RepeaterItem {
-  grid-column: span 4;
   min-width: 0;
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  box-sizing: border-box;
 }
 
 /* リピーターカード: ホバーで画像縮小 + 左下から青四角・矢印（3行目写真と同系）。正方形は 16:9 枠の短辺=高さの 1/4 */
@@ -684,6 +699,10 @@ a:hover {
 #newsGrid .newsGridLatestCardInner--repeater {
   width: 100%;
   max-width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: stretch;
+  justify-content: flex-start;
   transform: scale(0.78);
   transform-origin: center top;
 }
@@ -694,6 +713,7 @@ a:hover {
   max-height: 100%;
   min-height: 0;
   overflow: hidden;
+  flex: 1 1 auto;
   flex-shrink: 1;
   display: flex;
   flex-direction: column;
@@ -725,6 +745,17 @@ a:hover {
   margin-top: 6px;
 }
 
+/* リピーター: カードを伸ばしたときタイトルはサムネ寄り、日付はボックス下端寄り */
+#newsGrid .newsGridRow7Repeater .newsGridLatestCard__article {
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: 0;
+}
+
+#newsGrid .newsGridRow7Repeater .newsGridLatestCard__article .latestNewsCard__date {
+  margin-top: auto;
+}
+
 /* 16:9; full width; flush top; frame; TL/TR/BL 8px round; BR 16px chamfer */
 #newsGrid .newsGridLatestCard__media {
   position: relative;
@@ -751,8 +782,9 @@ a:hover {
   border: none;
 }
 
-#newsGrid .newsGridLatestCard__article .latestNewsCard__title {
-  font-size: calc(24px * 1.5 * 0.7);
+/* リピーター内タイトルのみ（0.7 倍は直前のサイズ基準） */
+#newsGrid .newsGridRow7Repeater .newsGridLatestCard__article .latestNewsCard__title {
+  font-size: calc(24px * 1.5 * 0.7 * 0.7 * 0.7);
   line-height: 1.2;
 }
 
@@ -1166,7 +1198,7 @@ a:hover {
 .dgArticleTitleText {
   font-family: var(--font-sub-title);
   font-weight: 700;
-  font-size: calc(16px * 2.2);
+  font-size: calc(16px * 2.2 * 0.7);
   line-height: 1.35;
   color: #000;
   text-transform: none;
@@ -1325,6 +1357,51 @@ a:hover {
   overflow: hidden;
 }
 
+/* Home 26A:26L — タイトル折返しで行高を JS が拡張（グリッド row 26 と連動） */
+#debugGrid .dgOverlay--latestNews26 {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 0;
+}
+
+#debugGrid .js-carousel26.dgCarousel {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#debugGrid .js-carousel26 .swiper-wrapper {
+  height: auto !important;
+  align-items: flex-start;
+}
+
+#debugGrid .js-carousel26 .swiper-slide {
+  height: auto;
+  align-self: flex-start;
+}
+
+#debugGrid .dgCarousel26Slide {
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  align-self: flex-start;
+}
+
+#debugGrid .js-carousel26 .latestNewsCard {
+  height: auto;
+  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+#debugGrid .js-carousel26 .latestNewsCard__title {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 .dgCarousel26Card {
   width: 100%;
   height: 100%;
@@ -1436,6 +1513,10 @@ a:hover {
   text-transform: none;
 }
 
+#debugGrid .latestNewsCard__title {
+  font-size: calc(24px * 0.7);
+}
+
 /* Home LATEST NEWS: 記事ボックス（.latestNewsCard）ホバーで 16:9 メディア縮小 + 左下青四角＋矢印 */
 #debugGrid .homeLatestCard__mediaHost {
   position: relative;
@@ -1459,6 +1540,11 @@ a:hover {
   transform: scale(1);
   transform-origin: center center;
   transition: transform 0.35s ease;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 0;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
 }
 
 #debugGrid .latestNewsCard:hover .latestNewsCard__media {

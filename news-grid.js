@@ -151,7 +151,7 @@
       case 4:
         return BASE_ROW_PX * 0.8;
       case 3:
-        return BASE_ROW_PX * 5 * 0.95;
+        return BASE_ROW_PX * 5 * 0.95 * 0.87;
       case 6:
         return BASE_ROW_PX * 1.3;
       case 7:
@@ -462,6 +462,8 @@
 
   /** 3×5 グリッド＝1ページあたり最大15件。16件以上でページネーションと連動 */
   const NEWS_REPEATER_PAGE_SIZE = 15;
+  /** リピーターは行優先で並べ、同じ列（縦）のカード高さを列内最大に揃える */
+  const NEWS_REPEATER_NUM_COLS = 3;
 
   const createRow7RepeaterCard = (entry) => {
     const item = document.createElement("div");
@@ -509,6 +511,45 @@
     return item;
   };
 
+  const balanceRepeaterColumnCardHeights = (host) => {
+    if (!host) return;
+    const cols = host.querySelectorAll(":scope > .newsGridRow7Column");
+    if (!cols.length) return;
+    cols.forEach((col) => {
+      const items = col.querySelectorAll(":scope > .newsGridRow7RepeaterItem");
+      items.forEach((el) => {
+        el.style.minHeight = "";
+      });
+    });
+    void host.offsetHeight;
+    cols.forEach((col) => {
+      const items = [...col.querySelectorAll(":scope > .newsGridRow7RepeaterItem")];
+      if (items.length === 0) return;
+      let maxH = 0;
+      for (const el of items) {
+        maxH = Math.max(maxH, el.scrollHeight);
+      }
+      for (const el of items) {
+        el.style.minHeight = `${maxH}px`;
+      }
+    });
+  };
+
+  const wireRepeaterImagesForColumnBalance = (host) => {
+    if (!host) return;
+    host.querySelectorAll("img").forEach((img) => {
+      if (img.complete) return;
+      img.addEventListener(
+        "load",
+        () => {
+          balanceRepeaterColumnCardHeights(host);
+          layoutNewsRow7();
+        },
+        { once: true }
+      );
+    });
+  };
+
   const pageNumberSlots = (current, total) => {
     if (total <= 1) return [1];
     if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
@@ -543,10 +584,14 @@
     scratch.setAttribute("aria-hidden", "true");
     const w = Math.max(1, Math.ceil(repeaterEl.getBoundingClientRect().width));
     scratch.style.cssText = `position:absolute;left:-10000px;top:0;width:${w}px;visibility:hidden;pointer-events:none;box-sizing:border-box;`;
-    for (let i = 0; i < 3; i++) {
-      scratch.appendChild(createRow7RepeaterCard(probeEntry));
+    for (let c = 0; c < NEWS_REPEATER_NUM_COLS; c++) {
+      const col = document.createElement("div");
+      col.className = "newsGridRow7Column";
+      col.appendChild(createRow7RepeaterCard(probeEntry));
+      scratch.appendChild(col);
     }
     root.appendChild(scratch);
+    balanceRepeaterColumnCardHeights(scratch);
     const h = Math.ceil(scratch.offsetHeight);
     root.removeChild(scratch);
     return h;
@@ -577,7 +622,10 @@
   if (typeof ResizeObserver !== "undefined") {
     const row7ObsTarget = root.querySelector(".newsGridRow7Repeater");
     if (row7ObsTarget) {
-      const row7Ro = new ResizeObserver(() => layoutNewsRow7());
+      const row7Ro = new ResizeObserver(() => {
+        balanceRepeaterColumnCardHeights(row7ObsTarget);
+        layoutNewsRow7();
+      });
       row7Ro.observe(row7ObsTarget);
     }
   }
@@ -647,11 +695,29 @@
 
     const host = root.querySelector(".newsGridRow7Repeater");
     if (host) {
-      host.replaceChildren(...slice.map((e) => createRow7RepeaterCard(e)));
+      host.replaceChildren();
+      if (slice.length === 0) {
+        layoutNewsRow7();
+      } else {
+        for (let c = 0; c < NEWS_REPEATER_NUM_COLS; c++) {
+          const col = document.createElement("div");
+          col.className = "newsGridRow7Column";
+          for (let r = 0; r * NEWS_REPEATER_NUM_COLS + c < slice.length; r++) {
+            const idx = r * NEWS_REPEATER_NUM_COLS + c;
+            if (idx < slice.length) col.appendChild(createRow7RepeaterCard(slice[idx]));
+          }
+          if (col.childElementCount > 0) host.appendChild(col);
+        }
+        requestAnimationFrame(() => {
+          balanceRepeaterColumnCardHeights(host);
+          wireRepeaterImagesForColumnBalance(host);
+          layoutNewsRow7();
+        });
+      }
     }
 
     renderPaginationUi(page, totalPages, totalItems);
-    layoutNewsRow7();
+    if (!host) layoutNewsRow7();
   };
 
   root.addEventListener("click", (e) => {
